@@ -1,0 +1,24 @@
+<div id="webSocketDiv" data-uri="<%= request.host %>:<%= request.port %>/websocket" data-id='<%= @game.id %>'></div>
+<div class="container">
+  <div id="master" class="game-container" style="width: 400px;">
+    <div class="board-commands-container">
+      <ul class="game-navigation">
+        <li class='move-backwards'><%= link_to "Go back", "#" %></li>
+        <li class='new-variation'><%= link_to "New variation", "#" %></li>
+        <li class='rewind'><%= link_to "Rewind", "#" %></li>
+        <li class='fast-forward'><%= link_to "Fast Forward", "#" %></li>
+      </ul>
+      <ul class='board-navigation'>
+        <li class='flip-orientation'><%= link_to "Flip Orientation", "#" %></li>
+      </ul>
+    </div>
+
+    <div class='game-board'></div>
+    <div class='pgn-conatiner'><span id="pgn-master" class='pgn-line'></span></div>
+
+    <p>Status: <span id="status-master"></span></p>
+  </div>
+  <aside class="review-container">
+    <div id="variation"></div>
+  </aside>
+</div>

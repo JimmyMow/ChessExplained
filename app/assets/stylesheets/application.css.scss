@@ -1,0 +1,16 @@
+//Partials
+@import 'partials/html_reset';
+@import 'partials/global_variables';
+@import 'partials/dry';
+
+//Gems
+@import 'font-awesome';
+
+//Chessboard
+@import 'chessboard';
+
+//Pages
+@import 'pages/home';
+
+//Games
+@import 'games/game_show';

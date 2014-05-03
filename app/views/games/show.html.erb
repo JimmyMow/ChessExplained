@@ -1,6 +1,14 @@
 <div id="webSocketDiv" data-uri="<%= request.host %>:<%= request.port %>/websocket" data-id='<%= @game.id %>'></div>
 <div class="container">
-  <div id="master" class="game-container" style="width: 400px;">
+  <div id="master" class="game-container">
+    <div class="actual-board-container">
+      <div class='game-board'></div>
+    </div>
+    <aside class="board-features">
+
+    <div class='pgn-conatiner'><span id="pgn-master" class='pgn-line'></span></div>
+    <p>Status: <span id="status-master"></span></p>
+
     <div class="board-commands-container">
       <ul class="game-navigation">
         <li class='move-backwards'><%= link_to "Go back", "#" %></li>
@@ -8,17 +16,22 @@
         <li class='rewind'><%= link_to "Rewind", "#" %></li>
         <li class='fast-forward'><%= link_to "Fast Forward", "#" %></li>
       </ul>
+
       <ul class='board-navigation'>
         <li class='flip-orientation'><%= link_to "Flip Orientation", "#" %></li>
       </ul>
     </div>
 
-    <div class='game-board'></div>
-    <div class='pgn-conatiner'><span id="pgn-master" class='pgn-line'></span></div>
-
-    <p>Status: <span id="status-master"></span></p>
+    </aside>
   </div>
-  <aside class="review-container">
+
+
+  <!-- <div class="online-users">
+    <h3>Users on this board</h3>
+    <ul class="users">
+    </ul>
+  </div> -->
+  <!-- <aside class="review-container" style="width: 400px;">
     <div id="variation"></div>
   </aside>
 </div>

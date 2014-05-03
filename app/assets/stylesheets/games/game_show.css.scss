@@ -1,9 +1,37 @@
 .container {
-  background-color: red;
 
-  .game-container {
-    width: 90%;
+  .actual-board-container {
+    width: 55%;
+    float: left;
     margin: 0 auto;
-    background-color: lightblue;
+    text-align: center;
+    position: relative;
+  }
+
+  .board-features {
+    width: 45%;
+    float: left;
+    .online-users {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border: 1px solid black;
+      padding: 20px;
+
+      h3 {
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+      }
+
+      .users {
+        margin-top: 15px;
+
+        li {
+          font-weight: 100;
+        }
+      }
+    }
   }
 }

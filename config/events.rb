@@ -1,5 +1,6 @@
 WebsocketRails::EventMap.describe do
   subscribe :client_connected, to: ChessController, with_method: :client_connected
+  subscribe :client_disconnected, to: ChessController, with_method: :client_disconnected
   subscribe :send_move, to: ChessController, with_method: :send_move
   subscribe :move_backwards, to: ChessController, with_method: :move_backwards
   subscribe :new_variation_board, to: ChessController, with_method: :new_variation_board

@@ -1,8 +1,20 @@
 class ChessController < WebsocketRails::BaseController
   include ActionView::Helpers::SanitizeHelper
 
+  # Web Socket Methods
+
   def initialize_session
 
+  end
+
+  def client_connected
+    connection_store[:user] = { user_name: current_user.email }
+    broadcast_user_list
+  end
+
+  def client_disconnected
+    connection_store[:user] = nil
+    broadcast_user_list
   end
 
   # Methods to dry up code
@@ -13,17 +25,11 @@ class ChessController < WebsocketRails::BaseController
     }, :namespace => boardID
   end
 
-  def client_connected
-    connection_store[:user] = { user_name: current_user.email }
-    users = connection_store.collect_all(:user)
-    puts users
-    # broadcast_user_list
-  end
 
-  # def broadcast_user_list
-  #   users = connection_store.collect_all(:user)
-  #   broadcast_message :user_list, users
-  # end
+  def broadcast_user_list
+    users = connection_store.collect_all(:user)
+    broadcast_message :user_list, users
+  end
 
   # Routed methods
 

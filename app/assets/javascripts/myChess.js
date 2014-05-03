@@ -39,6 +39,11 @@ var __bind = function(fn, me){
 MyChess = {};
 
 $(document).ready(function() {
+  var windowHeight = $(window).height();
+  var navbarHeight = $('.app-navbar').height();
+
+  $("#master .game-board").css({"width": windowHeight - navbarHeight - 20});
+  $(".online-users").css({"height": windowHeight - navbarHeight - 20});
   // Set up master board
   window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true);
 
@@ -50,8 +55,6 @@ $(document).ready(function() {
         moves += (item['notation'] + " ");
       });
 
-      // masterBoard.game.load_pgn(moves);
-      // masterBoard.onSnapEnd();
       masterBoard.positionBoard({position: moves});
     }
   });
@@ -92,7 +95,6 @@ $(document).ready(function() {
   });
 
   window.newVariationBoard = function(position) {
-    // console.log(position);
     var container = $('#variation');
     container.append(
       "<ul class='game-navigation'>" +
@@ -134,6 +136,7 @@ MyChess.setupBoard = (function() {
     this.bindEvents = __bind(this.bindEvents, this);
     this.positionBoard = __bind(this.positionBoard, this);
     this.newVariationBoard = __bind(this.newVariationBoard, this);
+    this.updateUserList = __bind(this.updateUserList, this);
     this.channel = this.dispatcher.subscribe(this.divId);
 
     this.config = {
@@ -156,6 +159,7 @@ MyChess.setupBoard = (function() {
     this.dispatcher.bind(this.id + '.send_move', this.positionBoard);
     this.dispatcher.bind(this.id + '.move_backwards', this.positionBoard);
     this.dispatcher.bind('new_variation_board', this.newVariationBoard);
+    this.dispatcher.bind('user_list', this.updateUserList);
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
@@ -253,6 +257,10 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.moveBackwards = function(e) {
+    if (e) {
+      e.preventDefault();
+    }
+    console.log("here");
     var lastMove = this.game.undo();
 
     this.dispatcher.trigger('move_backwards', {
@@ -262,7 +270,6 @@ MyChess.setupBoard = (function() {
       gameId: this.gameId
     });
 
-    return false;
   };
 
   Board.prototype.flipBoard = function(e) {
@@ -305,6 +312,14 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.newVariationBoard = function (position) {
     window.newVariationBoard(position);
+  }
+
+  Board.prototype.updateUserList = function(user_list) {
+    $('.users').empty();
+    for(i=0, len=user_list.length; len > i; i++) {
+      user = user_list[i];
+      $('.users').append("<li>" + user['user_name'] + "</li>");
+    }
   }
 
   return Board;

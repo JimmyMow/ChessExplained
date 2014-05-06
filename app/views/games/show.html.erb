@@ -1,11 +1,12 @@
 <div id="webSocketDiv" data-uri="<%= request.host %>:<%= request.port %>/websocket" data-id='<%= @game.id %>'></div>
 
 <div class="container">
+  <div class="online-users">
+    <h3>Who's watching</h3>
+    <ul class="users">
+    </ul>
+  </div>
   <div id="master" class="game-container">
-    <aside class="board-features">
-      <div class='pgn-conatiner'><span id="pgn-master" class='pgn-line'></span></div>
-      <p>Status: <span id="status-master"></span></p>
-    </aside>
 
     <div class="actual-board-container">
       <ul class="game-navigation">
@@ -18,13 +19,14 @@
 
       <div class='game-board'></div>
     </div>
-  </div>
 
+  <aside class="board-features">
+    <p>Status: <span id="status-master"></span></p>
+    <div class='pgn-conatiner'>
+      <ul id="pgn-master"></ul>
+    </div>
+  </aside>
 
-  <div class="online-users">
-    <h3>Who's watching</h3>
-    <ul class="users">
-    </ul>
   </div>
 
   <aside class="review-container" style="width: 400px;">

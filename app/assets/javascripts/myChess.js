@@ -251,7 +251,8 @@ MyChess.setupBoard = (function() {
     this.chessboard.position( this.game.fen()  );
 
     if (position['noStatus']) {
-      // idk
+      $('#pgn-master span').css({"background-color": ""});
+      $('.' + this.game.history().length  ).css({"background-color": "red"});
     } else {
       this.updateStatus();
     }
@@ -261,7 +262,6 @@ MyChess.setupBoard = (function() {
     if (e) {
       e.preventDefault();
     }
-    console.log("here");
     var lastMove = this.game.undo();
 
     this.dispatcher.trigger('move_backwards', {
@@ -308,7 +308,24 @@ MyChess.setupBoard = (function() {
     }
 
     $('#status-' + this.id).html(status);
-    $('#pgn-' + this.id).html(this.game.pgn({ max_width: 5, newline_char: '<br />' }));
+
+    var moveArrays = [], size = 2;
+    var a = this.game.history();
+    while (a.length > 0)
+        moveArrays.push(a.splice(0, size));
+
+    // Custom pgn generator
+    var pgnHtmlElement = $('#pgn-' + this.id);
+    pgnHtmlElement.empty();
+
+    counter = 1;
+    moveArrays.forEach(function(item, index) {
+      if (item.length == 2) {
+        pgnHtmlElement.append("<li>" + "<span class='move-number'>" + (index + 1) + "</span>" +"<span class='white-move " + counter++ + "'>" + item[0] + "</span>" + "<span class='black-move " + counter++ +"'>" + item[1] + "</span>" +"</li>");
+      } else {
+        pgnHtmlElement.append("<li>" + "<span class='move-number'>" + (index + 1) + "</span>" +"<span class='white-move " + counter++ + "'>" + item[0] + "</span>" + "</li>");
+      }
+    });
   };
 
   Board.prototype.newVariationBoard = function (position) {

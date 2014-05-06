@@ -30,6 +30,20 @@
     .board-features {
       width: 25%;
       float: left;
+
+      .pgn-conatiner {
+        ul {
+          background: white;
+          padding: 5px;
+          li {
+            margin: 15px;
+            border-bottom: 1px solid #ccc;
+            span {
+              padding: 5px 15px;
+            }
+          }
+        }
+      }
     }
   }
 

@@ -45,10 +45,10 @@ $(document).ready(function() {
   $(".online-users").css({"height": windowHeight - navbarHeight - 70});
 
   // Set up master board
-  window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true, '', 'Review');
+  window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true, '', 'Sandbox');
   $(window).resize(masterBoard.chessboard.resize);
 
-  // Get moves pre-loaded
+  //
   $.getJSON( "/games/" + $("#webSocketDiv").data('id') +".json", function( data ) {
     if (  data.length > 0 ) {
       var moves = "";
@@ -154,7 +154,7 @@ MyChess.setupBoard = (function() {
     } else {
       this.config = {
         draggable: false,
-        position: position || 'start',
+        position: position || 'start'
       };
     }
 
@@ -259,8 +259,14 @@ MyChess.setupBoard = (function() {
     this.chessboard.position( this.game.fen()  );
 
     if (position['noStatus']) {
-      $('#pgn-master span').css({"background-color": ""});
-      $('.' + this.game.history().length  ).css({"background-color": "red"});
+      $('#pgn-master span').css({
+        "color": "",
+        "font-weight": "normal"
+      });
+      $('.' + this.game.history().length  ).css({
+        "font-weight": "bold",
+        "color": "red"
+      });
     } else {
       this.updateStatus();
     }

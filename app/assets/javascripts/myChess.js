@@ -46,6 +46,7 @@ $(document).ready(function() {
 
   // Set up master board
   window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true);
+  $(window).resize(masterBoard.chessboard.resize);
 
   //
   $.getJSON( "/games/" + $("#webSocketDiv").data('id') +".json", function( data ) {

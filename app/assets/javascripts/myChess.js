@@ -45,10 +45,10 @@ $(document).ready(function() {
   $(".online-users").css({"height": windowHeight - navbarHeight - 70});
 
   // Set up master board
-  window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true);
+  window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true, '', 'Review');
   $(window).resize(masterBoard.chessboard.resize);
 
-  //
+  // Get moves pre-loaded
   $.getJSON( "/games/" + $("#webSocketDiv").data('id') +".json", function( data ) {
     if (  data.length > 0 ) {
       var moves = "";
@@ -117,11 +117,12 @@ $(document).ready(function() {
 });
 
 MyChess.setupBoard = (function() {
-  function Board(id, url, useWebSockets, position) {
+  function Board(id, url, useWebSockets, position, type) {
     // Understanding which board it is
     this.id = id;
     this.divId = id;
     this.gameId = $("#webSocketDiv").data('id');
+    this.type = type;
 
     this.dispatcher = new WebSocketRails(url, useWebSockets);
     this.greySquare = __bind(this.greySquare, this);
@@ -140,15 +141,22 @@ MyChess.setupBoard = (function() {
     this.updateUserList = __bind(this.updateUserList, this);
     this.channel = this.dispatcher.subscribe(this.divId);
 
-    this.config = {
-      draggable: true,
-      position: position || 'start',
-      onDragStart: this.onDragStart,
-      onDrop: this.onDrop,
-      onMouseoutSquare: this.onMouseoutSquare,
-      onMouseoverSquare: this.onMouseoverSquare,
-      onSnapEnd: this.onSnapEnd
-    };
+    if (type == "Sandbox") {
+      this.config = {
+        draggable: true,
+        position: position || 'start',
+        onDragStart: this.onDragStart,
+        onDrop: this.onDrop,
+        onMouseoutSquare: this.onMouseoutSquare,
+        onMouseoverSquare: this.onMouseoverSquare,
+        onSnapEnd: this.onSnapEnd
+      };
+    } else {
+      this.config = {
+        draggable: false,
+        position: position || 'start',
+      };
+    }
 
     this.chessboard = new ChessBoard($('#' + this.id + ' .game-board'), this.config);
     this.game = new Chess();

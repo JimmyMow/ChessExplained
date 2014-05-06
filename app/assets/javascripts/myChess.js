@@ -42,8 +42,8 @@ $(document).ready(function() {
   var windowHeight = $(window).height();
   var navbarHeight = $('.app-navbar').height();
 
-  $("#master .game-board").css({"width": windowHeight - navbarHeight - 20});
-  $(".online-users").css({"height": windowHeight - navbarHeight - 20});
+  $(".online-users").css({"height": windowHeight - navbarHeight - 70});
+
   // Set up master board
   window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true);
 

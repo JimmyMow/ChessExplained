@@ -1,19 +1,15 @@
 .app-navbar {
   padding: 10px 0;
   text-align: right;
-  background-color: black;
 
   a {
     text-decoration: none;
     font-size: 18px;
-    color: white;
+    // color: black;
     padding: 10px;
-    -webkit-transition: background-color .5s ease-out;
-    -moz-transition: background-color .5s ease-out;
-    -o-transition: background-color .5s ease-out;
-    transition: background-color .5s ease-out;
+    @include hover-transition;
     &:visited {
-      color: white;
+      // color: white;
     }
 
     &:hover {

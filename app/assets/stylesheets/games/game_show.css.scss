@@ -1,37 +1,42 @@
 .container {
+  .game-container {
 
-  .actual-board-container {
-    width: 55%;
-    float: left;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-  }
+    .actual-board-container {
+      width: 50%;
+      float: left;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
 
-  .board-features {
-    width: 45%;
-    float: left;
-    .online-users {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      border: 1px solid black;
-      padding: 20px;
+    .game-navigation {
+      text-align: center;
+      margin: 10px 0;
+      .move-backwards, .new-variation, .rewind, .fast-forward, .flip-orientation {
+        display: inline-block;
+        padding: 2px 5px;
 
-      h3 {
-        font-size: 20px;
-        font-weight: bold;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 10px;
-      }
+        a {
+          text-decoration: none;
+          color: black;
+          @include hover-transition;
 
-      .users {
-        margin-top: 15px;
-
-        li {
-          font-weight: 100;
+          &:hover {
+            background-color: #ccc;
+          }
         }
       }
+    }
+    .board-features {
+      width: 25%;
+      float: left;
+    }
+  }
+
+  .online-users {
+    float: left;
+    width: 25%;
+    .users {
     }
   }
 }

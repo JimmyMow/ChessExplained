@@ -2,3 +2,10 @@ body {
   background-color: $basecamp_background;
   font-family: "futura-pt", Helvetica,Arial, sans-serif;
 }
+
+@mixin hover-transition {
+  -webkit-transition: background-color .5s ease-out;
+  -moz-transition: background-color .5s ease-out;
+  -o-transition: background-color .5s ease-out;
+  transition: background-color .5s ease-out;
+}

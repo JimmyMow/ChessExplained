@@ -7,9 +7,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <nav class='app-navbar'>
-    <%= link_to "Sign out", destroy_user_session_url, method: 'delete' %>
-  </nav>
+  <% if user_signed_in? %>
+    <% unless current_page?(game_url(params[:id] || 1)) %>
+      <nav class='app-navbar'>
+        <%= link_to "Sign out", destroy_user_session_url, method: 'delete' %>
+      </nav>
+    <% end %>
+  <% end %>
 <%= yield %>
 
 </body>

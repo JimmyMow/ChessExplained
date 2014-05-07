@@ -43,12 +43,16 @@ $(document).ready(function() {
   var navbarHeight = $('.app-navbar').height();
 
   $(".online-users").css({"height": windowHeight - navbarHeight - 70});
+  $('.clear-board').click(function(e) {
+    e.preventDefault();
 
+    masterBoard.chessboard.clear();
+  });
   // Set up master board
   window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true, '', 'Sandbox');
   $(window).resize(masterBoard.chessboard.resize);
 
-  //
+  //Getting any saved moves
   $.getJSON( "/games/" + $("#webSocketDiv").data('id') +".json", function( data ) {
     if (  data.length > 0 ) {
       var moves = "";
@@ -137,6 +141,7 @@ MyChess.setupBoard = (function() {
     this.flipBoard = __bind(this.flipBoard, this);
     this.bindEvents = __bind(this.bindEvents, this);
     this.positionBoard = __bind(this.positionBoard, this);
+    this.clearBoard = __bind(this.clearBoard, this);
     this.newVariationBoard = __bind(this.newVariationBoard, this);
     this.updateUserList = __bind(this.updateUserList, this);
     this.channel = this.dispatcher.subscribe(this.divId);
@@ -150,6 +155,8 @@ MyChess.setupBoard = (function() {
         onMouseoutSquare: this.onMouseoutSquare,
         onMouseoverSquare: this.onMouseoverSquare,
         onSnapEnd: this.onSnapEnd
+        // sparePieces: true,
+        // dropOffBoard: 'trash',
       };
     } else {
       this.config = {
@@ -169,9 +176,15 @@ MyChess.setupBoard = (function() {
     this.dispatcher.bind(this.id + '.move_backwards', this.positionBoard);
     this.dispatcher.bind('new_variation_board', this.newVariationBoard);
     this.dispatcher.bind('user_list', this.updateUserList);
+    this.dispatcher.bind('clear-board', this.clear);
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
+    // $('.clear-board').on('click', function(e) {
+    //   e.preventDefault();
+    //   // console.log("Here");
+    //   this.dispatcher.trigger('clear_board');
+    // });
   };
 
   Board.prototype.removeGreySquares = function() {
@@ -352,6 +365,10 @@ MyChess.setupBoard = (function() {
       user = user_list[i];
       $('.users').append("<li>" + user['user_name'] + "</li>");
     }
+  }
+
+  Board.prototype.clearBoard = function() {
+    this.chessboard.clear;
   }
 
   return Board;

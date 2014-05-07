@@ -1,4 +1,12 @@
 .container {
+  padding-top: 10px;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
   .game-container {
 
     .actual-board-container {
@@ -12,7 +20,7 @@
     .game-navigation {
       text-align: center;
       margin: 10px 0;
-      .move-backwards, .new-variation, .rewind, .fast-forward, .flip-orientation {
+      li {
         display: inline-block;
         padding: 2px 5px;
 
@@ -30,10 +38,17 @@
     .board-features {
       width: 25%;
       float: left;
+      background-color: white;
 
+      h1 {
+        font-size: 28px;
+        text-align: center;
+      }
+      .board-status {
+        text-align: center;
+      }
       .pgn-conatiner {
         ul {
-          background: white;
           padding: 5px;
           li {
             margin: 15px;
@@ -50,7 +65,20 @@
   .online-users {
     float: left;
     width: 25%;
+    text-align: center;
+
+    h3 {
+      font-size: 22px;
+      border-bottom: 1px solid #ccc;
+      width: 85%;
+      margin: 0 auto;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
     .users {
+      li {
+        padding: 10px 0;
+      }
     }
   }
 }

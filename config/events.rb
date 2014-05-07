@@ -4,6 +4,7 @@ WebsocketRails::EventMap.describe do
   subscribe :send_move, to: ChessController, with_method: :send_move
   subscribe :move_backwards, to: ChessController, with_method: :move_backwards
   subscribe :new_variation_board, to: ChessController, with_method: :new_variation_board
+  subscribe :clear_board, to: ChessController, with_method: :clear_board
 
 
   # You can use this file to map incoming events to controller actions.

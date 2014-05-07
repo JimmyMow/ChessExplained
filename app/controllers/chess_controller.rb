@@ -47,4 +47,8 @@ class ChessController < WebsocketRails::BaseController
   def new_variation_board
     system_move :new_variation_board, message[:position]
   end
+
+  def clear_board
+    system_move :clear_board, nil
+  end
 end

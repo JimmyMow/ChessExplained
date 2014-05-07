@@ -1,12 +1,10 @@
 .container {
   padding-top: 10px;
-
   &:after {
     content: "";
     display: table;
     clear: both;
   }
-
   .game-container {
 
     .actual-board-container {
@@ -36,12 +34,12 @@
       }
     }
     .board-features {
-      width: 25%;
+      width: 29%;
       float: left;
       background-color: white;
 
       h1 {
-        font-size: 28px;
+        font-size: $header;
         text-align: center;
       }
       .board-status {
@@ -56,29 +54,9 @@
             span {
               padding: 5px 15px;
             }
-          }
-        }
-      }
-    }
+          } // li
+        } // ul
+      } // pgn-container
+    } // board-features
   }
-
-  .online-users {
-    float: left;
-    width: 25%;
-    text-align: center;
-
-    h3 {
-      font-size: 22px;
-      border-bottom: 1px solid #ccc;
-      width: 85%;
-      margin: 0 auto;
-      padding-bottom: 5px;
-      margin-bottom: 15px;
-    }
-    .users {
-      li {
-        padding: 10px 0;
-      }
-    }
-  }
-}
+} // Main container

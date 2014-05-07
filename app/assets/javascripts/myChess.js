@@ -36,24 +36,17 @@ var __bind = function(fn, me){
   };
 };
 
-MyChess = {};
-
 $(document).ready(function() {
   var windowHeight = $(window).height();
   var navbarHeight = $('.app-navbar').height();
 
   $(".online-users").css({"height": windowHeight - navbarHeight - 70});
-  $('.clear-board').click(function(e) {
-    e.preventDefault();
-
-    masterBoard.chessboard.clear();
-  });
   // Set up master board
-  window.masterBoard = new MyChess.setupBoard("master", $('#webSocketDiv').data('uri'), true, '', 'Sandbox');
+  window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
 
   //Getting any saved moves
-  $.getJSON( "/games/" + $("#webSocketDiv").data('id') +".json", function( data ) {
+  $.getJSON( "/games/" + MyChess.config.gameId +".json", function( data ) {
     if (  data.length > 0 ) {
       var moves = "";
       data.forEach(function(item) {
@@ -81,23 +74,23 @@ $(document).ready(function() {
     fastForward();
   });
 
-  $(document).keydown(function(event) {
-    if (event.metaKey && event.keyCode == 90) {
-      masterBoard.moveBackwards();
-    } else if(event.metaKey && event.keyCode == 69) {
-      window.masterBoard.dispatcher.trigger('new_variation_board', {
-        position: window.masterBoard.game.pgn()
-      });
-    }
-  });
+  // $(document).keydown(function(event) {
+  //   if (event.metaKey && event.keyCode == 90) {
+  //     masterBoard.moveBackwards();
+  //   } else if(event.metaKey && event.keyCode == 69) {
+  //     window.masterBoard.dispatcher.trigger('new_variation_board', {
+  //       position: window.masterBoard.game.pgn()
+  //     });
+  //   }
+  // });
 
-  $(document).keyup(function(event) {
-    if(event.keyCode == 37) {
-      rewind();
-    } else if(event.keyCode == 39){
-      fastForward();
-    }
-  });
+  // $(document).keyup(function(event) {
+  //   if(event.keyCode == 37) {
+  //     rewind();
+  //   } else if(event.keyCode == 39){
+  //     fastForward();
+  //   }
+  // });
 
   window.newVariationBoard = function(position) {
     var container = $('#variation');
@@ -114,7 +107,7 @@ $(document).ready(function() {
     container.append("<div class='game-board'></div>");
     container.append("<div class='pgn-conatiner'><span id='pgn-variation' class='pgn-line'></span></div>");
     container.append("<p>Status: <span id='status-variation'></span></p>");
-    window.variationBoard = new MyChess.setupBoard('variation', $('#webSocketDiv').data('uri'), true);
+    window.variationBoard = new MyChess.setupBoard('variation', MyChess.config.websocketUrl, true, '', 'variation');
     variationBoard.game.load_pgn(position['position']);
     variationBoard.positionBoard(position);
   };
@@ -125,8 +118,7 @@ MyChess.setupBoard = (function() {
     // Understanding which board it is
     this.id = id;
     this.divId = id;
-    this.gameId = $("#webSocketDiv").data('id');
-    this.type = type;
+    this.gameId = MyChess.config.gameId;
 
     this.dispatcher = new WebSocketRails(url, useWebSockets);
     this.greySquare = __bind(this.greySquare, this);
@@ -138,6 +130,8 @@ MyChess.setupBoard = (function() {
     this.updateStatus = __bind(this.updateStatus, this);
     this.onSnapEnd = __bind(this.onSnapEnd, this);
     this.moveBackwards = __bind(this.moveBackwards, this);
+    this.rewind = __bind(this.rewind, this);
+    this.fastForward = __bind(this.fastForward, this);
     this.flipBoard = __bind(this.flipBoard, this);
     this.bindEvents = __bind(this.bindEvents, this);
     this.positionBoard = __bind(this.positionBoard, this);
@@ -146,7 +140,7 @@ MyChess.setupBoard = (function() {
     this.updateUserList = __bind(this.updateUserList, this);
     this.channel = this.dispatcher.subscribe(this.divId);
 
-    if (type == "Sandbox") {
+    if (type == 'variation') {
       this.config = {
         draggable: true,
         position: position || 'start',
@@ -155,13 +149,21 @@ MyChess.setupBoard = (function() {
         onMouseoutSquare: this.onMouseoutSquare,
         onMouseoverSquare: this.onMouseoverSquare,
         onSnapEnd: this.onSnapEnd
-        // sparePieces: true,
-        // dropOffBoard: 'trash',
       };
-    } else {
+    } else if(MyChess.config.isReview) {
       this.config = {
         draggable: false,
         position: position || 'start'
+      };
+    } else {
+      this.config = {
+        draggable: true,
+        position: position || 'start',
+        onDragStart: this.onDragStart,
+        onDrop: this.onDrop,
+        onMouseoutSquare: this.onMouseoutSquare,
+        onMouseoverSquare: this.onMouseoverSquare,
+        onSnapEnd: this.onSnapEnd
       };
     }
 
@@ -180,11 +182,6 @@ MyChess.setupBoard = (function() {
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
-    // $('.clear-board').on('click', function(e) {
-    //   e.preventDefault();
-    //   // console.log("Here");
-    //   this.dispatcher.trigger('clear_board');
-    // });
   };
 
   Board.prototype.removeGreySquares = function() {
@@ -297,7 +294,6 @@ MyChess.setupBoard = (function() {
       lastMove: lastMove['san'],
       gameId: this.gameId
     });
-
   };
 
   Board.prototype.flipBoard = function(e) {
@@ -367,8 +363,44 @@ MyChess.setupBoard = (function() {
     }
   }
 
-  Board.prototype.clearBoard = function() {
-    this.chessboard.clear;
+  Board.prototype.rewind = function() {
+    var orginialMoves = this.game.history();
+    rewindedMoves.push( orginialMoves.pop()  );
+
+    var moves = "";
+    orginialMoves.forEach(function(item) {
+      moves += item + " ";
+    });
+
+    this.dispatcher.trigger('rewind');
+    // masterBoard.positionBoard({
+    //   position: moves, noStatus: true
+    // });
+  }
+
+  Board.prototype.fastForward = function() {
+    var move = rewindedMoves.pop();
+    var gamesMoves = this.game.history();
+
+    gamesMoves.push(move);
+    var moves = "";
+    gamesMoves.forEach(function(item) {
+      moves += item + " ";
+    });
+
+    this.dispatcher.trigger('move_backwards', {
+      position: this.game.pgn(),
+      boardID: this.id,
+      lastMove: lastMove['san'],
+      gameId: this.gameId
+    });
+
+    this.dispatcher.trigger('fast_forward', {
+      position, moves
+    });
+    // this.positionBoard({
+    //   position: moves, noStatus: true
+    // });
   }
 
   return Board;

@@ -1,6 +1,7 @@
 .app-navbar {
   padding: 10px 0;
   text-align: right;
+  background-color: black;
 
   a {
     text-decoration: none;
@@ -9,7 +10,7 @@
     padding: 10px;
     @include hover-transition;
     &:visited {
-      // color: white;
+
     }
 
     &:hover {

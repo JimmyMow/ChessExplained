@@ -1,7 +1,7 @@
 ChessExplained::Application.routes.draw do
   devise_for :users
   resources :games do
-    member { post :strip_notation }
+    member { get :review }
   end
 
   root to: 'pages#home'

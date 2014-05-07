@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :strip_notation]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :review]
 
   # GET /games
   # GET /games.json
@@ -10,12 +10,12 @@ class GamesController < ApplicationController
   # GET /games/1
   # GET /games/1.json
   def show
-    if params[:moves]
-      @moves_array = params[:moves].split
-      # @moves_array.each do |move|
-      #   Move.create(notation: move, game_id: @game.id)
-      # end
-    end
+    @not_review = true
+  end
+
+  # Review game
+  def review
+
   end
 
   # GET /games/new

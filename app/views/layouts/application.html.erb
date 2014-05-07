@@ -3,18 +3,20 @@
 <head>
   <title>ChessExplained</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <script>
+    var MyChess = {};
+    MyChess.config = {
+      websocketUrl: "<%= request.host %>:<%= request.port %>/websocket",
+      isReview: <%= current_page?(review_game_url(params[:id] || 1)) %>,
+      gameId: <%= @game.present? ? @game.id : "null" %>
+    }
+  </script>
 </head>
 <body>
-  <% if user_signed_in? %>
-    <% unless current_page?(game_url(params[:id] || 1)) %>
-      <nav class='app-navbar'>
-        <%= link_to "Sign out", destroy_user_session_url, method: 'delete' %>
-      </nav>
-    <% end %>
-  <% end %>
+
 <%= yield %>
 
+<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 </body>
 </html>

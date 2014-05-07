@@ -20,4 +20,24 @@
 
 $(document).ready(function() {
   $('.hide').hide();
+
+  var userChatTabs = function(tabs, sections) {
+    // Set tabs and sections selectors
+    var tabs = $(tabs);
+    var sections = $(sections);
+
+    tabs.on('click', function(e) {
+      e.preventDefault();
+      // Remove all actives and add active to the clicked one
+      tabs.children('a').removeClass('active');
+      $(this).children('a').addClass('active');
+
+      // Hide all sections and find the one connected to the clicked tab
+      sections.hide();
+      $("#" + $(this).children('a').data('name')  ).show();
+    });
+  };
+
+
+  userChatTabs("#userChatTabs li", ".online-users-and-chat section");
 });

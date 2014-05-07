@@ -1,0 +1,37 @@
+<div class="container">
+  <div id="master" class="game-container">
+    <div class="actual-board-container">
+      <div class='game-board'></div>
+    </div>
+
+  <aside class="board-features">
+    <h1><%= game.title %></h1>
+    <!-- <p class='board-status'>Status: <span id="status-master"></span></p> -->
+
+    <ul class="game-navigation">
+      <% if @not_review %>
+        <li class='move-backwards'><%= link_to "Undo move", "#" %></li>
+        <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
+      <% else %>
+        <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
+        <li class='new-variation'><%= link_to "Test a variation of board", "#" %></li>
+        <li class='rewind'><%= link_to "Rewind", "#" %></li>
+        <li class='fast-forward'><%= link_to "Fast forward", "#" %></li>
+      <% end %>
+    </ul>
+
+    <div class='pgn-conatiner'>
+      <ul id="pgn-master"></ul>
+    </div>
+    <% if @not_review %>
+      <%= link_to "Save game and start review", review_game_url(game.id) %>
+    <% end %>
+  </aside>
+
+  </div>
+
+  <aside class="review-container" style="width: 400px;">
+    <div id="variation"></div>
+  </aside>
+
+</div>

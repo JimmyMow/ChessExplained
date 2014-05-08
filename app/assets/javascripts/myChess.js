@@ -1,34 +1,4 @@
-var rewindedMoves = [];
-
-var fastForward = function(){
-  var move = rewindedMoves.pop();
-  var gamesMoves = masterBoard.game.history();
-
-  gamesMoves.push(move);
-  var moves = "";
-  gamesMoves.forEach(function(item) {
-    moves += item + " ";
-  });
-
-  masterBoard.positionBoard({
-    position: moves, noStatus: true
-  });
-};
-
-
-var rewind = function(){
-  var orginialMoves = masterBoard.game.history();
-  rewindedMoves.push( orginialMoves.pop()  );
-
-  var moves = "";
-  orginialMoves.forEach(function(item) {
-    moves += item + " ";
-  });
-
-  masterBoard.positionBoard({
-    position: moves, noStatus: true
-  });
-};
+MyChess.rewindedMoves = [];
 
 var __bind = function(fn, me){
   return function(){
@@ -64,33 +34,6 @@ $(document).ready(function() {
     });
   });
 
-  $('.rewind a').on('click', function(e) {
-    e.preventDefault();
-    rewind();
-  });
-
-  $('.fast-forward a').on('click', function(e) {
-    e.preventDefault();
-    fastForward();
-  });
-
-  // $(document).keydown(function(event) {
-  //   if (event.metaKey && event.keyCode == 90) {
-  //     masterBoard.moveBackwards();
-  //   } else if(event.metaKey && event.keyCode == 69) {
-  //     window.masterBoard.dispatcher.trigger('new_variation_board', {
-  //       position: window.masterBoard.game.pgn()
-  //     });
-  //   }
-  // });
-
-  // $(document).keyup(function(event) {
-  //   if(event.keyCode == 37) {
-  //     rewind();
-  //   } else if(event.keyCode == 39){
-  //     fastForward();
-  //   }
-  // });
 
   window.newVariationBoard = function(position) {
     var container = $('#variation');
@@ -178,11 +121,15 @@ MyChess.setupBoard = (function() {
     this.dispatcher.bind(this.id + '.move_backwards', this.positionBoard);
     this.dispatcher.bind('new_variation_board', this.newVariationBoard);
     this.dispatcher.bind('user_list', this.updateUserList);
-    this.dispatcher.bind('clear-board', this.clear);
+    this.dispatcher.bind('rewind', this.positionBoard);
+    this.dispatcher.bind('fast_forward', this.positionBoard);
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
-  };
+    $('.rewind a').on('click', this.rewind);
+    $('.fast-forward a').on('click', this.fastForward);
+
+  }
 
   Board.prototype.removeGreySquares = function() {
    $('#' + this.divId + ' .square-55d63').css('background', '');
@@ -248,7 +195,6 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.onSnapEnd = function() {
     var moves = this.game.history();
-
     // Don't save variation moves to the DB
     if (this.id == 'master') {
       var lastMove = moves[moves.length - 1];
@@ -268,6 +214,11 @@ MyChess.setupBoard = (function() {
     this.game.load_pgn(position['position']);
     this.chessboard.position( this.game.fen()  );
 
+    // Making sure the string 'undefined' turns into the value undefined
+    if (position['noStatus'] == 'undefined') {
+      position['noStatus'] = undefined;
+    }
+
     if (position['noStatus']) {
       $('#pgn-master span').css({
         "color": "",
@@ -278,6 +229,7 @@ MyChess.setupBoard = (function() {
         "color": "red"
       });
     } else {
+      console.log('here');
       this.updateStatus();
     }
   };
@@ -303,6 +255,7 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.updateStatus = function() {
+    console.log('Updataing the status!');
     var status = '';
 
     var moveColor = 'White';
@@ -363,23 +316,28 @@ MyChess.setupBoard = (function() {
     }
   }
 
-  Board.prototype.rewind = function() {
+  Board.prototype.rewind = function(e) {
+    e.preventDefault();
+
     var orginialMoves = this.game.history();
-    rewindedMoves.push( orginialMoves.pop()  );
+    MyChess.rewindedMoves.push( orginialMoves.pop()  );
 
     var moves = "";
     orginialMoves.forEach(function(item) {
       moves += item + " ";
     });
 
-    this.dispatcher.trigger('rewind');
-    // masterBoard.positionBoard({
-    //   position: moves, noStatus: true
-    // });
+    this.dispatcher.trigger('rewind', {
+      position: moves,
+      noStatus: true,
+      boardID: this.boardID
+    });
   }
 
-  Board.prototype.fastForward = function() {
-    var move = rewindedMoves.pop();
+  Board.prototype.fastForward = function(e) {
+    e.preventDefault();
+
+    var move = MyChess.rewindedMoves.pop();
     var gamesMoves = this.game.history();
 
     gamesMoves.push(move);
@@ -388,19 +346,11 @@ MyChess.setupBoard = (function() {
       moves += item + " ";
     });
 
-    this.dispatcher.trigger('move_backwards', {
-      position: this.game.pgn(),
-      boardID: this.id,
-      lastMove: lastMove['san'],
-      gameId: this.gameId
-    });
-
     this.dispatcher.trigger('fast_forward', {
-      position, moves
+      position: moves,
+      noStatus: true,
+      boardID: this.boardID
     });
-    // this.positionBoard({
-    //   position: moves, noStatus: true
-    // });
   }
 
   return Board;

@@ -19,9 +19,10 @@ class ChessController < WebsocketRails::BaseController
 
   # Methods to dry up code
 
-  def system_move(event, position, boardID=nil)
+  def system_move(event, position, boardID=nil, noStatus='undefined')
     broadcast_message event, {
-      position: position
+      position: position,
+      noStatus: noStatus
     }, :namespace => boardID
   end
 
@@ -48,7 +49,11 @@ class ChessController < WebsocketRails::BaseController
     system_move :new_variation_board, message[:position]
   end
 
-  def clear_board
-    system_move :clear_board, nil
+  def rewind
+      system_move :rewind, message['position'], message['boardID'], message['noStatus']
+  end
+
+  def fast_forward
+      system_move :fast_forward, message['position'], message['boardID'], message['noStatus']
   end
 end

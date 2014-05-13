@@ -17,6 +17,27 @@
       margin: 0 auto;
       text-align: center;
       position: relative;
+
+      .board-feature-links {
+        li {
+          display: inline-block;
+          margin: 10px 5px;
+        }
+
+        .flip-orientation {
+          float: left;
+          a {
+            @include designer-normal-link(black)
+          }
+        }
+
+        .new-variation {
+          float: right;
+          a {
+            @include designer-normal-link(black)
+          }
+        }
+      }
     }
 
     .game-navigation {
@@ -27,15 +48,18 @@
         padding: 2px 5px;
 
         a {
-          text-decoration: none;
-          padding: 5px 10px;
-          border: 2px solid $concrete;
-          color: black;
+          margin: 0 10px;
+          color: $concrete;
           @include hover-transition;
 
           &:hover {
-            border: 2px solid black;
+            color: black;
           }
+        }
+      }
+      .move-backwards {
+        a {
+          @include designer-normal-link(black)
         }
       }
     }
@@ -44,10 +68,9 @@
       float: left;
       background-color: white;
       overflow-y: scroll;
-      height: 500px;
 
       h1 {
-        font-size: $header;
+        font-size: $subhead;
         text-align: center;
       }
       .board-status {

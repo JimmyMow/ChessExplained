@@ -15,7 +15,7 @@ class GamesController < ApplicationController
 
   # Review game
   def review
-    sleep(2);
+
   end
 
   # GET /games/new

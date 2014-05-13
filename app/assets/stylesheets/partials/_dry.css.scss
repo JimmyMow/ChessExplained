@@ -9,3 +9,15 @@ body {
   -o-transition: all .25s ease-out;
   transition: all .25s ease-out;
 }
+
+@mixin designer-normal-link($color) {
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 2px solid $concrete;
+  color: black;
+  @include hover-transition;
+
+  &:hover {
+    border: 2px solid $color;
+  }
+}

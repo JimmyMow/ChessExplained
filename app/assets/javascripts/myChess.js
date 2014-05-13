@@ -1,4 +1,5 @@
 MyChess.rewindedMoves = [];
+MyChess.movesArray = [];
 
 var __bind = function(fn, me){
   return function(){
@@ -8,10 +9,14 @@ var __bind = function(fn, me){
 
 $(document).ready(function() {
   var windowHeight = $(window).height();
-
+  $('.actual-board-container').css({"width": (windowHeight - 100) + "px"});
+  // $('.board-features').css({"height": boardHeight + "px"});
   // Set up master board
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
+
+  var boardHeight = $('.game-board').height();
+  $('.board-features').css({"height": boardHeight});
 
   //Getting any saved moves
   $.getJSON( "/games/" + MyChess.config.gameId +".json", function( data ) {
@@ -21,6 +26,8 @@ $(document).ready(function() {
         moves += (item['notation'] + " ");
       });
 
+      MyChess.movesArray = moves;
+      console.log(MyChess.movesArray);
       masterBoard.positionBoard({position: moves});
     }
   });
@@ -71,7 +78,7 @@ $(document).ready(function() {
     var progress = 0;
     var interval = setInterval( function() {
     progress = Math.min( progress + Math.random() * 0.1, 1 );
-    instance.setProgress( progress );
+    // instance.setProgress( progress );
 
     if( progress === 1 ) {
       instance.stop();
@@ -154,7 +161,7 @@ MyChess.setupBoard = (function() {
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
     $('.rewind a').on('click', this.rewind);
     $('.fast-forward a').on('click', this.fastForward);
-
+    $('.beggining a').on('click', this.beggining);
   }
 
   Board.prototype.removeGreySquares = function() {
@@ -239,11 +246,6 @@ MyChess.setupBoard = (function() {
   Board.prototype.positionBoard = function(position) {
     this.game.load_pgn(position['position']);
     this.chessboard.position( this.game.fen()  );
-
-    // Making sure the string 'undefined' turns into the value undefined
-    // if (position['noStatus'] == 'undefined') {
-    //   position['noStatus'] = undefined;
-    // }
 
     if (position['noStatus']) {
       $('#pgn-master span').css({
@@ -351,33 +353,38 @@ MyChess.setupBoard = (function() {
       moves += item + " ";
     });
 
-    this.dispatcher.trigger('rewind', {
-      position: moves,
-      noStatus: true,
-      boardID: this.boardID
-    });
+    if (orginialMoves.length > 0) {
+      this.dispatcher.trigger('rewind', {
+        position: moves,
+        noStatus: true,
+        boardID: this.boardID
+      });
+    } else {
+      alert("nah");
+    }
   }
 
   Board.prototype.fastForward = function(e) {
     e.preventDefault();
-
     var move = MyChess.rewindedMoves.pop();
-    var gamesMoves = this.game.history();
 
-    gamesMoves.push(move);
-    var moves = "";
-    gamesMoves.forEach(function(item) {
-      moves += item + " ";
-    });
+    if (move) {
 
-    this.dispatcher.trigger('fast_forward', {
-      position: moves,
-      noStatus: true,
-      boardID: this.boardID
-    });
+      var gamesMoves = this.game.history();
+
+      gamesMoves.push(move);
+      var moves = "";
+      gamesMoves.forEach(function(item) {
+        moves += item + " ";
+      });
+
+      this.dispatcher.trigger('fast_forward', {
+        position: moves,
+        noStatus: true,
+        boardID: this.boardID
+      });
+
+    }
   }
-
-
   return Board;
 })();
-

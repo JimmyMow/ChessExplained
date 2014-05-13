@@ -8,9 +8,7 @@ var __bind = function(fn, me){
 
 $(document).ready(function() {
   var windowHeight = $(window).height();
-  var navbarHeight = $('.app-navbar').height();
 
-  $(".online-users").css({"height": windowHeight - navbarHeight - 70});
   // Set up master board
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
@@ -27,6 +25,17 @@ $(document).ready(function() {
     }
   });
 
+
+    $("#submitPgn").on('click', function() {
+      var pgn = $('textarea').val();
+      masterBoard.game.load_pgn(pgn);
+      masterBoard.dispatcher.trigger('load_pgn', {
+        position: window.masterBoard.game.history(),
+        gameId: window.MyChess.config.gameId
+      });
+    });
+
+
   $('.new-variation a').on('click', function(e) {
     e.preventDefault();
     window.masterBoard.dispatcher.trigger('new_variation_board', {
@@ -37,6 +46,7 @@ $(document).ready(function() {
 
   window.newVariationBoard = function(position) {
     var container = $('#variation');
+
     container.append(
       "<ul class='game-navigation'>" +
         "<li class='move-backwards'><a href='#'>Go back</a></li>" +
@@ -48,12 +58,28 @@ $(document).ready(function() {
       "</ul>"
     );
     container.append("<div class='game-board'></div>");
-    container.append("<div class='pgn-conatiner'><span id='pgn-variation' class='pgn-line'></span></div>");
-    container.append("<p>Status: <span id='status-variation'></span></p>");
+    // container.append("<div class='pgn-conatiner'><span id='pgn-variation' class='pgn-line'></span></div>");
+    // container.append("<p>Status: <span id='status-variation'></span></p>");
     window.variationBoard = new MyChess.setupBoard('variation', MyChess.config.websocketUrl, true, '', 'variation');
     variationBoard.game.load_pgn(position['position']);
     variationBoard.positionBoard(position);
   };
+
+
+  Ladda.bind( 'button', {
+    callback: function( instance ) {
+    var progress = 0;
+    var interval = setInterval( function() {
+    progress = Math.min( progress + Math.random() * 0.1, 1 );
+    instance.setProgress( progress );
+
+    if( progress === 1 ) {
+      instance.stop();
+      clearInterval( interval );
+    }
+    }, 200 );
+    }
+  });
 });
 
 MyChess.setupBoard = (function() {
@@ -215,9 +241,9 @@ MyChess.setupBoard = (function() {
     this.chessboard.position( this.game.fen()  );
 
     // Making sure the string 'undefined' turns into the value undefined
-    if (position['noStatus'] == 'undefined') {
-      position['noStatus'] = undefined;
-    }
+    // if (position['noStatus'] == 'undefined') {
+    //   position['noStatus'] = undefined;
+    // }
 
     if (position['noStatus']) {
       $('#pgn-master span').css({
@@ -229,7 +255,6 @@ MyChess.setupBoard = (function() {
         "color": "red"
       });
     } else {
-      console.log('here');
       this.updateStatus();
     }
   };
@@ -255,7 +280,6 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.updateStatus = function() {
-    console.log('Updataing the status!');
     var status = '';
 
     var moveColor = 'White';
@@ -353,5 +377,7 @@ MyChess.setupBoard = (function() {
     });
   }
 
+
   return Board;
 })();
+

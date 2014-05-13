@@ -19,7 +19,7 @@ class ChessController < WebsocketRails::BaseController
 
   # Methods to dry up code
 
-  def system_move(event, position, boardID=nil, noStatus='undefined')
+  def system_move(event, position, boardID=nil, noStatus=false)
     broadcast_message event, {
       position: position,
       noStatus: noStatus
@@ -56,4 +56,13 @@ class ChessController < WebsocketRails::BaseController
   def fast_forward
       system_move :fast_forward, message['position'], message['boardID'], message['noStatus']
   end
+
+  def load_pgn
+    Move.where(game_id: message[:gameId]).destroy_all
+
+    message[:position].each do |move|
+      Move.create(game_id: message[:gameId], notation: move)
+    end
+  end
 end
+

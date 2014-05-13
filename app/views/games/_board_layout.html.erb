@@ -4,12 +4,14 @@
       <div class='game-board'></div>
     </div>
 
+    <ul class="users"></ul>
+
   <aside class="board-features">
     <h1><%= game.title %></h1>
 
     <ul class="game-navigation">
       <% if @not_review %>
-        <!-- <p class='board-status'>Status: <span id="status-master"></span></p> -->
+        <p class='board-status'>Status: <span id="status-master"></span></p>
         <li class='move-backwards'><%= link_to "Undo move", "#" %></li>
         <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
       <% else %>
@@ -24,14 +26,11 @@
       <ul id="pgn-master"></ul>
     </div>
     <% if @not_review %>
-      <%= link_to "Save game and start review", review_game_url(game.id) %>
+      <%= button_to review_game_url(game.id), method: 'get', class: 'ladda-button', data: {style: "contract", color: "mint"} do %>
+        <span class="ladda-label">Submit</span>
+      <% end %>
     <% end %>
   </aside>
-
   </div>
-
-  <aside class="review-container" style="width: 400px;">
-    <div id="variation"></div>
-  </aside>
-
 </div>
+

@@ -6,7 +6,11 @@
     clear: both;
   }
   .game-container {
-
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
     .actual-board-container {
       width: 50%;
       float: left;
@@ -24,11 +28,13 @@
 
         a {
           text-decoration: none;
+          padding: 5px 10px;
+          border: 2px solid $concrete;
           color: black;
           @include hover-transition;
 
           &:hover {
-            background-color: #ccc;
+            border: 2px solid black;
           }
         }
       }
@@ -37,6 +43,8 @@
       width: 29%;
       float: left;
       background-color: white;
+      overflow-y: scroll;
+      height: 500px;
 
       h1 {
         font-size: $header;
@@ -60,3 +68,10 @@
     } // board-features
   }
 } // Main container
+
+textarea {
+  margin-top: 20px;
+  border: 1px solid black;
+  width: 500px;
+  height: 200px;
+}

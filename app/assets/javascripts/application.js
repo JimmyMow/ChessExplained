@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require spin
+//= require ladda
 //= require chessboard
 //= require chess
 //= require_tree .
@@ -21,23 +23,23 @@
 $(document).ready(function() {
   $('.hide').hide();
 
-  var userChatTabs = function(tabs, sections) {
-    // Set tabs and sections selectors
-    var tabs = $(tabs);
-    var sections = $(sections);
+  // var userChatTabs = function(tabs, sections) {
+  //   // Set tabs and sections selectors
+  //   var tabs = $(tabs);
+  //   var sections = $(sections);
 
-    tabs.on('click', function(e) {
-      e.preventDefault();
-      // Remove all actives and add active to the clicked one
-      tabs.children('a').removeClass('active');
-      $(this).children('a').addClass('active');
+  //   tabs.on('click', function(e) {
+  //     e.preventDefault();
+  //     // Remove all actives and add active to the clicked one
+  //     tabs.children('a').removeClass('active');
+  //     $(this).children('a').addClass('active');
 
-      // Hide all sections and find the one connected to the clicked tab
-      sections.hide();
-      $("#" + $(this).children('a').data('name')  ).show();
-    });
-  };
+  //     // Hide all sections and find the one connected to the clicked tab
+  //     sections.hide();
+  //     $("#" + $(this).children('a').data('name')  ).show();
+  //   });
+  // };
 
 
-  userChatTabs("#userChatTabs li", ".online-users-and-chat section");
+  // userChatTabs("#userChatTabs li", ".online-users-and-chat section");
 });

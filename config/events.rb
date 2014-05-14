@@ -8,10 +8,9 @@ WebsocketRails::EventMap.describe do
 
   subscribe :new_variation_board, to: ChessController, with_method: :new_variation_board
 
-  subscribe :rewind, to: ChessController, with_method: :rewind
-  subscribe :fast_forward, to: ChessController, with_method: :fast_forward
-
   subscribe :load_pgn, to: ChessController, with_method: :load_pgn
+
+  subscribe :position_ui, to: ChessController, with_method: :position_ui
 
   # You can use this file to map incoming events to controller actions.
   # One event can be mapped to any number of controller actions. The

@@ -49,20 +49,16 @@ class ChessController < WebsocketRails::BaseController
     system_move :new_variation_board, message[:position]
   end
 
-  def rewind
-      system_move :rewind, message['position'], message['boardID'], message['noStatus']
-  end
-
-  def fast_forward
-      system_move :fast_forward, message['position'], message['boardID'], message['noStatus']
-  end
-
   def load_pgn
     Move.where(game_id: message[:gameId]).destroy_all
 
     message[:position].each do |move|
       Move.create(game_id: message[:gameId], notation: move)
     end
+  end
+
+  def position_ui
+    system_move :position_ui, message['fen'], message['boardID']
   end
 end
 

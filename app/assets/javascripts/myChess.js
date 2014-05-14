@@ -31,6 +31,7 @@ MyChess.setupBoard = (function() {
     this.clearBoard = __bind(this.clearBoard, this);
     this.newVariationBoard = __bind(this.newVariationBoard, this);
     this.updateUserList = __bind(this.updateUserList, this);
+    this.positionUI = __bind(this.positionUI, this);
     this.channel = this.dispatcher.subscribe(this.divId);
     this.moveCounter = 0;
 
@@ -72,8 +73,7 @@ MyChess.setupBoard = (function() {
     this.dispatcher.bind(this.id + '.move_backwards', this.positionBoard);
     this.dispatcher.bind('new_variation_board', this.newVariationBoard);
     this.dispatcher.bind('user_list', this.updateUserList);
-    this.dispatcher.bind('rewind', this.positionBoard);
-    this.dispatcher.bind('fast_forward', this.positionBoard);
+    this.dispatcher.bind(this.id + '.position_ui', this.positionUI);
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
@@ -271,7 +271,10 @@ MyChess.setupBoard = (function() {
     chessEngine.load_pgn(moves);
     var fen = chessEngine.fen();
 
-    this.chessboard.position(fen);
+    this.dispatcher.trigger('position_ui', {
+      fen: fen,
+      boardID: this.id
+    });
   }
 
   Board.prototype.fastForward = function(e) {
@@ -286,7 +289,14 @@ MyChess.setupBoard = (function() {
     chessEngine.load_pgn(moves);
     var fen = chessEngine.fen();
 
-    this.chessboard.position(fen);
+    this.dispatcher.trigger('position_ui', {
+      fen: fen,
+      boardID: this.id
+    });
+  }
+
+  Board.prototype.positionUI = function(position) {
+    this.chessboard.position(position['position']);
   }
   return Board;
 })();

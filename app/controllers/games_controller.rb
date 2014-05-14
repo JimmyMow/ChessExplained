@@ -30,10 +30,15 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    @game = Game.new(game_params)
+    # @game = Game.new(game_params)
+    @game = Game.new
 
     respond_to do |format|
       if @game.save
+        JSON.parse(params[:parsed_notation]).each do |move|
+          Move.create(notation: move, game_id: @game.id)
+        end
+
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
         format.json { render action: 'show', status: :created, location: @game }
       else

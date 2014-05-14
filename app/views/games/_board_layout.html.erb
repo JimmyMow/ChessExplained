@@ -21,10 +21,8 @@
       <% if @not_review %>
         <li class='move-backwards'><%= link_to "Undo move", "#" %></li>
       <% else %>
-        <li class='beggining'><%= link_to "<i class=\"fa fa-caret-square-o-left fa-3x\"></i>".html_safe, "#" %></li>
         <li class='rewind'><%= link_to "<i class=\"fa fa-angle-left fa-3x\"></i>".html_safe, "#" %></li>
         <li class='fast-forward'><%= link_to "<i class=\"fa fa-angle-right fa-3x\"></i>".html_safe, "#" %></li>
-        <li class='end'><%= link_to "<i class=\"fa fa-caret-square-o-right fa-3x\"></i>".html_safe, "#" %></li>
       <% end %>
     </ul>
 

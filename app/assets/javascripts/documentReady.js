@@ -29,6 +29,7 @@ $(document).ready(function() {
       });
 
       masterBoard.game.load_pgn(moves);
+      masterBoard.updateStatus();
       // masterBoard.positionBoard({position: moves});
     }
   });

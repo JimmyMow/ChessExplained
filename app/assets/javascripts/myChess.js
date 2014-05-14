@@ -32,7 +32,7 @@ MyChess.setupBoard = (function() {
     this.newVariationBoard = __bind(this.newVariationBoard, this);
     this.updateUserList = __bind(this.updateUserList, this);
     this.channel = this.dispatcher.subscribe(this.divId);
-    this.moveCounter = 0;
+    this.moveCounter = 1;
 
     if (type == 'variation') {
       this.config = {
@@ -77,9 +77,8 @@ MyChess.setupBoard = (function() {
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
-    $('.rewind a').on('click', this.rewind);
     $('.fast-forward a').on('click', this.fastForward);
-    $('.beggining a').on('click', this.beggining);
+    $('.rewind a').on('click', this.rewind);
   }
 
   Board.prototype.removeGreySquares = function() {
@@ -263,46 +262,30 @@ MyChess.setupBoard = (function() {
   Board.prototype.rewind = function(e) {
     e.preventDefault();
 
-    var orginialMoves = this.game.history();
-    MyChess.rewindedMoves.push( orginialMoves.pop()  );
+    var moves = this.game.history().slice(0, this.moveCounter--);
+    moves = moves.join(' ');
 
-    var moves = "";
-    orginialMoves.forEach(function(item) {
-      moves += item + " ";
-    });
+    var chessEngine = new Chess();
 
-    if (orginialMoves.length > 0) {
-      this.dispatcher.trigger('rewind', {
-        position: moves,
-        noStatus: true,
-        boardID: this.boardID
-      });
-    } else {
-      alert("nah");
-    }
+    chessEngine.load_pgn(moves);
+    var fen = chessEngine.fen();
+
+    this.chessboard.position(fen);
   }
 
   Board.prototype.fastForward = function(e) {
     e.preventDefault();
-    var move = MyChess.rewindedMoves.pop();
 
-    if (move) {
+    var moves = this.game.history().slice(0, this.moveCounter++);
+    moves = moves.join(' ');
 
-      var gamesMoves = this.game.history();
+    var chessEngine = new Chess();
 
-      gamesMoves.push(move);
-      var moves = "";
-      gamesMoves.forEach(function(item) {
-        moves += item + " ";
-      });
+    chessEngine.load_pgn(moves);
+    var fen = chessEngine.fen();
 
-      this.dispatcher.trigger('fast_forward', {
-        position: moves,
-        noStatus: true,
-        boardID: this.boardID
-      });
+    this.chessboard.position(fen);
 
-    }
   }
   return Board;
 })();

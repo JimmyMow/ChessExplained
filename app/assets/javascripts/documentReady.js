@@ -1,16 +1,13 @@
 $(document).ready(function() {
   $('.hide').hide();
 
-  $("#uploadPgn button").click(function(e) {
-      e.preventDefault();
+  $("#uploadPgn").submit(function(e) {
       var original_pgn = $('textarea').val();
       var chess = new Chess();
       chess.load_pgn(original_pgn);
       var parsed_pgn = chess.history();
 
       $("#hiddenParsedNotation").val(JSON.stringify(parsed_pgn));
-
-      $("#uploadPgn").submit();
     });
 
  var windowHeight = $(window).height();
@@ -31,9 +28,8 @@ $(document).ready(function() {
         moves += (item['notation'] + " ");
       });
 
-      MyChess.movesArray = moves;
-      console.log(MyChess.movesArray);
-      masterBoard.positionBoard({position: moves});
+      masterBoard.game.load_pgn(moves);
+      // masterBoard.positionBoard({position: moves});
     }
   });
 

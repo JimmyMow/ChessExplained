@@ -1,15 +1,10 @@
 MyChess.rewindedMoves = [];
-MyChess.movesArray = [];
 
 var __bind = function(fn, me){
   return function(){
     return fn.apply(me, arguments);
   };
 };
-
-$(document).ready(function() {
-
-});
 
 MyChess.setupBoard = (function() {
   function Board(id, url, useWebSockets, position, type) {
@@ -37,6 +32,7 @@ MyChess.setupBoard = (function() {
     this.newVariationBoard = __bind(this.newVariationBoard, this);
     this.updateUserList = __bind(this.updateUserList, this);
     this.channel = this.dispatcher.subscribe(this.divId);
+    this.moveCounter = 0;
 
     if (type == 'variation') {
       this.config = {

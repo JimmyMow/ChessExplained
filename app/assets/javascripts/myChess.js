@@ -32,7 +32,7 @@ MyChess.setupBoard = (function() {
     this.newVariationBoard = __bind(this.newVariationBoard, this);
     this.updateUserList = __bind(this.updateUserList, this);
     this.channel = this.dispatcher.subscribe(this.divId);
-    this.moveCounter = 1;
+    this.moveCounter = 0;
 
     if (type == 'variation') {
       this.config = {
@@ -261,8 +261,9 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.rewind = function(e) {
     e.preventDefault();
+    this.moveCounter--;
 
-    var moves = this.game.history().slice(0, this.moveCounter--);
+    var moves = this.game.history().slice(0, this.moveCounter);
     moves = moves.join(' ');
 
     var chessEngine = new Chess();
@@ -275,8 +276,9 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.fastForward = function(e) {
     e.preventDefault();
+    this.moveCounter++;
 
-    var moves = this.game.history().slice(0, this.moveCounter++);
+    var moves = this.game.history().slice(0, this.moveCounter);
     moves = moves.join(' ');
 
     var chessEngine = new Chess();
@@ -285,7 +287,6 @@ MyChess.setupBoard = (function() {
     var fen = chessEngine.fen();
 
     this.chessboard.position(fen);
-
   }
   return Board;
 })();

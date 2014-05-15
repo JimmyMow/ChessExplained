@@ -20,6 +20,7 @@
   // }
   .logo {
     padding: .75em 0;
+    margin-left: .5em;
     display: inline-block;
     position: relative;
     z-index: 1;
@@ -32,8 +33,9 @@
     a {
       vertical-align: middle;
       display: inline-block;
-      // @include logo-link;
+      font-size: 1.25em;
       @include chess-link;
+      // @include logo-link;
       .logo-explained {
         color: $peter_river;
       }

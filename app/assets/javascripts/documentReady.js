@@ -97,18 +97,30 @@ if (MyChess.config.isGame) {
 } // Views with a board
 
 
-  // Ladda.bind( 'button', {
-  //   callback: function( instance ) {
-  //   var progress = 0;
-  //   var interval = setInterval( function() {
-  //   progress = Math.min( progress + Math.random() * 0.1, 1 );
-  //   // instance.setProgress( progress );
+  Ladda.bind( '.spinner', {
+    callback: function( instance ) {
+    var progress = 0;
+    var interval = setInterval( function() {
+    progress = Math.min( progress + Math.random() * 0.1, 1 );
+    // instance.setProgress( progress );
 
-  //   if( progress === 1 ) {
-  //     instance.stop();
-  //     clearInterval( interval );
-  //   }
-  //   }, 200 );
-  //   }
-  // });
+    if( progress === 1 ) {
+      instance.stop();
+      clearInterval( interval );
+    }
+    }, 200 );
+    }
+  });
+
+  $('#noteSubmit').on('click', function(e) {
+    e.preventDefault();
+    var noteText = $(this).siblings('textarea').val();
+    $(this).siblings('textarea').val("");
+
+    masterBoard.dispatcher.trigger('write_note', {
+      note: noteText,
+      moveNumber: masterBoard.moveCounter,
+      databaseGameID: masterBoard.gameId
+    });
+  });
 });

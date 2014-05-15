@@ -75,7 +75,7 @@
       }
     }
     .board-features {
-      width: 29%;
+      width: 25%;
       float: left;
       background-color: white;
       overflow-y: scroll;
@@ -100,5 +100,10 @@
         } // ul
       } // pgn-container
     } // board-features
+    .notes {
+      background-color: red;
+      width: 25%;
+      float: left;
+    }
   }
 } // Main container

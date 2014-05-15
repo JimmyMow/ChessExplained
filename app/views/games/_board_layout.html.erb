@@ -33,10 +33,17 @@
       <ul id="pgn-master"></ul>
     </div>
     <% if @not_review %>
-      <%= button_to review_game_url(game.id), method: 'get', class: 'ladda-button', data: {style: "expand-right", color: "mint"} do %>
+      <%= button_to review_game_url(game.id), method: 'get', class: 'spinner ladda-button', data: {style: "expand-right", color: "mint"} do %>
         <span class="ladda-label">Submit</span>
       <% end %>
     <% end %>
+  </aside>
+
+  <aside class="notes">
+    <textarea></textarea>
+    <%= link_to "Submit", "#", id: "noteSubmit" %>
+
+    <ul class="notes-list"></ul>
   </aside>
   </div>
 </div>

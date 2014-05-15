@@ -3,7 +3,7 @@
   .game-list {
     .game-item {
       a {
-        @include chess-links;
+        @include chess-link;
       }
     }
   }

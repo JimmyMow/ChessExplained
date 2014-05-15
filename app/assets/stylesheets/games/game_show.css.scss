@@ -33,8 +33,19 @@
 
         .new-variation {
           float: right;
-          a {
-            @include designer-normal-link(black)
+          margin-top: 3px;
+          .variation-button {
+            background-color: green;
+            color: white;
+            width: 50%;
+            height: 40px;
+            font-size: 10px;
+            line-height: 0;
+            font-weight: 0;
+          }
+
+          .variation-morph {
+            text-align: right;
           }
         }
       }

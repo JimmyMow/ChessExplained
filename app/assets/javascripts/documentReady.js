@@ -14,7 +14,8 @@ $(document).ready(function() {
 // Views with a board
 if (MyChess.config.isGame) {
   var windowHeight = $(window).height();
-  $('.actual-board-container').css({"width": (windowHeight - 100) + "px"});
+  var navHeight = $('.app-nav').height();
+  $('.actual-board-container').css({"width": (windowHeight - 100 - navHeight) + "px"});
 
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
@@ -96,18 +97,18 @@ if (MyChess.config.isGame) {
 } // Views with a board
 
 
-  Ladda.bind( 'button', {
-    callback: function( instance ) {
-    var progress = 0;
-    var interval = setInterval( function() {
-    progress = Math.min( progress + Math.random() * 0.1, 1 );
-    // instance.setProgress( progress );
+  // Ladda.bind( 'button', {
+  //   callback: function( instance ) {
+  //   var progress = 0;
+  //   var interval = setInterval( function() {
+  //   progress = Math.min( progress + Math.random() * 0.1, 1 );
+  //   // instance.setProgress( progress );
 
-    if( progress === 1 ) {
-      instance.stop();
-      clearInterval( interval );
-    }
-    }, 200 );
-    }
-  });
+  //   if( progress === 1 ) {
+  //     instance.stop();
+  //     clearInterval( interval );
+  //   }
+  //   }, 200 );
+  //   }
+  // });
 });

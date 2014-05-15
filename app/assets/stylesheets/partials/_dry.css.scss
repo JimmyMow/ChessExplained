@@ -1,6 +1,6 @@
 body {
   background-color: $basecamp_background;
-  // font-family: 'Droid Serif', serif;
+  font-size: 18px;
   font-family: 'Raleway', sans-serif;
 }
 
@@ -104,10 +104,9 @@ body {
   }
 }
 
-@mixin chess-links() {
+@mixin chess-link() {
   position: relative;
   display: inline-block;
-  margin: 15px 25px;
   outline: none;
   color: #fff;
   text-decoration: none;
@@ -201,7 +200,7 @@ body {
 
   &:hover,
   &:focus {
-    color: #fff;
+    color: white;
   }
 
   &:hover::before,

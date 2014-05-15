@@ -16,7 +16,11 @@
 </head>
 <body>
 <nav class='app-nav'>
-  <h1 class='logo'><%= link_to "ChessExplained", root_url %></h1>
+  <h1 class='logo'>
+    <%= link_to root_url do %>
+      Chess<span class='logo-explained'>Explained</span>
+    <% end %>
+  </h1>
 </nav>
 <%= yield %>
 

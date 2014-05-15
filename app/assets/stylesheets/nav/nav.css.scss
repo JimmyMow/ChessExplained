@@ -1,8 +1,7 @@
 .app-nav {
+  font-family: 'League Gothic', Impact, Arial, Helvetica, sans-serif;
   background-color: black;
   height: 3em;
-  position: relative;
-  z-index: 1;
 
   -moz-transition: 1s;
   -ms-transition: 1s;
@@ -10,26 +9,34 @@
   -webkit-transition: 1s;
   transition: 1s;
 
-  &:hover {
-    height: 6em;
+  // &:hover {
+  //   height: 8em;
 
-  }
-  &:hover > h1 {
-    padding: 2em 0 2em 3em;
-  }
+  // }
+  // &:hover > h1 {
+  //   padding: 2.4em 0;
+  //   margin-left: 3em;
+  //   font-size: 1.25em;
+  // }
   .logo {
-    padding: .75em 0 .75em 3em;
+    padding: .75em 0;
     display: inline-block;
+    position: relative;
+    z-index: 1;
     -moz-transition: 1s;
     -ms-transition: 1s;
     -o-transition: 1s;
     -webkit-transition: 1s;
     transition: 1s;
+    text-transform: uppercase;
     a {
       vertical-align: middle;
       display: inline-block;
-      @include logo-link;
-
+      // @include logo-link;
+      @include chess-link;
+      .logo-explained {
+        color: $peter_river;
+      }
     }
   }
 }

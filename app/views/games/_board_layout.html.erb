@@ -7,7 +7,8 @@
       <ul class="board-feature-links">
         <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
         <% unless @not_review %>
-          <li class='new-variation'><%= link_to "Test a variation", "#" %></li>
+          <!-- <li class='new-variation'><%#= link_to "Test a variation", "#" %></li> -->
+          <%= render 'variation_button_modal' %>
         <% end %>
       </ul>
     </div>
@@ -21,8 +22,10 @@
       <% if @not_review %>
         <li class='move-backwards'><%= link_to "Undo move", "#" %></li>
       <% else %>
+        <li class='beg'><%= link_to "<i class=\"fa fa-angle-double-left fa-3x\"></i>".html_safe, "#" %></li>
         <li class='rewind'><%= link_to "<i class=\"fa fa-angle-left fa-3x\"></i>".html_safe, "#" %></li>
         <li class='fast-forward'><%= link_to "<i class=\"fa fa-angle-right fa-3x\"></i>".html_safe, "#" %></li>
+        <li class='end'><%= link_to "<i class=\"fa fa-angle-double-right fa-3x\"></i>".html_safe, "#" %></li>
       <% end %>
     </ul>
 

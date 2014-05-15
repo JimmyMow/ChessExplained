@@ -7,6 +7,7 @@ WebsocketRails::EventMap.describe do
   subscribe :move_backwards, to: ChessController, with_method: :move_backwards
 
   subscribe :new_variation_board, to: ChessController, with_method: :new_variation_board
+  subscribe :close_variation, to: ChessController, with_method: :close_variation
 
   subscribe :load_pgn, to: ChessController, with_method: :load_pgn
 

@@ -1,0 +1,10 @@
+.games {
+  background-color: #0e83cd;
+  .game-list {
+    .game-item {
+      a {
+        @include chess-links;
+      }
+    }
+  }
+}

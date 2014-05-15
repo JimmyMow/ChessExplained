@@ -1,9 +1,10 @@
 body {
   background-color: $basecamp_background;
-  font-family: 'Droid Serif', serif;
+  // font-family: 'Droid Serif', serif;
+  font-family: 'Raleway', sans-serif;
 }
 
-@mixin hover-transition {
+@mixin hover-transition-all {
   -webkit-transition: all .25s ease-out;
   -moz-transition: all .25s ease-out;
   -o-transition: all .25s ease-out;
@@ -15,9 +16,214 @@ body {
   padding: 5px 10px;
   border: 2px solid $concrete;
   color: black;
-  @include hover-transition;
+  @include hover-transition-all;
 
   &:hover {
     border: 2px solid $color;
   }
 }
+
+@mixin fancy-checkbox() {
+  .control {
+    position: relative;
+    display: inline-block;
+    padding-left: 1.5rem;
+    color: #555;
+    cursor: pointer;
+    font: 1rem/1.5 "Helvetica Neue", Arial, sans-serif;
+  }
+  .control input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;  /*Put the input behind the label so it doesn't overlay text */
+  }
+
+
+  .control-indicator {
+    position: absolute;
+    top: .25rem;
+    left: 0;
+    display: block;
+    width:  1rem;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 65%;
+    color: #eee;
+    text-align: center;
+    background-color: #eee;
+    background-size: 50% 50%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+      user-select: none;
+  }
+
+  .control:hover .control-indicator {
+    color: #fff;
+    background-color: #ccc;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgOCA4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA4IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTYuNCwxTDUuNywxLjdMMi45LDQuNUwyLjEsMy43TDEuNCwzTDAsNC40bDAuNywwLjdsMS41LDEuNWwwLjcsMC43bDAuNy0wLjdsMy41LTMuNWwwLjctMC43TDYuNCwxTDYuNCwxeiINCgkvPg0KPC9zdmc+DQo=);
+  }
+
+  .control input:checked ~ .control-indicator {
+    color: #fff;
+    background-color: #0074d9;
+  }
+
+  /* Checkbox modifiers */
+  .checkbox .control-indicator {
+    border-radius: .25rem;
+  }
+  .checkbox input:checked ~ .control-indicator {
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNy4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgOCA4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA4IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTYuNCwxTDUuNywxLjdMMi45LDQuNUwyLjEsMy43TDEuNCwzTDAsNC40bDAuNywwLjdsMS41LDEuNWwwLjcsMC43bDAuNy0wLjdsMy41LTMuNWwwLjctMC43TDYuNCwxTDYuNCwxeiINCgkvPg0KPC9zdmc+DQo=);
+  }
+
+}
+
+@mixin round-real-button() {
+  background: #cb4e4e;
+  color: #fff;
+  box-shadow: 0 6px #ab3c3c;
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  padding: 0;
+
+  &:hover {
+    box-shadow: 0 4px #ab3c3c;
+    top: 2px;
+  }
+
+  &:active {
+    box-shadow: 0 0 #ab3c3c;
+    top: 6px;
+  }
+}
+
+@mixin chess-links() {
+  position: relative;
+  display: inline-block;
+  margin: 15px 25px;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  text-shadow: 0 0 1px rgba(255,255,255,0.3);
+  font-size: 1.35em;
+
+
+  &:hover {
+    outline: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::before,
+  &::after {
+    display: inline-block;
+    opacity: 0;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.2s;
+    transition: transform 0.3s, opacity 0.2s;
+  }
+
+  &::before {
+    margin-right: 10px;
+    content: '♔';
+    -webkit-transform: translateX(20px);
+    -moz-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+
+  &::after {
+    margin-left: 10px;
+    content: '♔';
+    -webkit-transform: translateX(-20px);
+    -moz-transform: translateX(-20px);
+    transform: translateX(-20px);
+  }
+
+  &:hover::before,
+  &:hover::after,
+  &:focus::before,
+  &:focus::after {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    transform: translateX(0px);
+  }
+}
+
+@mixin logo-link() {
+  padding: 0 5px;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+  -webkit-transition: color 0.3s;
+  -moz-transition: color 0.3s;
+  transition: color 0.3s;
+
+  &::before,
+  &::after {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 50%;
+    height: 2px;
+    margin-top: -1px;
+    background: #ccc;
+    content: '';
+    z-index: -1;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
+    pointer-events: none;
+  }
+
+  &::before {
+    -webkit-transform: translateY(-20px);
+    -moz-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+  &::after {
+    -webkit-transform: translateY(20px);
+    -moz-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+
+  &:hover,
+  &:focus {
+    color: #fff;
+  }
+
+  &:hover::before,
+  &:hover::after,
+  &:focus::before,
+  &:focus::after {
+    opacity: 0.7;
+    background: white;
+  }
+
+  &:hover::before,
+  &:focus::before {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  &:hover::after,
+  &:focus::after {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+}
+

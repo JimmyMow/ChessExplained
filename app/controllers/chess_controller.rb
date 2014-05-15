@@ -19,7 +19,7 @@ class ChessController < WebsocketRails::BaseController
 
   # Methods to dry up code
 
-  def system_move(event, position, boardID=nil, noStatus=false)
+  def system_move(event, position=nil, boardID=nil, noStatus=false)
     broadcast_message event, {
       position: position,
       noStatus: noStatus
@@ -47,6 +47,12 @@ class ChessController < WebsocketRails::BaseController
 
   def new_variation_board
     system_move :new_variation_board, message[:position]
+  end
+
+  def close_variation
+    system_move :close_variation, '', message[:boardID]
+
+    puts message[:boardID]
   end
 
   def load_pgn

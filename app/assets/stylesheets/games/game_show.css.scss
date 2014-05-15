@@ -50,7 +50,7 @@
         a {
           margin: 0 10px;
           color: $concrete;
-          @include hover-transition;
+          @include hover-transition-all;
 
           &:hover {
             color: black;

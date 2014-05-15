@@ -30,7 +30,10 @@ MyChess.setupBoard = (function() {
     this.positionBoard = __bind(this.positionBoard, this);
     this.clearBoard = __bind(this.clearBoard, this);
     this.newVariationBoard = __bind(this.newVariationBoard, this);
+    this.closeVariation = __bind(this.closeVariation, this);
     this.updateUserList = __bind(this.updateUserList, this);
+    this.jumpToBeg = __bind(this.jumpToBeg, this);
+    this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
     this.channel = this.dispatcher.subscribe(this.divId);
     this.moveCounter = 0;
@@ -74,11 +77,14 @@ MyChess.setupBoard = (function() {
     this.dispatcher.bind('new_variation_board', this.newVariationBoard);
     this.dispatcher.bind('user_list', this.updateUserList);
     this.dispatcher.bind(this.id + '.position_ui', this.positionUI);
+    this.dispatcher.bind(this.id + '.close_variation', this.closeVariation);
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
     $('.fast-forward a').on('click', this.fastForward);
     $('.rewind a').on('click', this.rewind);
+    $('.beg a').on('click', this.jumpToBeg);
+    $('.end a').on('click', this.jumpToEnd);
   }
 
   Board.prototype.removeGreySquares = function() {
@@ -251,6 +257,19 @@ MyChess.setupBoard = (function() {
     window.newVariationBoard(position);
   }
 
+  Board.prototype.closeVariation = function () {
+    var container = $('.variation-container');
+
+    container.empty();
+    container.append(
+      "<aside class='review-container'>" +
+        "<div id='variation'></div>" +
+       "</aside>"
+    );
+
+    $('.morph-button-modal').removeClass('open');
+  }
+
   Board.prototype.updateUserList = function(user_list) {
     $('.users').empty();
     for(i=0, len=user_list.length; len > i; i++) {
@@ -261,7 +280,54 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.rewind = function(e) {
     e.preventDefault();
-    this.moveCounter--;
+
+    if (this.moveCounter > 0) {
+
+      this.moveCounter--;
+
+      var moves = this.game.history().slice(0, this.moveCounter);
+      moves = moves.join(' ');
+
+      var chessEngine = new Chess();
+
+      chessEngine.load_pgn(moves);
+      var fen = chessEngine.fen();
+
+      this.dispatcher.trigger('position_ui', {
+        fen: fen,
+        boardID: this.id
+      });
+
+    }
+  }
+
+  Board.prototype.fastForward = function(e) {
+    e.preventDefault();
+
+    if (this.moveCounter < this.game.history().length) {
+
+      this.moveCounter++;
+
+      var moves = this.game.history().slice(0, this.moveCounter);
+      moves = moves.join(' ');
+
+      var chessEngine = new Chess();
+
+      chessEngine.load_pgn(moves);
+      var fen = chessEngine.fen();
+
+      this.dispatcher.trigger('position_ui', {
+        fen: fen,
+        boardID: this.id
+      });
+
+    }
+
+  }
+
+  Board.prototype.jumpToBeg = function(e) {
+   e.preventDefault();
+    this.moveCounter = 0;
 
     var moves = this.game.history().slice(0, this.moveCounter);
     moves = moves.join(' ');
@@ -277,9 +343,9 @@ MyChess.setupBoard = (function() {
     });
   }
 
-  Board.prototype.fastForward = function(e) {
+    Board.prototype.jumpToEnd = function(e) {
+    this.moveCounter = this.game.history().length;
     e.preventDefault();
-    this.moveCounter++;
 
     var moves = this.game.history().slice(0, this.moveCounter);
     moves = moves.join(' ');
@@ -298,5 +364,6 @@ MyChess.setupBoard = (function() {
   Board.prototype.positionUI = function(position) {
     this.chessboard.position(position['position']);
   }
+
   return Board;
 })();

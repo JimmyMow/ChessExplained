@@ -8,13 +8,16 @@
     var MyChess = {};
     MyChess.config = {
       websocketUrl: "<%= request.host %>:<%= request.port %>/websocket",
+      isGame: <%= current_page?(game_url(params[:id] || 1)) %> || <%= current_page?(review_game_url(params[:id] || 1)) %>,
       isReview: <%= current_page?(review_game_url(params[:id] || 1)) %>,
       gameId: <%= @game.try(:id) || "null" %>
     }
   </script>
 </head>
 <body>
-
+<nav class='app-nav'>
+  <h1 class='logo'><%= link_to "ChessExplained", root_url %></h1>
+</nav>
 <%= yield %>
 
 <%= javascript_include_tag "application", "data-turbolinks-track" => true %>

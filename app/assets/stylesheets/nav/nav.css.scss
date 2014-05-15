@@ -1,0 +1,35 @@
+.app-nav {
+  background-color: black;
+  height: 3em;
+  position: relative;
+  z-index: 1;
+
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+  -webkit-transition: 1s;
+  transition: 1s;
+
+  &:hover {
+    height: 6em;
+
+  }
+  &:hover > h1 {
+    padding: 2em 0 2em 3em;
+  }
+  .logo {
+    padding: .75em 0 .75em 3em;
+    display: inline-block;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    -webkit-transition: 1s;
+    transition: 1s;
+    a {
+      vertical-align: middle;
+      display: inline-block;
+      @include logo-link;
+
+    }
+  }
+}

@@ -296,7 +296,9 @@ MyChess.setupBoard = (function() {
 
       this.dispatcher.trigger('position_ui', {
         fen: fen,
-        boardID: this.id
+        boardID: this.id,
+        databaseGameID: this.gameId,
+        moveNumber: this.moveCounter
       });
 
     }
@@ -306,6 +308,7 @@ MyChess.setupBoard = (function() {
     e.preventDefault();
 
     if (this.moveCounter < this.game.history().length) {
+      window.location.hash = "#" + this.moveCounter;
 
       this.moveCounter++;
 
@@ -323,9 +326,7 @@ MyChess.setupBoard = (function() {
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter
       });
-
     }
-
   }
 
   Board.prototype.jumpToBeg = function(e) {
@@ -341,8 +342,10 @@ MyChess.setupBoard = (function() {
     var fen = chessEngine.fen();
 
     this.dispatcher.trigger('position_ui', {
-      fen: fen,
-      boardID: this.id
+        fen: fen,
+        boardID: this.id,
+        databaseGameID: this.gameId,
+        moveNumber: this.moveCounter
     });
   }
 
@@ -360,17 +363,23 @@ MyChess.setupBoard = (function() {
 
       this.dispatcher.trigger('position_ui', {
         fen: fen,
-        boardID: this.id
+        boardID: this.id,
+        databaseGameID: this.gameId,
+        moveNumber: this.moveCounter
       });
   }
 
   Board.prototype.positionUI = function(position) {
     this.chessboard.position(position['position']);
+
     this.showNotes({notes: position['notes']});
   }
 
   Board.prototype.showNotes = function(data) {
-    $('.notes-list').append(data['notes']);
+    $('.notes-list').empty();
+    data['notes'].forEach(function(item) {
+      $('.notes-list').append("<li>" + item + "</li>");
+    });
   }
 
   return Board;

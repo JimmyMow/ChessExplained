@@ -9,15 +9,15 @@
   -webkit-transition: 1s;
   transition: 1s;
 
-  // &:hover {
-  //   height: 8em;
+  &:hover {
+    height: 8em;
 
-  // }
-  // &:hover > h1 {
-  //   padding: 2.4em 0;
-  //   margin-left: 3em;
-  //   font-size: 1.25em;
-  // }
+  }
+  &:hover > h1 {
+    padding: 2.4em 0;
+    margin-left: 2em;
+    font-size: 1.25em;
+  }
   .logo {
     padding: .75em 0;
     margin-left: .5em;
@@ -34,8 +34,8 @@
       vertical-align: middle;
       display: inline-block;
       font-size: 1.25em;
-      @include chess-link;
-      // @include logo-link;
+      // @include chess-link;
+      @include logo-link;
       .logo-explained {
         color: $peter_river;
       }

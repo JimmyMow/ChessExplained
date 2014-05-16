@@ -77,7 +77,7 @@ class ChessController < WebsocketRails::BaseController
   def write_note
     game = Game.find(message[:databaseGameID])
     move = game.moves[message[:moveNumber].to_i - 1]
-    Note.create(content: message[:note], move_id: move.id)
+    Note.create(content: message[:note], move_id: move.id, user_id: current_user.id)
   end
 end
 

@@ -34,15 +34,15 @@
         .new-variation {
           float: right;
           margin-top: 3px;
-          .variation-button {
-            background-color: green;
-            color: white;
-            width: 50%;
-            height: 40px;
-            font-size: 10px;
-            line-height: 0;
-            font-weight: 0;
-          }
+          // .variation-button {
+          //   background-color: white;
+          //   color: green;
+          //   width: 50%;
+          //   height: 40px;
+          //   font-size: 10px;
+          //   line-height: 0;
+          //   font-weight: 0;
+          // }
 
           .variation-morph {
             text-align: right;
@@ -101,7 +101,7 @@
       } // pgn-container
     } // board-features
     .notes {
-      background-color: red;
+      text-align: center;
       width: 25%;
       float: left;
     }

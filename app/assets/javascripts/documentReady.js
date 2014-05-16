@@ -36,6 +36,8 @@ if (MyChess.config.isGame) {
 
       if(!MyChess.config.isReview) {
         masterBoard.positionBoard({position: moves});
+      } else {
+        // var moveCount = window.location.hash.split('').pop();
       }
     }
   });
@@ -116,6 +118,7 @@ if (MyChess.config.isGame) {
     e.preventDefault();
     var noteText = $(this).siblings('textarea').val();
     $(this).siblings('textarea').val("");
+    $('.notes-list').append("<li>" + noteText + "</li>");
 
     masterBoard.dispatcher.trigger('write_note', {
       note: noteText,

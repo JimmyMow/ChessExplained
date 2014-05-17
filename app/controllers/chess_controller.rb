@@ -47,13 +47,11 @@ class ChessController < WebsocketRails::BaseController
   end
 
   def new_variation_board
-    system_move :new_variation_board, message[:position]
+    system_move :new_variation_board, message[:pgn]
   end
 
   def close_variation
     system_move :close_variation, '', message[:boardID]
-
-    puts message[:boardID]
   end
 
   def load_pgn

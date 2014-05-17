@@ -66,7 +66,7 @@ MyChess.setupBoard = (function() {
       };
     }
 
-    this.chessboard = new ChessBoard($('#' + this.id + ' .game-board'), this.config);
+    this.chessboard = new ChessBoard( $('#' + this.id + ' .game-board'), this.config  );
     this.game = new Chess();
 
     this.bindEvents();
@@ -82,10 +82,10 @@ MyChess.setupBoard = (function() {
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
-    $('.fast-forward a').on('click', this.fastForward);
-    $('.rewind a').on('click', this.rewind);
-    $('.beg a').on('click', this.jumpToBeg);
-    $('.end a').on('click', this.jumpToEnd);
+    $("#" + this.id + ' .fast-forward a').on('click', this.fastForward);
+    $("#" + this.id + ' .rewind a').on('click', this.rewind);
+    $("#" + this.id + ' .beg a').on('click', this.jumpToBeg);
+    $("#" + this.id + ' .end a').on('click', this.jumpToEnd);
   }
 
   Board.prototype.removeGreySquares = function() {
@@ -255,7 +255,11 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.newVariationBoard = function (position) {
-    window.newVariationBoard(position);
+    console.log('here');
+    variationBoard.game.load_pgn(position['position']);
+    variationBoard.positionUI({
+      position: variationBoard.game.fen()
+    });
   }
 
   Board.prototype.closeVariation = function () {

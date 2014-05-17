@@ -2,13 +2,13 @@ $(document).ready(function() {
   $('.hide').hide();
 
   $("#uploadPgn").submit(function(e) {
-      var original_pgn = $('textarea').val();
-      var chess = new Chess();
-      chess.load_pgn(original_pgn);
-      var parsed_pgn = chess.history();
+    var original_pgn = $('textarea').val();
+    var chess = new Chess();
+    chess.load_pgn(original_pgn);
+    var parsed_pgn = chess.history();
 
-      $("#hiddenParsedNotation").val(JSON.stringify(parsed_pgn));
-    });
+    $("#hiddenParsedNotation").val(JSON.stringify(parsed_pgn));
+  });
 
 
 // Views with a board
@@ -19,6 +19,7 @@ if (MyChess.config.isGame) {
 
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
+
 
   var boardHeight = $('.game-board').height();
   $('.board-features').css({"height": boardHeight});
@@ -49,6 +50,12 @@ if (MyChess.config.isGame) {
         engine.load_pgn(stringNot);
         masterBoard.positionUI({position: engine.fen()});
         masterBoard.moveCounter = moveCount;
+
+        window.variationBoard = new MyChess.setupBoard('variation', MyChess.config.websocketUrl, true, '', 'variation');
+        variationBoard.game.load_pgn( engine.pgn()  );
+        variationBoard.positionBoard({
+          position: engine.pgn()
+        });
       } else {
         masterBoard.positionBoard({position: moves});
       }
@@ -86,28 +93,28 @@ if (MyChess.config.isGame) {
   });
 
 
-  window.newVariationBoard = function(position) {
-    $('.morph-button-modal').addClass('open');
+  // window.newVariationBoard = function(position) {
+  //   // $('.morph-button-modal').addClass('open');
 
-    var container = $('#variation');
+  //   var container = $('#variation');
 
-    // container.append(
-    // "<ul class='game-navigation'>" +
-    // "<li class='move-backwards'><a href='#'>Go back</a></li>" +
-    // "</ul>"
-    // );
-    // container.append(
-    // "<ul class='board-navigation'>" +
-    // "<li class='flip-orientation'><a href='#'>Flip orientation</a></li>" +
-    // "</ul>"
-    // );
-    container.append("<div class='game-board'></div>");
-    // container.append("<div class='pgn-conatiner'><span id='pgn-variation' class='pgn-line'></span></div>");
-    // container.append("<p>Status: <span id='status-variation'></span></p>");
-    window.variationBoard = new MyChess.setupBoard('variation', MyChess.config.websocketUrl, true, '', 'variation');
-    variationBoard.game.load_pgn(position['position']);
-    variationBoard.positionBoard(position);
-  };
+  //   // container.append(
+  //   // "<ul class='game-navigation'>" +
+  //   // "<li class='move-backwards'><a href='#'>Go back</a></li>" +
+  //   // "</ul>"
+  //   // );
+  //   // container.append(
+  //   // "<ul class='board-navigation'>" +
+  //   // "<li class='flip-orientation'><a href='#'>Flip orientation</a></li>" +
+  //   // "</ul>"
+  //   // );
+  //   // container.append("<div class='game-board'></div>");
+  //   // container.append("<div class='pgn-conatiner'><span id='pgn-variation' class='pgn-line'></span></div>");
+  //   // container.append("<p>Status: <span id='status-variation'></span></p>");
+  //   window.variationBoard = new MyChess.setupBoard('variation', MyChess.config.websocketUrl, true, '', 'variation');
+  //   variationBoard.game.load_pgn(position['position']);
+  //   variationBoard.positionBoard(position);
+  // };
 
 } // Views with a board
 
@@ -143,4 +150,24 @@ if (MyChess.config.isGame) {
   // $('.square-55d63').on('click', function() {
   //   $(this).toggleClass('highlight');
   // });
+
+  $('.new-variation a').on('click', function(e) {
+    e.preventDefault();
+
+    var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
+    var pgnMoves = moves.join(' ');
+
+    masterBoard.dispatcher.trigger('new_variation_board', {
+      pgn: pgnMoves,
+      boardID: variationBoard.id
+    });
+  });
 });
+
+
+
+
+
+
+
+

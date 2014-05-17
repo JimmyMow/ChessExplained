@@ -7,7 +7,7 @@
         <ul class="board-feature-links">
           <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
           <% unless @not_review %>
-            <!-- <li class='new-variation'><%#= link_to "Test a variation", "#" %></li> -->
+            <li class='new-variation'><%= link_to "Test a variation", "#" %></li>
             <%= render 'variation_button_modal' %>
           <% end %>
         </ul>
@@ -46,6 +46,15 @@
     <%= link_to "Submit", "#", id: "noteSubmit" %>
 
     <ul class="notes-list"></ul>
+  </aside>
+</div>
+
+
+<div class="variation-container">
+  <aside class="review-container">
+    <div id="variation" style="width: 400px;">
+      <div class='game-board'></div>
+    </div>
   </aside>
 </div>
 

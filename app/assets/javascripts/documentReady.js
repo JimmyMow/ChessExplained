@@ -35,19 +35,20 @@ if (MyChess.config.isGame) {
       masterBoard.updateStatus();
 
       if(MyChess.config.isReview) {
-        // var moveCount = window.location.hash.split('#').pop();
+        var moveCount = window.location.hash.split('#').pop();
 
-        // var movesBeforeMoveCount = data.slice(0, moveCount);
-        // var stringNot = "";
+        var movesBeforeMoveCount = data.slice(0, moveCount);
+        var stringNot = "";
 
-        // movesBeforeMoveCount.forEach(function(item) {
-        //   stringNot += (item['notation'] + " ");
-        // });
+        movesBeforeMoveCount.forEach(function(item) {
+          stringNot += (item['notation'] + " ");
+        });
 
 
-        // var engine = new Chess();
-        // engine.load_pgn(stringNot);
-        // masterBoard.positionUI({position: engine.fen()});
+        var engine = new Chess();
+        engine.load_pgn(stringNot);
+        masterBoard.positionUI({position: engine.fen()});
+        masterBoard.moveCounter = moveCount;
       } else {
         masterBoard.positionBoard({position: moves});
       }
@@ -138,4 +139,8 @@ if (MyChess.config.isGame) {
       databaseGameID: masterBoard.gameId
     });
   });
+
+  // $('.square-55d63').on('click', function() {
+  //   $(this).toggleClass('highlight');
+  // });
 });

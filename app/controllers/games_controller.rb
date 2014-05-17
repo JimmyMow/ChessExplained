@@ -34,18 +34,12 @@ class GamesController < ApplicationController
     @game.user_id = current_user.id
 
     respond_to do |format|
-      if @game.save
-
-        if params[:upload]
-          JSON.parse(params[:parsed_notation]).each do |move|
-            Move.create(notation: move, game_id: @game.id)
-          end
-          format.html { redirect_to review_game_url(@game.id), notice: 'Game was successfully created.' }
-        else
-          format.html { redirect_to @game, notice: 'Game was successfully created.' }
-          format.json { render action: 'show', status: :created, location: @game }
-        end
-
+      if @game.save && params[:upload]
+        @game.create_moves_with_parsed_notation(params[:parsed_notation])
+        format.html { redirect_to review_game_url(@game.id), notice: 'Game was successfully created.' }
+      elsif @game.save
+        format.html { redirect_to @game, notice: 'Game was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @game }
       else
         format.html { render action: 'new' }
         format.json { render json: @game.errors, status: :unprocessable_entity }

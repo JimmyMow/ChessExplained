@@ -283,6 +283,7 @@ MyChess.setupBoard = (function() {
     e.preventDefault();
 
     if (this.moveCounter > 0) {
+      window.location.hash = "#" + this.moveCounter;
 
       this.moveCounter--;
 
@@ -308,9 +309,8 @@ MyChess.setupBoard = (function() {
     e.preventDefault();
 
     if (this.moveCounter < this.game.history().length) {
-      window.location.hash = "#" + this.moveCounter;
-
       this.moveCounter++;
+      window.location.hash = "#" + this.moveCounter;
 
       var moves = this.game.history().slice(0, this.moveCounter);
       moves = moves.join(' ');
@@ -332,6 +332,7 @@ MyChess.setupBoard = (function() {
   Board.prototype.jumpToBeg = function(e) {
    e.preventDefault();
     this.moveCounter = 0;
+    window.location.hash = "#" + this.moveCounter;
 
     var moves = this.game.history().slice(0, this.moveCounter);
     moves = moves.join(' ');
@@ -352,6 +353,7 @@ MyChess.setupBoard = (function() {
     Board.prototype.jumpToEnd = function(e) {
       this.moveCounter = this.game.history().length;
       e.preventDefault();
+      window.location.hash = "#" + this.moveCounter;
 
       var moves = this.game.history().slice(0, this.moveCounter);
       moves = moves.join(' ');
@@ -377,9 +379,11 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.showNotes = function(data) {
     $('.notes-list').empty();
-    data['notes'].forEach(function(item) {
-      $('.notes-list').append("<li>" + item + "</li>");
-    });
+    if(data['notes']) {
+      data['notes'].forEach(function(item) {
+        $('.notes-list').append("<li>" + item + "</li>");
+      });
+    }
   }
 
   return Board;

@@ -34,10 +34,22 @@ if (MyChess.config.isGame) {
       masterBoard.game.load_pgn(moves);
       masterBoard.updateStatus();
 
-      if(!MyChess.config.isReview) {
-        masterBoard.positionBoard({position: moves});
+      if(MyChess.config.isReview) {
+        // var moveCount = window.location.hash.split('#').pop();
+
+        // var movesBeforeMoveCount = data.slice(0, moveCount);
+        // var stringNot = "";
+
+        // movesBeforeMoveCount.forEach(function(item) {
+        //   stringNot += (item['notation'] + " ");
+        // });
+
+
+        // var engine = new Chess();
+        // engine.load_pgn(stringNot);
+        // masterBoard.positionUI({position: engine.fen()});
       } else {
-        // var moveCount = window.location.hash.split('').pop();
+        masterBoard.positionBoard({position: moves});
       }
     }
   });

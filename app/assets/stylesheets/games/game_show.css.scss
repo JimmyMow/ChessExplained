@@ -1,110 +1,79 @@
 .container {
-  padding-top: 10px;
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+
   .game-container {
-    &:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
+    width: 45%;
+    margin: 0 2.5%;
+    float: left;
     .actual-board-container {
-      width: 50%;
-      float: left;
       margin: 0 auto;
-      text-align: center;
-      position: relative;
 
       .board-feature-links {
         li {
           display: inline-block;
-          margin: 10px 5px;
-        }
-
+          margin: 10px 0;
+          } // li
         .flip-orientation {
-          float: left;
+          margin: 10px 0;
           a {
-            @include designer-normal-link(black)
+            @include designer-normal-link(black);
           }
-        }
+        } // flip-orientation
 
         .new-variation {
           float: right;
-          margin-top: 3px;
-          // .variation-button {
-          //   background-color: white;
-          //   color: green;
-          //   width: 50%;
-          //   height: 40px;
-          //   font-size: 10px;
-          //   line-height: 0;
-          //   font-weight: 0;
-          // }
-
-          .variation-morph {
-            text-align: right;
+          a {
+            @include designer-normal-link(green);
           }
-        }
-      }
-    }
+        } // new-variation
+      } // board-feature-links
 
-    .game-navigation {
-      text-align: center;
-      margin: 10px 0;
-      li {
-        display: inline-block;
-        padding: 2px 5px;
-
-        a {
-          margin: 0 10px;
-          color: $concrete;
-          @include hover-transition-all;
-
-          &:hover {
-            color: black;
-          }
-        }
-      }
-      .move-backwards {
-        a {
-          @include designer-normal-link(black)
-        }
-      }
-    }
-    .board-features {
-      width: 25%;
-      float: left;
-      background-color: white;
-      overflow-y: scroll;
-
-      h1 {
-        font-size: $subhead;
+      .game-navigation {
         text-align: center;
-      }
-      .board-status {
-        text-align: center;
-      }
-      .pgn-conatiner {
-        ul {
-          padding: 5px;
-          li {
-            margin: 15px;
-            border-bottom: 1px solid #ccc;
-            span {
-              padding: 5px 15px;
+        li {
+          display: inline-block;
+          padding: 2% 5%;
+
+          a {
+            @include hover-transition-all;
+            color: #ccc;
+
+            &:hover {
+              color: black;
             }
-          } // li
-        } // ul
-      } // pgn-container
-    } // board-features
-    .notes {
-      text-align: center;
-      width: 25%;
-      float: left;
-    }
-  }
-} // Main container
+          }
+        } // li
+      } // game-navigation
+    } // actual-board-container
+  } // game-container
 
+  .notes {
+    width: 45%;
+    float: left;
+    margin: 2% 2.5%;
+    overflow-y: scroll;
+    @extend %group;
+
+    ul {
+      li {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+
+    .note-form {
+      text-align: center;
+      input[type=text] {
+        width: 50%;
+        border: 1px solid black;
+
+        outline: 0;
+
+        &:focus {
+          color: red;
+          border: 1px solid red;
+          padding: 0 1px;
+        }
+      }
+    }
+  } //notes
+} //container

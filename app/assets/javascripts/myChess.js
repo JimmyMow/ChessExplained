@@ -287,9 +287,8 @@ MyChess.setupBoard = (function() {
     e.preventDefault();
 
     if (this.moveCounter > 0) {
-      window.location.hash = "#" + this.moveCounter;
-
       this.moveCounter--;
+      window.location.hash = "#" + this.moveCounter;
 
       var moves = this.game.history().slice(0, this.moveCounter);
       moves = moves.join(' ');
@@ -385,7 +384,7 @@ MyChess.setupBoard = (function() {
     $('.notes-list').empty();
     if(data['notes']) {
       data['notes'].forEach(function(item) {
-        $('.notes-list').append("<li>" + item + "</li>");
+        $('.notes-list').prepend("<li>" + item + "</li>");
       });
     }
   }

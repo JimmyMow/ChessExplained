@@ -1,7 +1,15 @@
 body {
-  background-color: $basecamp_background;
+  // background-color: $basecamp_background;
   font-size: 18px;
   font-family: 'Raleway', sans-serif;
+}
+
+%group {
+    &:after {
+        display: table;
+        clear: both;
+        content: "";
+    }
 }
 
 @mixin hover-transition-all {

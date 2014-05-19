@@ -23,6 +23,7 @@ if (MyChess.config.isGame) {
 
   var boardHeight = $('.game-board').height();
   $('.board-features').css({"height": boardHeight});
+  $('.notes').css({"max-height": boardHeight});
 
   //Getting any saved moves
   $.getJSON( "/games/" + MyChess.config.gameId +".json", function( data ) {
@@ -56,6 +57,13 @@ if (MyChess.config.isGame) {
         variationBoard.positionBoard({
           position: engine.pgn()
         });
+
+        notesArray = [];
+        data[moveCount - 1]['notes'].forEach(function(item) {
+          notesArray.push(item['content']);
+        });
+        masterBoard.showNotes({notes: notesArray});
+
       } else {
         masterBoard.positionBoard({position: moves});
       }
@@ -63,7 +71,7 @@ if (MyChess.config.isGame) {
   });
 
   $("#submitPgn").on('submit', function() {
-    var pgn = $('textarea').val();
+    var pgn = $('input[type=text]').val();
     masterBoard.game.load_pgn(pgn);
     masterBoard.dispatcher.trigger('load_pgn', {
       position: window.masterBoard.game.history(),
@@ -111,9 +119,9 @@ if (MyChess.config.isGame) {
 
   $('#noteSubmit').on('click', function(e) {
     e.preventDefault();
-    var noteText = $(this).siblings('textarea').val();
-    $(this).siblings('textarea').val("");
-    $('.notes-list').append("<li>" + noteText + "</li>");
+    var noteText = $(this).siblings('input[type=text]').val();
+    $(this).siblings('input[type=text]').val("");
+    $('.notes-list').prepend("<li>" + noteText + "</li>");
 
     masterBoard.dispatcher.trigger('write_note', {
       note: noteText,

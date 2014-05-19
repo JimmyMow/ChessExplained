@@ -1,56 +1,57 @@
 <div class="container">
     <div id="master" class="game-container">
-
       <div class="actual-board-container">
-          <div class='game-board'></div>
-
         <ul class="board-feature-links">
           <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
           <% unless @not_review %>
             <li class='new-variation'><%= link_to "Test a variation", "#" %></li>
-            <%#= render 'variation_button_modal' %>
+          <% end %>
+        </ul>
+        <div class='game-board'></div>
+        <ul class="game-navigation">
+          <% if @not_review %>
+            <li class='move-backwards'><%= link_to "Undo move", "#" %></li>
+          <% else %>
+            <li class='beg'><%= link_to "<i class=\"fa fa-step-backward fa-3x\"></i>".html_safe, "#" %></li>
+            <li class='rewind'><%= link_to "<i class=\"fa fa-angle-left fa-3x\"></i>".html_safe, "#" %></li>
+            <li class='fast-forward'><%= link_to "<i class=\"fa fa-angle-right fa-3x\"></i>".html_safe, "#" %></li>
+            <li class='end'><%= link_to "<i class=\"fa fa-step-forward fa-3x\"></i>".html_safe, "#" %></li>
           <% end %>
         </ul>
       </div> <!-- actual-board-container -->
 
-      <ul class="users"></ul>
-
-    <aside class="board-features">
-      <h1><%= game.title %></h1>
-
-      <ul class="game-navigation">
-        <% if @not_review %>
-          <li class='move-backwards'><%= link_to "Undo move", "#" %></li>
-        <% else %>
-          <li class='beg'><%= link_to "<i class=\"fa fa-step-backward fa-3x\"></i>".html_safe, "#" %></li>
-          <li class='rewind'><%= link_to "<i class=\"fa fa-angle-left fa-3x\"></i>".html_safe, "#" %></li>
-          <li class='fast-forward'><%= link_to "<i class=\"fa fa-angle-right fa-3x\"></i>".html_safe, "#" %></li>
-          <li class='end'><%= link_to "<i class=\"fa fa-step-forward fa-3x\"></i>".html_safe, "#" %></li>
-        <% end %>
-      </ul>
-
-      <div class='pgn-conatiner'>
-        <ul id="pgn-master"></ul>
-      </div> <!-- pgn-container -->
 
       <% if @not_review %>
         <%= button_to review_game_url(game.id), method: 'get', class: 'spinner ladda-button', data: {style: "expand-right", color: "mint"} do %>
           <span class="ladda-label">Submit</span>
         <% end %>
       <% end %>
-      </aside>
     </div> <!-- master -->
-    <div class="variation-container">
-      <aside class="review-container">
-        <div id="variation" style="width: 400px;">
-          <div class='game-board'></div>
-        </div>
-      </aside>
-    </div>
+
+
   <aside class="notes">
-    <textarea></textarea>
-    <%= link_to "Submit", "#", id: "noteSubmit" %>
+    <div class="note-form">
+      <input type='text'>
+      <%= link_to "Submit", "#", id: "noteSubmit" %>
+    </div>
 
     <ul class="notes-list"></ul>
   </aside>
+
+  <div class="variation-container">
+    <aside class="review-container">
+      <div id="variation" style="width: 400px;">
+        <div class='game-board'></div>
+      </div>
+    </aside>
+  </div>
+
 </div>
+
+
+
+
+
+<!-- <div class='pgn-conatiner'>
+  <ul id="pgn-master"></ul>
+</div> <!-- pgn-container -->

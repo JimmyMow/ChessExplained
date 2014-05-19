@@ -91,31 +91,6 @@ if (MyChess.config.isGame) {
       boardID: variationBoard.id
     });
   });
-
-
-  // window.newVariationBoard = function(position) {
-  //   // $('.morph-button-modal').addClass('open');
-
-  //   var container = $('#variation');
-
-  //   // container.append(
-  //   // "<ul class='game-navigation'>" +
-  //   // "<li class='move-backwards'><a href='#'>Go back</a></li>" +
-  //   // "</ul>"
-  //   // );
-  //   // container.append(
-  //   // "<ul class='board-navigation'>" +
-  //   // "<li class='flip-orientation'><a href='#'>Flip orientation</a></li>" +
-  //   // "</ul>"
-  //   // );
-  //   // container.append("<div class='game-board'></div>");
-  //   // container.append("<div class='pgn-conatiner'><span id='pgn-variation' class='pgn-line'></span></div>");
-  //   // container.append("<p>Status: <span id='status-variation'></span></p>");
-  //   window.variationBoard = new MyChess.setupBoard('variation', MyChess.config.websocketUrl, true, '', 'variation');
-  //   variationBoard.game.load_pgn(position['position']);
-  //   variationBoard.positionBoard(position);
-  // };
-
 } // Views with a board
 
 

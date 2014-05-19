@@ -8,10 +8,10 @@
           <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
           <% unless @not_review %>
             <li class='new-variation'><%= link_to "Test a variation", "#" %></li>
-            <%= render 'variation_button_modal' %>
+            <%#= render 'variation_button_modal' %>
           <% end %>
         </ul>
-      </div>
+      </div> <!-- actual-board-container -->
 
       <ul class="users"></ul>
 
@@ -31,15 +31,21 @@
 
       <div class='pgn-conatiner'>
         <ul id="pgn-master"></ul>
-      </div>
+      </div> <!-- pgn-container -->
 
       <% if @not_review %>
         <%= button_to review_game_url(game.id), method: 'get', class: 'spinner ladda-button', data: {style: "expand-right", color: "mint"} do %>
           <span class="ladda-label">Submit</span>
         <% end %>
       <% end %>
-    </aside>
-
+      </aside>
+    </div> <!-- master -->
+    <div class="variation-container">
+      <aside class="review-container">
+        <div id="variation" style="width: 400px;">
+          <div class='game-board'></div>
+        </div>
+      </aside>
     </div>
   <aside class="notes">
     <textarea></textarea>
@@ -48,15 +54,3 @@
     <ul class="notes-list"></ul>
   </aside>
 </div>
-
-
-<div class="variation-container">
-  <aside class="review-container">
-    <div id="variation" style="width: 400px;">
-      <div class='game-board'></div>
-    </div>
-  </aside>
-</div>
-
-
-

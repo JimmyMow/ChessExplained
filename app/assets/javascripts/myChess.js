@@ -255,7 +255,6 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.newVariationBoard = function (position) {
-    console.log('here');
     variationBoard.game.load_pgn(position['position']);
     variationBoard.positionUI({
       position: variationBoard.game.fen()

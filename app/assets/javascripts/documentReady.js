@@ -15,7 +15,7 @@ $(document).ready(function() {
 if (MyChess.config.isGame) {
   var windowHeight = $(window).height();
   var navHeight = $('.app-nav').height();
-  $('.actual-board-container').css({"width": (windowHeight - 100 - navHeight) + "px"});
+  $('.actual-board-container').css({"width": (windowHeight - 120 - navHeight) + "px"});
 
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
@@ -58,11 +58,13 @@ if (MyChess.config.isGame) {
           position: engine.pgn()
         });
 
-        notesArray = [];
-        data[moveCount - 1]['notes'].forEach(function(item) {
-          notesArray.push(item['content']);
-        });
-        masterBoard.showNotes({notes: notesArray});
+        if (moveCount > 0) {
+          notesArray = [];
+          data[moveCount - 1]['notes'].forEach(function(item) {
+            notesArray.push(item['content']);
+          });
+          masterBoard.showNotes({notes: notesArray});
+        }
 
       } else {
         masterBoard.positionBoard({position: moves});
@@ -81,7 +83,6 @@ if (MyChess.config.isGame) {
 
   $('.new-variation button').on('click', function(e) {
     e.preventDefault();
-
     var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
     moves = moves.join(' ');
 
@@ -120,14 +121,17 @@ if (MyChess.config.isGame) {
   $('#noteSubmit').on('click', function(e) {
     e.preventDefault();
     var noteText = $(this).siblings('input[type=text]').val();
-    $(this).siblings('input[type=text]').val("");
-    $('.notes-list').prepend("<li>" + noteText + "</li>");
 
-    masterBoard.dispatcher.trigger('write_note', {
-      note: noteText,
-      moveNumber: masterBoard.moveCounter,
-      databaseGameID: masterBoard.gameId
-    });
+    var chess = new Chess();
+    chess.load_pgn(noteText);
+    // $(this).siblings('input[type=text]').val("");
+    // $('.notes-list').prepend("<li>" + noteText + "</li>");
+
+    // masterBoard.dispatcher.trigger('write_note', {
+    //   note: noteText,
+    //   moveNumber: masterBoard.moveCounter,
+    //   databaseGameID: masterBoard.gameId
+    // });
   });
 
   // $('.square-55d63').on('click', function() {
@@ -136,6 +140,7 @@ if (MyChess.config.isGame) {
 
   $('.new-variation a').on('click', function(e) {
     e.preventDefault();
+    $('.variation-container').addClass('clicked');
 
     var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
     var pgnMoves = moves.join(' ');

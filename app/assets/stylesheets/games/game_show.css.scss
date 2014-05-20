@@ -76,4 +76,8 @@
       }
     }
   } //notes
+
+  .master-notes-container {
+    @extend %group;
+  } // master-notes-container
 } //container

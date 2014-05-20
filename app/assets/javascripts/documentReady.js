@@ -1,6 +1,11 @@
 $(document).ready(function() {
   $('.hide').hide();
 
+  $("#trigger_id").leanModal({overlay: 0.8});
+  $('#lean_overlay').click(function() {
+    $('.review-container').removeClass('clicked');
+  });
+
   $("#uploadPgn").submit(function(e) {
     var original_pgn = $('textarea').val();
     var chess = new Chess();
@@ -23,7 +28,7 @@ if (MyChess.config.isGame) {
 
   var boardHeight = $('.game-board').height();
   $('.board-features').css({"height": boardHeight});
-  $('.notes').css({"max-height": boardHeight});
+  $('.notes').css({"height": boardHeight});
 
   //Getting any saved moves
   $.getJSON( "/games/" + MyChess.config.gameId +".json", function( data ) {
@@ -122,25 +127,24 @@ if (MyChess.config.isGame) {
     e.preventDefault();
     var noteText = $(this).siblings('input[type=text]').val();
 
-    var chess = new Chess();
-    chess.load_pgn(noteText);
-    // $(this).siblings('input[type=text]').val("");
-    // $('.notes-list').prepend("<li>" + noteText + "</li>");
-
-    // masterBoard.dispatcher.trigger('write_note', {
-    //   note: noteText,
-    //   moveNumber: masterBoard.moveCounter,
-    //   databaseGameID: masterBoard.gameId
-    // });
+    $(this).siblings('input[type=text]').val("");
+    $('.notes-list').prepend("<li class='note'>" + noteText + "</li>");
+    masterBoard.dispatcher.trigger('write_note', {
+      note: noteText,
+      moveNumber: masterBoard.moveCounter,
+      databaseGameID: masterBoard.gameId
+    });
   });
 
   // $('.square-55d63').on('click', function() {
   //   $(this).toggleClass('highlight');
   // });
 
+
   $('.new-variation a').on('click', function(e) {
     e.preventDefault();
-    $('.variation-container').addClass('clicked');
+
+    $('.review-container').addClass('clicked');
 
     var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
     var pgnMoves = moves.join(' ');

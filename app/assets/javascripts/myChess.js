@@ -383,7 +383,7 @@ MyChess.setupBoard = (function() {
     $('.notes-list').empty();
     if(data['notes']) {
       data['notes'].forEach(function(item) {
-        $('.notes-list').prepend("<li>" + item + "</li>");
+        $('.notes-list').prepend("<li class='note'>" + item + "</li>");
       });
     }
   }

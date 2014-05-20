@@ -5,7 +5,7 @@
         <ul class="board-feature-links">
           <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
           <% unless @not_review %>
-            <li class='new-variation'><%= link_to "Test a variation", "#" %></li>
+            <li class='new-variation'><%= link_to "Test a variation", "#", id: "trigger_id" %></li>
           <% end %>
         </ul>
         <div class='game-board'></div>
@@ -29,24 +29,25 @@
       <% end %>
     </div> <!-- master -->
 
+    <section class="notes" id="notesSection">
+      <div class="note-form">
+        <input type='text'>
+        <%= link_to "Submit", "#", id: "noteSubmit" %>
+      </div>
+      <ul class="notes-list"></ul>
+    </section>
 
-  <aside class="notes">
-    <div class="note-form">
-      <input type='text'>
-      <%= link_to "Submit", "#", id: "noteSubmit" %>
-    </div>
-
-    <ul class="notes-list"></ul>
-  </aside>
 </div>
 
   <div class="variation-container">
     <aside class="review-container">
+      <h2>Variation</h2>
       <div id="variation">
-        <div class='game-board'></div>
+        <div class='game-board' style="width: 600px;"></div>
       </div>
     </aside>
   </div>
+
 
 </div>
 

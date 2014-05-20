@@ -1,7 +1,7 @@
 .container {
 
   .game-container {
-    width: 45%;
+    width: 55%;
     margin: 0 2.5%;
     float: left;
     .actual-board-container {
@@ -47,37 +47,68 @@
   } // game-container
 
   .notes {
-    width: 45%;
+    width: 35%;
     float: left;
     margin: 2% 2.5%;
-    overflow-y: scroll;
+    overflow-y: auto;
     @extend %group;
+      .notes-list {
+        .note {
+          padding: 10px;
+          border-bottom: 1px solid #ccc;
+        } // note
+      } // note-list
 
-    ul {
-      li {
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
-      }
-    }
+      .note-form {
+        text-align: center;
+        input[type=text] {
+          width: 50%;
+          border: 1px solid black;
 
-    .note-form {
-      text-align: center;
-      input[type=text] {
-        width: 50%;
-        border: 1px solid black;
+          outline: 0;
 
-        outline: 0;
-
-        &:focus {
-          color: red;
-          border: 1px solid red;
-          padding: 0 1px;
-        }
-      }
-    }
-  } //notes
+          &:focus {
+            color: red;
+            border: 1px solid red;
+            padding: 0 1px;
+          } //focus
+        } //input
+      } //note-form
+    } // notes
 
   .master-notes-container {
     @extend %group;
   } // master-notes-container
 } //container
+
+.review-container {
+  display: none;
+
+  &.clicked {
+    display: block;
+    position: absolute;
+    top: 5%;
+    left: 20%;
+    z-index: 101;
+  }
+
+  h2 {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+}
+
+

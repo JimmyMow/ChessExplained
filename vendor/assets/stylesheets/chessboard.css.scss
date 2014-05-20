@@ -49,3 +49,12 @@
     top: 2px;
     left: 2px;
 }
+
+#variation {
+    .game-board {
+        img {
+            z-index: 1001;
+            position: relative;
+        }
+    }
+}

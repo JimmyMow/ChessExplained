@@ -6,7 +6,6 @@
   <%= csrf_meta_tags %>
   <script>
     var MyChess = {};
-    <% if  %>
     MyChess.config = {
       websocketUrl: "<%= request.host %>:<%= request.port %>/websocket" || "chess-explained.herokuapp.com/websocket",
       isGame: <%= current_page?(game_url(params[:id] || 1)) %> || <%= current_page?(review_game_url(params[:id] || 1)) %>,

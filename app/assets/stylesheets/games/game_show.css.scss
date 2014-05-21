@@ -84,14 +84,6 @@
 .review-container {
   display: none;
 
-  &.clicked {
-    display: block;
-    position: absolute;
-    top: 5%;
-    left: 20%;
-    z-index: 101;
-  }
-
   h2 {
     color: white;
     font-size: 26px;
@@ -99,16 +91,3 @@
     text-transform: uppercase;
   }
 }
-
-#lean_overlay {
-    position: fixed;
-    z-index:100;
-    top: 0px;
-    left: 0px;
-    height:100%;
-    width:100%;
-    background: #000;
-    display: none;
-}
-
-

@@ -255,6 +255,17 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.newVariationBoard = function (position) {
+    // $('.review-container').addClass('clicked');
+    $('.review-container').modal({
+      // overlayClose: true
+    });
+
+    $("#simplemodal-overlay").on("click", function() {
+      masterBoard.dispatcher.trigger('close_variation', {
+        boardID: variationBoard.id
+      });
+    });
+
     variationBoard.game.load_pgn(position['position']);
     variationBoard.positionUI({
       position: variationBoard.game.fen()
@@ -262,16 +273,7 @@ MyChess.setupBoard = (function() {
   }
 
   Board.prototype.closeVariation = function () {
-    var container = $('.variation-container');
-
-    container.empty();
-    container.append(
-      "<aside class='review-container'>" +
-        "<div id='variation'></div>" +
-       "</aside>"
-    );
-
-    $('.morph-button-modal').removeClass('open');
+    $.modal.close();
   }
 
   Board.prototype.updateUserList = function(user_list) {

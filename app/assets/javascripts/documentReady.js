@@ -1,11 +1,6 @@
 $(document).ready(function() {
   $('.hide').hide();
 
-  $("#trigger_id").leanModal({overlay: 0.8});
-  $('#lean_overlay').click(function() {
-    $('.review-container').removeClass('clicked');
-  });
-
   $("#uploadPgn").submit(function(e) {
     var original_pgn = $('textarea').val();
     var chess = new Chess();
@@ -143,8 +138,6 @@ if (MyChess.config.isGame) {
 
   $('.new-variation a').on('click', function(e) {
     e.preventDefault();
-
-    $('.review-container').addClass('clicked');
 
     var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
     var pgnMoves = moves.join(' ');

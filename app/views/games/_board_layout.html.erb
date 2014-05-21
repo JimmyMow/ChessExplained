@@ -29,14 +29,15 @@
       <% end %>
     </div> <!-- master -->
 
-    <section class="notes" id="notesSection">
-      <div class="note-form">
-        <input type='text'>
-        <%= link_to "Submit", "#", id: "noteSubmit" %>
-      </div>
-      <ul class="notes-list"></ul>
-    </section>
-
+    <% unless @not_review %>
+      <section class="notes" id="notesSection">
+        <div class="note-form">
+          <input type='text'>
+          <%= link_to "Submit", "#", id: "noteSubmit" %>
+        </div>
+        <ul class="notes-list"></ul>
+      </section>
+    <% end %>
 </div>
 
     <aside class="review-container">

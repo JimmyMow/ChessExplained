@@ -1,6 +1,6 @@
 ChessExplained::Application.configure do
-
   # Settings specified here will take precedence over those in config/application.rb.
+  config.static_cache_control = "public, max-age=31536000"
 
   # Code is not reloaded between requests.
   config.cache_classes = true

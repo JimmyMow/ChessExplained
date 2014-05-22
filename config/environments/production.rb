@@ -1,6 +1,4 @@
 ChessExplained::Application.configure do
-  config.static_cache_control = "public, max-age=3600"
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -23,6 +21,7 @@ ChessExplained::Application.configure do
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
   config.serve_static_assets = true
+  config.static_cache_control = "public, max-age=3600"
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier

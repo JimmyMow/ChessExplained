@@ -271,6 +271,8 @@ MyChess.setupBoard = (function() {
   }
 
   Board.prototype.closeVariation = function () {
+    variationBoard.game.clear();
+    variationBoard.game.load(  masterBoard.game.fen()  );
     $.modal.close();
   }
 

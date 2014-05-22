@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
   // GLOBAL CLASSES
   $('.hide').hide();
 
@@ -10,16 +9,16 @@ $(document).ready(function() {
   // GAME/NEW
   uploadPgn();
 
-// Views with a board
+  // Views with a board
   if (MyChess.config.isGame) {
     setUpBoard(windowHeight, navHeight);
     loadingPreviousMovesOrPosition();
     submitManualPlayedGame();
     submitANote();
     newVariationForReviewBoard();
-  } // Views with a board
+  }
 
-
+  // SPINNING BUTTON (***MOVE SOON***)
   Ladda.bind( '.spinner', {
     callback: function( instance ) {
     var progress = 0;

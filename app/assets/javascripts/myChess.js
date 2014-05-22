@@ -377,8 +377,7 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.positionUI = function(position) {
     this.chessboard.position(position['position']);
-
-    this.showNotes({notes: position['notes']});
+    // this.showNotes({notes: position['notes']});
   }
 
   Board.prototype.showNotes = function(data) {

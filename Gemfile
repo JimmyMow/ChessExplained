@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.1.0'
+
 # Devise
 gem 'devise'
 # Web-Sockets
@@ -40,6 +41,10 @@ end
 
 group :production do
   gem 'rails_12factor'
+end
+
+group :development do
+  # gem 'quiet_assets'
 end
 
 # Use ActiveModel has_secure_password

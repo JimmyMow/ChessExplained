@@ -255,8 +255,10 @@ MyChess.setupBoard = (function() {
   Board.prototype.newVariationBoard = function (position) {
     // $('.review-container').addClass('clicked');
     $('.review-container').modal({
-      // overlayClose: true
+
     });
+
+    console.log(position);
 
     $("#simplemodal-overlay").on("click", function() {
       masterBoard.dispatcher.trigger('close_variation', {

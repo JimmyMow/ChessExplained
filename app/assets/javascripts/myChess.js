@@ -274,7 +274,8 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.closeVariation = function () {
     variationBoard.game.clear();
-    variationBoard.game.load(  masterBoard.game.fen()  );
+    variationBoard.chessboard.clear();
+    // variationBoard.game.load(  masterBoard.game.fen()  );
     $.modal.close();
   }
 
@@ -379,7 +380,7 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.positionUI = function(position) {
     this.chessboard.position(position['position']);
-    // this.showNotes({notes: position['notes']});
+    this.showNotes({notes: position['notes']});
   }
 
   Board.prototype.showNotes = function(data) {

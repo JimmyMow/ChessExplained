@@ -84,6 +84,7 @@ MyChess.setupBoard = (function() {
     $("#" + this.id + ' .rewind a').on('click', this.rewind);
     $("#" + this.id + ' .beg a').on('click', this.jumpToBeg);
     $("#" + this.id + ' .end a').on('click', this.jumpToEnd);
+    $("#finishVariation").on('click', this.closeVariation);
   }
 
   Board.prototype.removeGreySquares = function() {
@@ -253,18 +254,7 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.newVariationBoard = function (position) {
-    // $('.review-container').addClass('clicked');
-    $('.review-container').modal({
-
-    });
-
-    console.log(position);
-
-    $("#simplemodal-overlay").on("click", function() {
-      masterBoard.dispatcher.trigger('close_variation', {
-        boardID: variationBoard.id
-      });
-    });
+    $(".review-container").show();
 
     variationBoard.game.load_pgn(position['position']);
     variationBoard.positionUI({
@@ -272,11 +262,17 @@ MyChess.setupBoard = (function() {
     });
   }
 
-  Board.prototype.closeVariation = function () {
+  Board.prototype.closeVariation = function (e) {
+    if (e) {
+      e.preventDefault();
+    }
+
     variationBoard.game.clear();
     variationBoard.chessboard.clear();
+
+    $('.review-container').hide();
     // variationBoard.game.load(  masterBoard.game.fen()  );
-    $.modal.close();
+    // $.modal.close();
   }
 
   Board.prototype.updateUserList = function(user_list) {

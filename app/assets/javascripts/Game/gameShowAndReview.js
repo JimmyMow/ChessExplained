@@ -87,7 +87,6 @@ var submitANote = function() {
 var newVariationForReviewBoard = function() {
   $('.new-variation a').on('click', function(e) {
     e.preventDefault();
-
     var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
     var pgnMoves = moves.join(' ');
 

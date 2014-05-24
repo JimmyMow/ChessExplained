@@ -372,18 +372,26 @@ MyChess.setupBoard = (function() {
   }
 
   Board.prototype.positionUI = function(position) {
-    if(position['direction'] == 'forward') {
+    switch (position['direction']) {
+      case "forward":
       this.moveCounter++;
       window.location.hash = "#" + this.moveCounter;
-    } else if(position['direction'] == 'beg') {
-      this.moveCounter = 0;
-      window.location.hash = "#" + this.moveCounter;
-    } else if(position['direction'] == 'end') {
-      this.moveCounter = this.game.history().length;
-      window.location.hash = "#" + this.moveCounter;
-    } else if(position['direction'] == 'rewind') {
+      break;
+
+      case "rewind":
       this.moveCounter--;
       window.location.hash = "#" + this.moveCounter;
+      break;
+
+      case "beg":
+      this.moveCounter = 0;
+      window.location.hash = "#" + this.moveCounter;
+      break;
+
+      case "end":
+      this.moveCounter = this.game.history().length;
+      window.location.hash = "#" + this.moveCounter;
+      break;
     }
 
     this.chessboard.position(position['position']);

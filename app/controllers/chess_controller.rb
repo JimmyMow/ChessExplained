@@ -19,11 +19,12 @@ class ChessController < WebsocketRails::BaseController
 
   # Methods to dry up code
 
-  def system_move(event, position=nil, boardID=nil, noStatus=false, notes=nil)
+  def system_move(event, position=nil, boardID=nil, noStatus=false, notes=nil, direction=false)
     broadcast_message event, {
       position: position,
       noStatus: noStatus,
-      notes: notes
+      notes: notes,
+      direction: direction
     }, :namespace => boardID
   end
 
@@ -70,7 +71,7 @@ class ChessController < WebsocketRails::BaseController
     notes = move.notes
     notes_array = notes.map { |n| n.content }
 
-    system_move :position_ui, message['fen'], message['boardID'], false, notes_array
+    system_move :position_ui, message['fen'], message['boardID'], false, notes_array, message['direction']
   end
 
   def write_note

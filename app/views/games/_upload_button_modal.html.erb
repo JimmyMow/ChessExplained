@@ -1,0 +1,24 @@
+<div class="mockup-content">
+  <div class="morph-button morph-button-modal morph-button-modal-2 morph-button-fixed">
+  <button type="button">Upload PGN</button>
+    <div class="morph-content">
+      <div>
+        <div class="content-style-form content-style-form-1">
+          <span class="icon icon-close">Close the dialog</span>
+          <h2>Upload PGN</h2>
+
+          <%= form_tag games_url, method: 'post', id: "uploadPgn" do %>
+            <p><label>PGN</label><textarea></textarea></p>
+            <button class="ladda-button spinner" data-style="expand-right" data-spinner-color="white">
+              <span class="ladda-label">Submit</span>
+            </button>
+
+            <%= hidden_field_tag :parsed_notation, '', id: "hiddenParsedNotation" %>
+            <%= hidden_field_tag :upload, value: true %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- morph-button -->
+

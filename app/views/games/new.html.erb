@@ -1,28 +1,30 @@
-<h1>Create a game room</h1>
+<div class="container">
+  <h1>Upload a game</h1>
 
-<%= link_to "Create game manually", games_url, method: 'post' %>
+  <div class="upload-options-container">
+    <section class="manual-upload-section">
+      <h2>Manually upload your game</h2>
+      <p class="explenation">If you do not have digital PGN you can copy/paste, no worries. Click the link below and manually play out the game or variation you'd like to review.</p>
+      <%= link_to "Create a game manually", games_url, method: 'post' %>
+    </section>
 
-<div class="mockup-content">
-  <div class="morph-button morph-button-modal morph-button-modal-2 morph-button-fixed">
-  <button type="button">Upload PGN</button>
-    <div class="morph-content">
-      <div>
-        <div class="content-style-form content-style-form-1">
-          <span class="icon icon-close">Close the dialog</span>
-          <h2>Upload PGN</h2>
+    <section class="digital-upload-section">
+      <h2>Digital upload your game</h2>
+      <p class="explenation">
+        If you have any form of PGN digitally, just copy and paste it into the box below, and we'll take care of it from there.
+      </p>
+      <%#= render 'upload_button_modal' %>
 
-          <%= form_tag games_url, method: 'post', id: "uploadPgn" do %>
-            <p><label>PGN</label><textarea></textarea></p>
-            <button class="ladda-button spinner" data-style="expand-right" data-spinner-color="white">
-              <span class="ladda-label">Submit</span>
-            </button>
+      <%= form_tag games_url, method: 'post', id: "uploadPgn" do %>
+        <p><label>PGN <span>(Use proper notation or else your game may not turn out correctly)</span></label><textarea placeholder="Example: 1. e4 e5 2. Bc4 Nc6 3. Qf3 Nd4 4. Qxf7#"></textarea></p>
+        <button class="ladda-button spinner" data-style="expand-right" data-spinner-color="white">
+          <span class="ladda-label">Submit</span>
+        </button>
 
-            <%= hidden_field_tag :parsed_notation, '', id: "hiddenParsedNotation" %>
-            <%= hidden_field_tag :upload, value: true %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+        <%= hidden_field_tag :parsed_notation, '', id: "hiddenParsedNotation" %>
+        <%= hidden_field_tag :upload, value: true %>
+      <% end %>
+
+    </section>
   </div>
-</div><!-- morph-button -->
-
+</div>

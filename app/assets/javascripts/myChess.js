@@ -50,8 +50,7 @@ MyChess.setupBoard = (function() {
     } else if(MyChess.config.isReview) {
       this.config = {
         draggable: false,
-        position: position || 'start',
-        pieceTheme: "http://chess-explained.s3.amazonaws.com/{piece}.png"
+        position: position || 'start'
       };
     } else {
       this.config = {
@@ -61,8 +60,7 @@ MyChess.setupBoard = (function() {
         onDrop: this.onDrop,
         onMouseoutSquare: this.onMouseoutSquare,
         onMouseoverSquare: this.onMouseoverSquare,
-        onSnapEnd: this.onSnapEnd,
-        pieceTheme: "http://chess-explained.s3.amazonaws.com/{piece}.png"
+        onSnapEnd: this.onSnapEnd
       };
     }
 

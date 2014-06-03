@@ -84,7 +84,6 @@ MyChess.setupBoard = (function() {
     $("#" + this.id + ' .rewind a').on('click', this.rewind);
     $("#" + this.id + ' .beg a').on('click', this.jumpToBeg);
     $("#" + this.id + ' .end a').on('click', this.jumpToEnd);
-    $("#" + this.id + " .finishVariation").on('click', this.closeVariation);
   }
 
   Board.prototype.removeGreySquares = function() {
@@ -254,7 +253,10 @@ MyChess.setupBoard = (function() {
   };
 
   Board.prototype.newVariationBoard = function (position) {
-    $(".review-container").show();
+    $(".review-container").fadeIn();
+    $('.master-notes-container').hide();
+    $('.white-1e1d7').addClass('variation-square-white');
+    $('.black-3c85d').addClass('variation-square-black');
 
     variationBoard.game.load_pgn(position['position']);
     variationBoard.positionUI({
@@ -262,17 +264,13 @@ MyChess.setupBoard = (function() {
     });
   }
 
-  Board.prototype.closeVariation = function (e) {
-    if (e) {
-      e.preventDefault();
-    }
-    $('body').css({"background-color": "red"});
+  Board.prototype.closeVariation = function () {
+    $('.master-notes-container').fadeIn();
+    $(".review-container").hide();
+    $('.white-1e1d7').removeClass('variation-square-white');
+    $('.black-3c85d').removeClass('variation-square-black');
     variationBoard.game.clear();
     variationBoard.chessboard.clear();
-
-    $('.review-container').hide();
-    // variationBoard.game.load(  masterBoard.game.fen()  );
-    // $.modal.close();
   }
 
   Board.prototype.updateUserList = function(user_list) {

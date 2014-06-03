@@ -16,6 +16,7 @@ $(document).ready(function() {
     submitManualPlayedGame();
     submitANote();
     newVariationForReviewBoard();
+    closeVariation();
   }
 
   // SPINNING BUTTON (***MOVE SOON***)

@@ -15,6 +15,16 @@
     font-size: 0;
     padding: 50px;
 
+    :after {
+      // content:"";
+      // position: absolute;
+      // z-index: -1;
+      // top: 0;
+      // bottom: 0;
+      // left: 50%;
+      // border-left: 2px dotted #ff0000;
+    }
+
     section {
       vertical-align: top;
       display: inline-block;
@@ -26,10 +36,12 @@
         font-size: 18px;
         text-align: left;
         padding: 20px 0;
+        line-height: 1.5;
       }
 
       h2 {
         font-size: 20px;
+        font-weight: bold;
       }
 
       label {
@@ -50,7 +62,6 @@
     }
 
     .manual-upload-section {
-        border-right: 1px solid black;
       a {
         text-decoration: none;
         background-color: white;
@@ -60,7 +71,6 @@
     }
 
     .digital-upload-section {
-      border-left: 1px solid black;
 
       button {
         font-size: 24px;

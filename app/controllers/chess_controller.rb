@@ -53,7 +53,6 @@ class ChessController < WebsocketRails::BaseController
 
   def close_variation
     system_move :close_variation, '', message[:boardID]
-    puts 'here'
   end
 
   def load_pgn

@@ -1,4 +1,5 @@
 var setUpBoard = function(windowHeight, navHeight) {
+  $('.review-container').hide();
   $('.actual-board-container').css({"width": (windowHeight - 120 - navHeight) + "px"});
 
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
@@ -92,6 +93,16 @@ var newVariationForReviewBoard = function() {
 
     masterBoard.dispatcher.trigger('new_variation_board', {
       pgn: pgnMoves,
+      boardID: variationBoard.id
+    });
+  });
+};
+
+var closeVariation = function() {
+  $('.finishVariation').on('click', function(e) {
+    e.preventDefault();
+
+    masterBoard.dispatcher.trigger('close_variation', {
       boardID: variationBoard.id
     });
   });

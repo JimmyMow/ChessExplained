@@ -284,8 +284,12 @@ MyChess.setupBoard = (function() {
   Board.prototype.rewind = function(e) {
     e.preventDefault();
 
-    if (this.moveCounter > 0) {
+    if (this.moveCounter > 0 || this.id == 'variation' ) {
+      if(this.id == 'variation') {
+        var moves = this.game.history().slice(0, this.game.history().length - 1);
+      } else {
       var moves = this.game.history().slice(0, this.moveCounter - 1);
+      }
       moves = moves.join(' ');
 
       var chessEngine = new Chess();
@@ -293,14 +297,24 @@ MyChess.setupBoard = (function() {
       chessEngine.load_pgn(moves);
       var fen = chessEngine.fen();
 
-      this.dispatcher.trigger('position_ui', {
-        fen: fen,
-        boardID: this.id,
-        databaseGameID: this.gameId,
-        moveNumber: this.moveCounter,
-        direction: "rewind"
-      });
 
+       if(this.id == 'variation') {
+          this.dispatcher.trigger('position_ui', {
+            fen: fen,
+            boardID: this.id,
+            databaseGameID: this.gameId,
+            moveNumber: this.moveCounter,
+            direction: "variation_rewind"
+          });
+        } else {
+          this.dispatcher.trigger('position_ui', {
+            fen: fen,
+            boardID: this.id,
+            databaseGameID: this.gameId,
+            moveNumber: this.moveCounter,
+            direction: "rewind"
+          });
+        }
     }
   }
 
@@ -389,6 +403,13 @@ MyChess.setupBoard = (function() {
       case "end":
       this.moveCounter = this.game.history().length;
       window.location.hash = "#" + this.moveCounter;
+      break;
+
+      case "variation_rewind":
+      this.game.undo();
+      break;
+
+      default:
       break;
     }
 

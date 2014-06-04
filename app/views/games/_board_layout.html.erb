@@ -30,19 +30,20 @@
     </div> <!-- master -->
 
     <% unless @not_review %>
-      <section class="notes" id="notesSection">
+      <!-- <section class="notes" id="notesSection">
         <div class="note-form">
           <input type='text'>
-          <%= link_to "Submit", "#", id: "noteSubmit" %>
+          <%#= link_to "Submit", "#", id: "noteSubmit" %>
         </div>
         <ul class="notes-list"></ul>
-      </section>
+      </section> -->
     <% end %>
 </div>
 
     <aside class="review-container">
       <div id="variation">
         <%= link_to "Done with this variation", "#", class: "finishVariation" %>
+        <span class='rewind'><%= link_to "Undo last move", "#" %></span>
         <div class='game-board' style="width: 600px;"></div>
       </div>
     </aside>

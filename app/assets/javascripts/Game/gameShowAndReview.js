@@ -1,6 +1,6 @@
 var setUpBoard = function(windowHeight, navHeight) {
   $('.review-container').hide();
-  $('.actual-board-container').css({"width": (windowHeight - 220 - navHeight) + "px"});
+  $('.actual-board-container').css({"width": (windowHeight - 120 - navHeight) + "px"});
 
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
@@ -151,11 +151,11 @@ var openTokVideoStream = function() {
   var session = OT.initSession(apiKey, sessionId);
 
   session.on("streamCreated", function(event) {
-    session.subscribe(event.stream);
+    session.subscribe(event.stream, "guestPublisher");
   });
 
   session.connect(token, function(error) {
-    var publisher = OT.initPublisher("videoPublisher");
+    var publisher = OT.initPublisher("youPublisher");
     session.publish(publisher);
   });
 };

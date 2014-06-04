@@ -1,3 +1,4 @@
+require 'opentok'
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy, :review]
 
@@ -15,7 +16,11 @@ class GamesController < ApplicationController
 
   # Review game
   def review
+    @room = @game.room
 
+    config_opentok
+
+    @tok_token = @opentok.generate_token @room.sessionId
   end
 
   # GET /games/new
@@ -37,9 +42,15 @@ class GamesController < ApplicationController
       if @game.save && params[:upload]
         @game.create_moves_with_parsed_notation(params[:parsed_notation])
         format.html { redirect_to review_game_url(@game.id), notice: 'Game was successfully created.' }
+
+        config_opentok
+        Room.create(sessionId: @opentok.create_session.session_id, game_id: @game.id)
       elsif @game.save
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
         format.json { render action: 'show', status: :created, location: @game }
+
+        config_opentok
+        Room.create(sessionId: @opentok.create_session, game_id: @game.id)
       else
         format.html { render action: 'new' }
         format.json { render json: @game.errors, status: :unprocessable_entity }
@@ -72,6 +83,13 @@ class GamesController < ApplicationController
   # end
 
   private
+
+    # Opentok configuration
+    def config_opentok
+      if @opentok.nil?
+        @opentok = OpenTok::OpenTok.new 44827272, 'fb27ffafec7f84cfcd2da58bcf6b3565b204b6d0'
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])

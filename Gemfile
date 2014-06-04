@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.1.0'
 
+# Opentok
+gem "opentok", "~> 2.2"
 # Devise
 gem 'devise'
 # Web-Sockets

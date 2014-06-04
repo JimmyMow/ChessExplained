@@ -1,1 +1,8 @@
 <%= render 'board_layout', game: @game %>
+
+<%= content_for :head do %>
+  <script type="text/javascript">
+    var sessionId = "<%= @room.sessionId %>";
+    var token = "<%= @tok_token %>";
+  </script>
+<% end %>

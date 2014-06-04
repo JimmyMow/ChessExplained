@@ -17,6 +17,8 @@ $(document).ready(function() {
     submitANote();
     newVariationForReviewBoard();
     closeVariation();
+    openTokConfiguration();
+    openTokVideoStream();
   }
 
   // SPINNING BUTTON (***MOVE SOON***)

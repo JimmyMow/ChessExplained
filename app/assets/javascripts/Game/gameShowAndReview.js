@@ -155,7 +155,7 @@ var openTokVideoStream = function() {
   });
 
   session.connect(token, function(error) {
-    var publisher = OT.initPublisher();
+    var publisher = OT.initPublisher("videoPublisher");
     session.publish(publisher);
   });
 };

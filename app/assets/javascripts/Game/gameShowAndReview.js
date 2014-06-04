@@ -1,6 +1,6 @@
 var setUpBoard = function(windowHeight, navHeight) {
   $('.review-container').hide();
-  $('.actual-board-container').css({"width": (windowHeight - 120 - navHeight) + "px"});
+  $('.actual-board-container').css({"width": (windowHeight - 220 - navHeight) + "px"});
 
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);

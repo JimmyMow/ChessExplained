@@ -254,7 +254,7 @@ MyChess.setupBoard = (function() {
 
   Board.prototype.newVariationBoard = function (position) {
     $(".review-container").fadeIn();
-    $('.master-notes-container').hide();
+    $('#master').hide();
     $('.white-1e1d7').addClass('variation-square-white');
     $('.black-3c85d').addClass('variation-square-black');
 
@@ -265,7 +265,7 @@ MyChess.setupBoard = (function() {
   }
 
   Board.prototype.closeVariation = function () {
-    $('.master-notes-container').fadeIn();
+    $('#master').fadeIn();
     $(".review-container").hide();
     $('.white-1e1d7').removeClass('variation-square-white');
     $('.black-3c85d').removeClass('variation-square-black');

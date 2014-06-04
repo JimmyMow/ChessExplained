@@ -35,6 +35,7 @@
 
           a {
             @include hover-transition-all;
+            font-size: 16px;
             color: #ccc;
 
             &:hover {

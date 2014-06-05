@@ -13,10 +13,9 @@
       <p class="explenation">
         If you have any form of PGN digitally, just copy and paste it into the box below, and we'll take care of it from there.
       </p>
-      <%#= render 'upload_button_modal' %>
 
       <%= form_tag games_url, method: 'post', id: "uploadPgn" do %>
-        <p><label>PGN <span>(Use proper notation or else your game may not turn out correctly)</span></label><textarea placeholder="Example: 1. e4 e5 2. Bc4 Nc6 3. Qf3 Nd4 4. Qxf7#"></textarea></p>
+        <p><label>PGN <span>(Notes inside of the PGN will not work)</span></label><textarea placeholder="Example: 1. e4 e5 2. Bc4 Nc6 3. Qf3 Nd4 4. Qxf7#"></textarea></p>
         <button class="ladda-button spinner" data-style="expand-right" data-spinner-color="white">
           <span class="ladda-label">Submit</span>
         </button>

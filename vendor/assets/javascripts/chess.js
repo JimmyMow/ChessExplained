@@ -1337,10 +1337,16 @@ var Chess = function(fen) {
       */
       function move_from_san(move) {
         var moves = generate_moves();
+
         for (var i = 0, len = moves.length; i < len; i++) {
           /* strip off any trailing move decorations: e.g Nf3+?! */
+
           if (move.replace(/[+#?!=]+$/,'') ==
               move_to_san(moves[i]).replace(/[+#?!=]+$/,'')) {
+            return moves[i];
+          } else if(  [move.slice(0, 1), 'x', move.slice(1)].join('') === move_to_san(moves[i]).replace(/[+#?!=]+$/,'')  ) {
+            return moves[i];
+          } else if(  [move.slice(0, 2), 'x', move.slice(2)].join('') === move_to_san(moves[i]).replace(/[+#?!=]+$/,'') ) {
             return moves[i];
           }
         }
@@ -1421,10 +1427,11 @@ var Chess = function(fen) {
 
       for (var half_move = 0; half_move < moves.length - 1; half_move++) {
         move = get_move_obj(moves[half_move]);
-
+        //JMOW
         /* move not possible! (don't clear the board to examine to show the
          * latest valid position)
          */
+
         if (move == null) {
           return false;
         } else {
@@ -1481,6 +1488,9 @@ var Chess = function(fen) {
           if (move === move_to_san(moves[i])) {
             move_obj = moves[i];
             break;
+          } else if(  [move.slice(0, 1), 'x', move.slice(1)].join('') === move_to_san(moves[i]) ) {
+            move_obj = moves[i];
+            break;
           }
         }
       } else if (typeof move === 'object') {
@@ -1495,11 +1505,6 @@ var Chess = function(fen) {
           }
         }
       }
-
-      // if (move === "Bxf7") {
-      //   // console.log("ABOUT TO ERROR");
-      //   // console.log(move_obj);
-      // }
 
       /* failed to find move */
       if (!move_obj) {

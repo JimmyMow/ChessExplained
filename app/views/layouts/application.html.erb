@@ -5,7 +5,9 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
   <%= yield :head %>
-  <script src='http://static.opentok.com/webrtc/v2.2/js/opentok.min.js'></script>
+  <% if current_page?(review_game_url(params[:id] || 1)) %>
+    <script src='http://static.opentok.com/webrtc/v2.2/js/opentok.min.js'></script>
+  <% end %>
   <script>
     var MyChess = {};
     MyChess.config = {

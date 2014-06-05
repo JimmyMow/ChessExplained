@@ -17,6 +17,9 @@ $(document).ready(function() {
     submitANote();
     newVariationForReviewBoard();
     closeVariation();
+  }
+
+  if (MyChess.config.isReview) {
     openTokConfiguration();
     openTokVideoStream();
   }

@@ -1,5 +1,4 @@
 var setUpBoard = function(windowHeight, navHeight) {
-  $('.review-container').hide();
   $('.actual-board-container').css({"width": (windowHeight - 120 - navHeight) + "px"});
 
   window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
@@ -8,7 +7,7 @@ var setUpBoard = function(windowHeight, navHeight) {
 
   var boardHeight = $('.game-board').height();
   $('.board-features').css({"height": boardHeight});
-  $('.notes').css({"height": boardHeight});
+  $('.video-chat').css({"height": boardHeight});
 }; // setUpBoard
 
 var loadingPreviousMovesOrPosition = function() {

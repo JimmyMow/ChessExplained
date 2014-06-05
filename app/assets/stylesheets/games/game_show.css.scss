@@ -47,35 +47,13 @@
     } // actual-board-container
   } // game-container
 
-  .notes {
+  .video-chat {
     width: 35%;
     float: left;
     margin: 2% 2.5%;
     overflow-y: auto;
     @extend %group;
-      .notes-list {
-        .note {
-          padding: 10px;
-          border-bottom: 1px solid #ccc;
-        } // note
-      } // note-list
-
-      .note-form {
-        text-align: center;
-        input[type=text] {
-          width: 50%;
-          border: 1px solid black;
-
-          outline: 0;
-
-          &:focus {
-            color: red;
-            border: 1px solid red;
-            padding: 0 1px;
-          } //focus
-        } //input
-      } //note-form
-    } // notes
+  } // notes
 
   .master-notes-container {
     @extend %group;
@@ -83,7 +61,9 @@
 } //container
 
 .review-container {
-
+  width: 55%;
+  margin: 0 2.5%;
+  float: left;
   h2 {
     color: white;
     font-size: 26px;

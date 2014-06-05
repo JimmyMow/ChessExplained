@@ -1,5 +1,12 @@
 <div class="container">
-  <div class="master-notes-container">
+   <aside class="review-container hide">
+      <div id="variation">
+        <%= link_to "Done with this variation", "#", class: "finishVariation" %>
+        <span class='rewind'><%= link_to "Undo last move", "#" %></span>
+        <div class='game-board' style="width: 600px;"></div>
+      </div> <!-- variation -->
+    </aside> <!-- review-container -->
+
     <div id="master" class="game-container">
       <div class="actual-board-container">
         <ul class="board-feature-links">
@@ -20,6 +27,7 @@
           <% end %>
         </ul>
       </div> <!-- actual-board-container -->
+    </div> <!-- master -->
 
 
       <% if @not_review %>
@@ -27,33 +35,24 @@
           <span class="ladda-label">Submit</span>
         <% end %>
       <% end %>
-    </div> <!-- master -->
+</div> <!-- container -->
+
+
 
     <% unless @not_review %>
-      <section class="notes" id="notesSection">
+      <section class="video-chat" id="notesSection">
         <div id="youPublisher"></div>
         <div id="guestPublisher"></div>
       </section>
     <% end %>
-</div>
-
-    <aside class="review-container">
-      <div id="variation">
-        <%= link_to "Done with this variation", "#", class: "finishVariation" %>
-        <span class='rewind'><%= link_to "Undo last move", "#" %></span>
-        <div class='game-board' style="width: 600px;"></div>
-      </div>
-    </aside>
-</div>
-
-
-
 
 
 <!--
 <div class='pgn-container'>
           <ul id="pgn-variation"></ul>
         </div> <!-- pgn-container -->
+
+
       <!--   <div class="note-form">
           <input type='text'>
           <%#= link_to "Submit", "#", id: "noteSubmit" %>

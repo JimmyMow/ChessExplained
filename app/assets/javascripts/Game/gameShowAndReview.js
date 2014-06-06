@@ -146,13 +146,11 @@ var openTokConfiguration = function() {
 
 var openTokVideoStream = function() {
   var apiKey = "44827272";
-
+  var guestCounter = 0;
   var session = OT.initSession(apiKey, sessionId);
-  var connectionCount = 0;
-
   session.on("streamCreated", function(event) {
-    session.subscribe(event.stream, "guestPublisher");
-    $("#guestPublisher").appendTo(".video-chat");
+    $('.vid-chat').append("<div id='guestPublisher" + guestCounter + "'></div>");
+    session.subscribe(event.stream, "guestPublisher" + guestCounter);
   });
 
   session.connect(token, function(error) {

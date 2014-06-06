@@ -151,6 +151,7 @@ var openTokVideoStream = function() {
   session.on("streamCreated", function(event) {
     $('.vid-chat').append("<div id='guestPublisher" + guestCounter + "'></div>");
     session.subscribe(event.stream, "guestPublisher" + guestCounter);
+    guestCounter++;
   });
 
   session.connect(token, function(error) {

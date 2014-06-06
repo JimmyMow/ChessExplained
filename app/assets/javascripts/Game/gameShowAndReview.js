@@ -7,7 +7,7 @@ var setUpBoard = function(windowHeight, navHeight) {
 
   var boardHeight = $('.game-board').height();
   $('.board-features').css({"height": boardHeight});
-  $('.video-chat').css({"height": boardHeight});
+  $('.vid-chat').css({"height": boardHeight});
 }; // setUpBoard
 
 var loadingPreviousMovesOrPosition = function() {
@@ -148,13 +148,16 @@ var openTokVideoStream = function() {
   var apiKey = "44827272";
 
   var session = OT.initSession(apiKey, sessionId);
+  var connectionCount = 0;
 
   session.on("streamCreated", function(event) {
     session.subscribe(event.stream, "guestPublisher");
+    $("#guestPublisher").appendTo(".video-chat");
   });
 
   session.connect(token, function(error) {
     var publisher = OT.initPublisher("youPublisher", {name: userVideoName});
+    $("#youPublisher").prependTo(".video-chat");
     session.publish(publisher);
   });
 };

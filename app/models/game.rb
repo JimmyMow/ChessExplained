@@ -1,6 +1,8 @@
 class Game < ActiveRecord::Base
   has_many :moves
+
   has_one :room
+
   belongs_to :user
 
   def create_moves_with_parsed_notation(moves)

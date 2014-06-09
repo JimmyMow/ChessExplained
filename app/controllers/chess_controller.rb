@@ -48,11 +48,15 @@ class ChessController < WebsocketRails::BaseController
   end
 
   def new_variation_board
-    system_move :new_variation_board, message[:pgn]
+    # system_move :new_variation_board, message[:pgn]
+    WebsocketRails[message['channelName'].to_sym].trigger 'new_variation_board', {
+      position: message[:pgn]
+    }
   end
 
   def close_variation
-    system_move :close_variation, '', message[:boardID]
+    # system_move :close_variation, '', message[:boardID]
+    WebsocketRails[message['channelName'].to_sym].trigger 'close_variation', {}, :namespace => message['boardID']
   end
 
   def load_pgn
@@ -70,14 +74,14 @@ class ChessController < WebsocketRails::BaseController
     notes = move.notes
     notes_array = notes.map { |n| n.content }
 
-    system_move :position_ui, message['fen'], message['boardID'], false, notes_array, message['direction']
+    # system_move :position_ui, message['fen'], message['boardID'], false, notes_array, message['direction']
 
-    WebsocketRails[:yo].trigger 'position_ui', {
+    WebsocketRails[message['channelName'].to_sym].trigger 'position_ui', {
       position: message['fen'],
-      noStatus: message['boardID'],
-      notes: false,
-      direction: notes_array
-    }, :namespace => message['direction']
+      noStatus: false,
+      notes: notes_array,
+      direction: message['direction']
+    }, :namespace => message['boardID']
   end
 
   def write_note

@@ -34,7 +34,7 @@ MyChess.setupBoard = (function() {
     this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
     this.showNotes = __bind(this.showNotes, this);
-    this.channel = this.dispatcher.subscribe(this.gameId);
+    this.channel = this.dispatcher.subscribe(MyChess.config.channelName);
     this.moveCounter = 0;
 
     if (type == 'variation') {
@@ -71,12 +71,12 @@ MyChess.setupBoard = (function() {
   }
 
   Board.prototype.bindEvents = function() {
-    this.dispatcher.bind(this.id + '.send_move', this.positionBoard);
-    this.dispatcher.bind(this.id + '.move_backwards', this.positionBoard);
-    this.dispatcher.bind('new_variation_board', this.newVariationBoard);
-    this.dispatcher.bind('user_list', this.updateUserList);
-    this.dispatcher.bind(this.id + '.position_ui', this.positionUI);
-    this.dispatcher.bind(this.id + '.close_variation', this.closeVariation);
+    this.channel.bind(this.id + '.send_move', this.positionBoard);
+    this.channel.bind(this.id + '.move_backwards', this.positionBoard);
+    this.channel.bind('new_variation_board', this.newVariationBoard);
+    this.channel.bind('user_list', this.updateUserList);
+    this.channel.bind(this.id + '.position_ui', this.positionUI);
+    this.channel.bind(this.id + '.close_variation', this.closeVariation);
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
@@ -304,7 +304,8 @@ MyChess.setupBoard = (function() {
             boardID: this.id,
             databaseGameID: this.gameId,
             moveNumber: this.moveCounter,
-            direction: "variation_rewind"
+            direction: "variation_rewind",
+            channelName: MyChess.config.channelName
           });
         } else {
           this.dispatcher.trigger('position_ui', {
@@ -312,7 +313,8 @@ MyChess.setupBoard = (function() {
             boardID: this.id,
             databaseGameID: this.gameId,
             moveNumber: this.moveCounter,
-            direction: "rewind"
+            direction: "rewind",
+            channelName: MyChess.config.channelName
           });
         }
     }
@@ -336,7 +338,8 @@ MyChess.setupBoard = (function() {
         boardID: this.id,
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter,
-        direction: 'forward'
+        direction: 'forward',
+        channelName: MyChess.config.channelName
       });
     }
   }
@@ -359,7 +362,8 @@ MyChess.setupBoard = (function() {
         boardID: this.id,
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter,
-        direction: "beg"
+        direction: "beg",
+        channelName: MyChess.config.channelName
     });
   }
 
@@ -379,7 +383,8 @@ MyChess.setupBoard = (function() {
         boardID: this.id,
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter,
-        direction: "end"
+        direction: "end",
+        channelName: MyChess.config.channelName
       });
   }
 

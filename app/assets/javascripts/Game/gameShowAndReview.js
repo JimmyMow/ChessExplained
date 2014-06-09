@@ -79,7 +79,8 @@ var submitANote = function() {
     masterBoard.dispatcher.trigger('write_note', {
       note: noteText,
       moveNumber: masterBoard.moveCounter,
-      databaseGameID: masterBoard.gameId
+      databaseGameID: masterBoard.gameId,
+      channelName: MyChess.config.channelName
     });
   });
 };
@@ -92,7 +93,8 @@ var newVariationForReviewBoard = function() {
 
     masterBoard.dispatcher.trigger('new_variation_board', {
       pgn: pgnMoves,
-      boardID: variationBoard.id
+      boardID: variationBoard.id,
+      channelName: MyChess.config.channelName
     });
   });
 };
@@ -102,7 +104,8 @@ var closeVariation = function() {
     e.preventDefault();
 
     masterBoard.dispatcher.trigger('close_variation', {
-      boardID: variationBoard.id
+      boardID: variationBoard.id,
+      channelName: MyChess.config.channelName
     });
   });
 };

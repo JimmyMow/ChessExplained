@@ -14,18 +14,13 @@
       websocketUrl: "<%= request.host %>:<%= request.port %>/websocket" || "chess-explained.herokuapp.com/websocket",
       isGame: <%= current_page?(game_url(params[:id] || 1)) %> || <%= current_page?(review_game_url(params[:id] || 1)) %>,
       isReview: <%= current_page?(review_game_url(params[:id] || 1)) %>,
-      gameId: <%= @game.try(:id) || "null" %>
+      gameId: <%= @game.try(:id) || "null" %>,
+      channelName: "<%= in_words(@game.try(:id) || nil) %>"
     }
   </script>
 </head>
 <body>
-<!-- <nav class='app-nav'>
-  <h1 class='logo'>
-    <%#= link_to root_url do %>
-      Chess<span class='logo-explained'>Explained</span>
-    <%# end %>
-  </h1>
-</nav> -->
+
 <%= yield %>
 
 <%= javascript_include_tag "application" %>

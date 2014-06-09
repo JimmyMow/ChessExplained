@@ -11,4 +11,4 @@
 # if you're sharing your code publicly.
 
 # ChessExplained::Application.config.secret_key_base = '3e464ea0dc8536ecf84a2c321f73b45e856aab6fe4ac8bc9cae2a57fab89be58097b876e9e9f697eefa2818a4bd7e0d52b9ad2cbbef47f953620bccc71610a78'
-ChessExplained::Application.config.secret_key_base = CONFIG[:secret_token]
+ChessExplained::Application.config.secret_key_base = ENV['secret_token']

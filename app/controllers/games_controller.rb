@@ -88,7 +88,7 @@ class GamesController < ApplicationController
     def config_opentok
       if @opentok.nil?
         # @opentok = OpenTok::OpenTok.new 44827272, 'fb27ffafec7f84cfcd2da58bcf6b3565b204b6d0'
-        @opentok = OpenTok::OpenTok.new CONFIG[:open_tok_key], CONFIG[:open_tok_secret]
+        @opentok = OpenTok::OpenTok.new ENV['open_tok_key'], ENV['open_tok_secret']
       end
     end
     # Use callbacks to share common setup or constraints between actions.

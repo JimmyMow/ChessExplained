@@ -71,6 +71,13 @@ class ChessController < WebsocketRails::BaseController
     notes_array = notes.map { |n| n.content }
 
     system_move :position_ui, message['fen'], message['boardID'], false, notes_array, message['direction']
+
+    WebsocketRails[:yo].trigger 'position_ui', {
+      position: message['fen'],
+      noStatus: message['boardID'],
+      notes: false,
+      direction: notes_array
+    }, :namespace => message['direction']
   end
 
   def write_note

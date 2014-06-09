@@ -34,7 +34,7 @@ MyChess.setupBoard = (function() {
     this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
     this.showNotes = __bind(this.showNotes, this);
-    this.channel = this.dispatcher.subscribe(this.divId);
+    this.channel = this.dispatcher.subscribe(this.gameId);
     this.moveCounter = 0;
 
     if (type == 'variation') {

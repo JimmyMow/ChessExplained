@@ -20,8 +20,8 @@ $(document).ready(function() {
   }
 
   if (MyChess.config.isReview) {
-    // openTokConfiguration();
-    // openTokVideoStream();
+    openTokConfiguration();
+    openTokVideoStream();
   }
 
   // SPINNING BUTTON (***MOVE SOON***)

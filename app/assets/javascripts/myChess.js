@@ -8,7 +8,6 @@ MyChess.setupBoard = (function() {
   function Board(id, url, useWebSockets, position, type) {
     // Understanding which board it is
     this.id = id;
-    this.divId = id;
     this.gameId = MyChess.config.gameId;
 
     this.dispatcher = new WebSocketRails(url, useWebSockets);
@@ -87,12 +86,12 @@ MyChess.setupBoard = (function() {
   }
 
   Board.prototype.removeGreySquares = function() {
-   $('#' + this.divId + ' .square-55d63').css('background', '');
+   $('#' + this.id + ' .square-55d63').css('background', '');
   };
 
 
   Board.prototype.greySquare = function(square) {
-  var squareEl = $('#' + this.divId + ' .square-' + square);
+  var squareEl = $('#' + this.id + ' .square-' + square);
 
   var background = '#a9a9a9';
     if (squareEl.hasClass('black-3c85d') === true) {

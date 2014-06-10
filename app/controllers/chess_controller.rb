@@ -39,7 +39,10 @@ class ChessController < WebsocketRails::BaseController
   def send_move
     Move.create(notation: message[:lastMove], game_id: message[:gameId]) if message[:lastMove]
 
-    system_move :send_move, message[:position].dup, message[:boardID]
+    # system_move :send_move, message[:position].dup, message[:boardID]
+    WebsocketRails[message['channelName'].to_sym].trigger 'send_move', {
+      position: message['position'].dup
+    }, :namespace => message['boardID']
   end
 
   def move_backwards

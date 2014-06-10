@@ -160,7 +160,8 @@ MyChess.setupBoard = (function() {
       position: this.game.pgn(),
       boardID: this.id,
       lastMove: lastMove,
-      gameId: this.gameId
+      gameId: this.gameId,
+      channelName: MyChess.config.channelName
     });
   };
 

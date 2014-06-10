@@ -48,6 +48,9 @@ class GamesController < ApplicationController
       elsif @game.save
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
         format.json { render action: 'show', status: :created, location: @game }
+
+        config_opentok
+        Room.create(sessionId: @opentok.create_session.session_id, game_id: @game.id)
       else
         format.html { render action: 'new' }
         format.json { render json: @game.errors, status: :unprocessable_entity }

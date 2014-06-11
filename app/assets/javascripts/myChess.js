@@ -6,16 +6,14 @@ var __bind = function(fn, me){
 
 MyChess.setupBoard = (function() {
   function Board(id, url, useWebSockets, position, type) {
-    // Understanding which board it is
     this.id = id;
     this.gameId = MyChess.config.gameId;
 
-    // this.dispatcher = new WebSocketRails(url, useWebSockets);
-    this.greySquare = __bind(this.greySquare, this);
-    this.removeGreySquares = __bind(this.removeGreySquares, this);
+    this.greySquare = this.greySquare;
+    this.removeGreySquares = this.removeGreySquares;
     this.onDragStart = __bind(this.onDragStart, this);
     this.onDrop = __bind(this.onDrop, this);
-    this.onMouseoverSquare = __bind(this.onMouseoverSquare, this);
+    this.onMouseoverSquare = (this.onMouseoverSquare, this);
     this.onMouseoutSquare = __bind(this.onMouseoutSquare, this);
     this.updateStatus = __bind(this.updateStatus, this);
     this.onSnapEnd = __bind(this.onSnapEnd, this);

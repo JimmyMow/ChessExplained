@@ -24,6 +24,9 @@ $(document).ready(function() {
     // openTokVideoStream();
   }
 
+  if(App.config.isHome) {
+  }
+
   // SPINNING BUTTON (***MOVE SOON***)
   Ladda.bind( '.spinner', {
     callback: function( instance ) {
@@ -39,6 +42,5 @@ $(document).ready(function() {
     }, 200 );
     }
   });
-
 
 });

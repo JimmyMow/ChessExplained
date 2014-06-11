@@ -10,12 +10,18 @@
   <% end %>
   <script>
     var App = {};
+    if ( window.location.pathname == "/games/<%= params[:id] %>/review"  ) {
+      var channelNameVar = "<%= in_words(@game.try(:id) || nil) %>";
+    } else if(window.location.pathname == "/") {
+      var channelNameVar = "home";
+    }
     App.config = {
       websocketUrl: "<%= request.host %>:<%= request.port %>/websocket" || "chess-explained.herokuapp.com/websocket",
       isGame: <%= current_page?(game_url(params[:id] || 1)) %> || <%= current_page?(review_game_url(params[:id] || 1)) %>,
       isReview: <%= current_page?(review_game_url(params[:id] || 1)) %>,
+      isHome: <%= current_page?(root_url) %>,
       gameId: <%= @game.try(:id) || "null" %>,
-      channelName: "<%= in_words(@game.try(:id) || nil) %>"
+      channelName: channelNameVar
     }
   </script>
 </head>

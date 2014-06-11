@@ -271,16 +271,12 @@ App.setupBoard = (function() {
     variationBoard.chessboard.clear();
   }
 
-  // Board.prototype.updateUserList = function(user_list) {
-  //   $('.users').empty();
-  //   for(i=0, len=user_list.length; len > i; i++) {
-  //     user = user_list[i];
-  //     $('.users').append("<li>" + user['user_name'] + "</li>");
-  //   }
-  // }
-
   Board.prototype.rewind = function(e) {
     e.preventDefault();
+
+    if (  typeof(this.moveCounter) == "string" ) {
+      this.moveCounter = parseInt(this.moveCounter);
+    }
 
     if (this.moveCounter > 0 || this.id == 'variation' ) {
       if(this.id == 'variation') {
@@ -319,9 +315,14 @@ App.setupBoard = (function() {
   Board.prototype.fastForward = function(e) {
     e.preventDefault();
 
+    if (  typeof(this.moveCounter) == "string" ) {
+      this.moveCounter = parseInt(this.moveCounter);
+    }
+
     if (this.moveCounter < this.game.history().length) {
 
       var moves = this.game.history().slice(0, this.moveCounter + 1);
+      console.log(moves);
       moves = moves.join(' ');
 
       App.config.engine.load_pgn(moves);

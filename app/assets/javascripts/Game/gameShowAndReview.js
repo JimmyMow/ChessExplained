@@ -1,7 +1,7 @@
 var setUpBoard = function(windowHeight, navHeight) {
   $('.actual-board-container').css({"width": (windowHeight - 120 - navHeight) + "px"});
 
-  window.masterBoard = new MyChess.setupBoard("master", MyChess.config.websocketUrl, true);
+  window.masterBoard = new App.setupBoard("master", App.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
 
 
@@ -11,7 +11,7 @@ var setUpBoard = function(windowHeight, navHeight) {
 }; // setUpBoard
 
 var loadingPreviousMovesOrPosition = function() {
-  $.getJSON( "/games/" + MyChess.config.gameId +".json", function( data ) {
+  $.getJSON( "/games/" + App.config.gameId +".json", function( data ) {
     if (  data.length > 0 ) {
       var moves = "";
       data.forEach(function(item) {
@@ -21,7 +21,7 @@ var loadingPreviousMovesOrPosition = function() {
       masterBoard.game.load_pgn(moves);
       masterBoard.updateStatus();
 
-      if(MyChess.config.isReview) {
+      if(App.config.isReview) {
         var moveCount = window.location.hash.split('#').pop();
 
         var movesBeforeMoveCount = data.slice(0, moveCount);
@@ -31,16 +31,14 @@ var loadingPreviousMovesOrPosition = function() {
           stringNot += (item['notation'] + " ");
         });
 
-
-        var engine = new Chess();
-        engine.load_pgn(stringNot);
-        masterBoard.positionUI({position: engine.fen()});
+        App.config.engine.load_pgn(stringNot);
+        masterBoard.positionUI({position: App.config.engine.fen()});
         masterBoard.moveCounter = moveCount;
 
-        window.variationBoard = new MyChess.setupBoard('variation', MyChess.config.websocketUrl, true, '', 'variation');
-        variationBoard.game.load_pgn( engine.pgn()  );
+        window.variationBoard = new App.setupBoard('variation', App.config.websocketUrl, true, '', 'variation');
+        variationBoard.game.load_pgn( App.config.engine.pgn()  );
         variationBoard.positionBoard({
-          position: engine.pgn()
+          position: App.config.engine.pgn()
         });
 
         if (moveCount > 0) {
@@ -62,9 +60,9 @@ var submitManualPlayedGame = function() {
   $("#submitPgn").on('submit', function() {
     var pgn = $('input[type=text]').val();
     masterBoard.game.load_pgn(pgn);
-    MyChess.dispatcher.trigger('load_pgn', {
+    App.dispatcher.trigger('load_pgn', {
       position: window.masterBoard.game.history(),
-      gameId: window.MyChess.config.gameId
+      gameId: window.App.config.gameId
     });
   });
 };
@@ -76,11 +74,11 @@ var submitANote = function() {
 
     $(this).siblings('input[type=text]').val("");
     $('.notes-list').prepend("<li class='note'>" + noteText + "</li>");
-    MyChess.dispatcher.trigger('write_note', {
+    App.dispatcher.trigger('write_note', {
       note: noteText,
       moveNumber: masterBoard.moveCounter,
       databaseGameID: masterBoard.gameId,
-      channelName: MyChess.config.channelName
+      channelName: App.config.channelName
     });
   });
 };
@@ -91,10 +89,10 @@ var newVariationForReviewBoard = function() {
     var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
     var pgnMoves = moves.join(' ');
 
-    MyChess.dispatcher.trigger('new_variation_board', {
+    App.dispatcher.trigger('new_variation_board', {
       pgn: pgnMoves,
       boardID: variationBoard.id,
-      channelName: MyChess.config.channelName
+      channelName: App.config.channelName
     });
   });
 };
@@ -103,9 +101,9 @@ var closeVariation = function() {
   $('.finishVariation').on('click', function(e) {
     e.preventDefault();
 
-    MyChess.dispatcher.trigger('close_variation', {
+    App.dispatcher.trigger('close_variation', {
       boardID: variationBoard.id,
-      channelName: MyChess.config.channelName
+      channelName: App.config.channelName
     });
   });
 };

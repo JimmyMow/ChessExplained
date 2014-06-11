@@ -10,7 +10,7 @@ $(document).ready(function() {
   uploadPgn();
 
   // Views with a board
-  if (MyChess.config.isGame) {
+  if (App.config.isGame) {
     setUpBoard(windowHeight, navHeight);
     loadingPreviousMovesOrPosition();
     submitManualPlayedGame();
@@ -19,7 +19,7 @@ $(document).ready(function() {
     closeVariation();
   }
 
-  if (MyChess.config.isReview) {
+  if (App.config.isReview) {
     // openTokConfiguration();
     // openTokVideoStream();
   }

@@ -4,10 +4,10 @@ var __bind = function(fn, me){
   };
 };
 
-MyChess.setupBoard = (function() {
+App.setupBoard = (function() {
   function Board(id, url, useWebSockets, position, type) {
     this.id = id;
-    this.gameId = MyChess.config.gameId;
+    this.gameId = App.config.gameId;
 
     this.greySquare = this.greySquare;
     this.removeGreySquares = this.removeGreySquares;
@@ -31,7 +31,7 @@ MyChess.setupBoard = (function() {
     this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
     this.showNotes = __bind(this.showNotes, this);
-    this.channel = MyChess.dispatcher.subscribe(MyChess.config.channelName);
+    this.channel = App.dispatcher.subscribe(App.config.channelName);
     this.moveCounter = 0;
 
     if (type == 'variation') {
@@ -44,7 +44,7 @@ MyChess.setupBoard = (function() {
         onMouseoverSquare: this.onMouseoverSquare,
         onSnapEnd: this.onSnapEnd
       };
-    } else if(MyChess.config.isReview) {
+    } else if(App.config.isReview) {
       this.config = {
         draggable: false,
         position: position || 'start'
@@ -154,12 +154,12 @@ MyChess.setupBoard = (function() {
       var lastMove = null;
     }
 
-    MyChess.dispatcher.trigger('send_move', {
+    App.dispatcher.trigger('send_move', {
       position: this.game.pgn(),
       boardID: this.id,
       lastMove: lastMove,
       gameId: this.gameId,
-      channelName: MyChess.config.channelName
+      channelName: App.config.channelName
     });
   };
 
@@ -187,7 +187,7 @@ MyChess.setupBoard = (function() {
     }
     var lastMove = this.game.undo();
 
-    MyChess.dispatcher.trigger('move_backwards', {
+    App.dispatcher.trigger('move_backwards', {
       position: this.game.pgn(),
       boardID: this.id,
       lastMove: lastMove['san'],
@@ -290,29 +290,27 @@ MyChess.setupBoard = (function() {
       }
       moves = moves.join(' ');
 
-      var chessEngine = new Chess();
-
-      chessEngine.load_pgn(moves);
-      var fen = chessEngine.fen();
+      App.config.engine.load_pgn(moves);
+      var fen = App.config.engine.fen();
 
 
        if(this.id == 'variation') {
-          MyChess.dispatcher.trigger('position_ui', {
+          App.dispatcher.trigger('position_ui', {
             fen: fen,
             boardID: this.id,
             databaseGameID: this.gameId,
             moveNumber: this.moveCounter,
             direction: "variation_rewind",
-            channelName: MyChess.config.channelName
+            channelName: App.config.channelName
           });
         } else {
-          MyChess.dispatcher.trigger('position_ui', {
+          App.dispatcher.trigger('position_ui', {
             fen: fen,
             boardID: this.id,
             databaseGameID: this.gameId,
             moveNumber: this.moveCounter,
             direction: "rewind",
-            channelName: MyChess.config.channelName
+            channelName: App.config.channelName
           });
         }
     }
@@ -326,18 +324,16 @@ MyChess.setupBoard = (function() {
       var moves = this.game.history().slice(0, this.moveCounter + 1);
       moves = moves.join(' ');
 
-      var chessEngine = new Chess();
+      App.config.engine.load_pgn(moves);
+      var fen = App.config.engine.fen();
 
-      chessEngine.load_pgn(moves);
-      var fen = chessEngine.fen();
-
-      MyChess.dispatcher.trigger('position_ui', {
+      App.dispatcher.trigger('position_ui', {
         fen: fen,
         boardID: this.id,
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter,
         direction: 'forward',
-        channelName: MyChess.config.channelName
+        channelName: App.config.channelName
       });
     }
   }
@@ -350,18 +346,16 @@ MyChess.setupBoard = (function() {
     var moves = this.game.history().slice(0, 0);
     moves = moves.join(' ');
 
-    var chessEngine = new Chess();
+    App.config.engine.load_pgn(moves);
+    var fen = App.config.engine.fen();
 
-    chessEngine.load_pgn(moves);
-    var fen = chessEngine.fen();
-
-    MyChess.dispatcher.trigger('position_ui', {
+    App.dispatcher.trigger('position_ui', {
         fen: fen,
         boardID: this.id,
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter,
         direction: "beg",
-        channelName: MyChess.config.channelName
+        channelName: App.config.channelName
     });
   }
 
@@ -371,18 +365,16 @@ MyChess.setupBoard = (function() {
       var moves = this.game.history().slice(0, this.game.history().length);
       moves = moves.join(' ');
 
-      var chessEngine = new Chess();
+      App.config.engine.load_pgn(moves);
+      var fen = App.config.engine.fen();
 
-      chessEngine.load_pgn(moves);
-      var fen = chessEngine.fen();
-
-      MyChess.dispatcher.trigger('position_ui', {
+      App.dispatcher.trigger('position_ui', {
         fen: fen,
         boardID: this.id,
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter,
         direction: "end",
-        channelName: MyChess.config.channelName
+        channelName: App.config.channelName
       });
   }
 

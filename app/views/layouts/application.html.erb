@@ -24,5 +24,8 @@
 <%= yield %>
 
 <%= javascript_include_tag "application" %>
+<script>
+  MyChess.dispatcher = new WebSocketRails(MyChess.config.websocketUrl, true);
+</script>
 </body>
 </html>

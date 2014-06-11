@@ -62,7 +62,7 @@ var submitManualPlayedGame = function() {
   $("#submitPgn").on('submit', function() {
     var pgn = $('input[type=text]').val();
     masterBoard.game.load_pgn(pgn);
-    masterBoard.dispatcher.trigger('load_pgn', {
+    MyChess.dispatcher.trigger('load_pgn', {
       position: window.masterBoard.game.history(),
       gameId: window.MyChess.config.gameId
     });
@@ -76,7 +76,7 @@ var submitANote = function() {
 
     $(this).siblings('input[type=text]').val("");
     $('.notes-list').prepend("<li class='note'>" + noteText + "</li>");
-    masterBoard.dispatcher.trigger('write_note', {
+    MyChess.dispatcher.trigger('write_note', {
       note: noteText,
       moveNumber: masterBoard.moveCounter,
       databaseGameID: masterBoard.gameId,
@@ -91,7 +91,7 @@ var newVariationForReviewBoard = function() {
     var moves = masterBoard.game.history().slice(0, masterBoard.moveCounter);
     var pgnMoves = moves.join(' ');
 
-    masterBoard.dispatcher.trigger('new_variation_board', {
+    MyChess.dispatcher.trigger('new_variation_board', {
       pgn: pgnMoves,
       boardID: variationBoard.id,
       channelName: MyChess.config.channelName
@@ -103,7 +103,7 @@ var closeVariation = function() {
   $('.finishVariation').on('click', function(e) {
     e.preventDefault();
 
-    masterBoard.dispatcher.trigger('close_variation', {
+    MyChess.dispatcher.trigger('close_variation', {
       boardID: variationBoard.id,
       channelName: MyChess.config.channelName
     });

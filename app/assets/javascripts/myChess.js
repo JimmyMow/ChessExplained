@@ -10,7 +10,7 @@ MyChess.setupBoard = (function() {
     this.id = id;
     this.gameId = MyChess.config.gameId;
 
-    this.dispatcher = new WebSocketRails(url, useWebSockets);
+    // this.dispatcher = new WebSocketRails(url, useWebSockets);
     this.greySquare = __bind(this.greySquare, this);
     this.removeGreySquares = __bind(this.removeGreySquares, this);
     this.onDragStart = __bind(this.onDragStart, this);
@@ -33,7 +33,7 @@ MyChess.setupBoard = (function() {
     this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
     this.showNotes = __bind(this.showNotes, this);
-    this.channel = this.dispatcher.subscribe(MyChess.config.channelName);
+    this.channel = MyChess.dispatcher.subscribe(MyChess.config.channelName);
     this.moveCounter = 0;
 
     if (type == 'variation') {
@@ -156,7 +156,7 @@ MyChess.setupBoard = (function() {
       var lastMove = null;
     }
 
-    this.dispatcher.trigger('send_move', {
+    MyChess.dispatcher.trigger('send_move', {
       position: this.game.pgn(),
       boardID: this.id,
       lastMove: lastMove,
@@ -189,7 +189,7 @@ MyChess.setupBoard = (function() {
     }
     var lastMove = this.game.undo();
 
-    this.dispatcher.trigger('move_backwards', {
+    MyChess.dispatcher.trigger('move_backwards', {
       position: this.game.pgn(),
       boardID: this.id,
       lastMove: lastMove['san'],
@@ -273,13 +273,13 @@ MyChess.setupBoard = (function() {
     variationBoard.chessboard.clear();
   }
 
-  Board.prototype.updateUserList = function(user_list) {
-    $('.users').empty();
-    for(i=0, len=user_list.length; len > i; i++) {
-      user = user_list[i];
-      $('.users').append("<li>" + user['user_name'] + "</li>");
-    }
-  }
+  // Board.prototype.updateUserList = function(user_list) {
+  //   $('.users').empty();
+  //   for(i=0, len=user_list.length; len > i; i++) {
+  //     user = user_list[i];
+  //     $('.users').append("<li>" + user['user_name'] + "</li>");
+  //   }
+  // }
 
   Board.prototype.rewind = function(e) {
     e.preventDefault();
@@ -299,7 +299,7 @@ MyChess.setupBoard = (function() {
 
 
        if(this.id == 'variation') {
-          this.dispatcher.trigger('position_ui', {
+          MyChess.dispatcher.trigger('position_ui', {
             fen: fen,
             boardID: this.id,
             databaseGameID: this.gameId,
@@ -308,7 +308,7 @@ MyChess.setupBoard = (function() {
             channelName: MyChess.config.channelName
           });
         } else {
-          this.dispatcher.trigger('position_ui', {
+          MyChess.dispatcher.trigger('position_ui', {
             fen: fen,
             boardID: this.id,
             databaseGameID: this.gameId,
@@ -333,7 +333,7 @@ MyChess.setupBoard = (function() {
       chessEngine.load_pgn(moves);
       var fen = chessEngine.fen();
 
-      this.dispatcher.trigger('position_ui', {
+      MyChess.dispatcher.trigger('position_ui', {
         fen: fen,
         boardID: this.id,
         databaseGameID: this.gameId,
@@ -357,7 +357,7 @@ MyChess.setupBoard = (function() {
     chessEngine.load_pgn(moves);
     var fen = chessEngine.fen();
 
-    this.dispatcher.trigger('position_ui', {
+    MyChess.dispatcher.trigger('position_ui', {
         fen: fen,
         boardID: this.id,
         databaseGameID: this.gameId,
@@ -378,7 +378,7 @@ MyChess.setupBoard = (function() {
       chessEngine.load_pgn(moves);
       var fen = chessEngine.fen();
 
-      this.dispatcher.trigger('position_ui', {
+      MyChess.dispatcher.trigger('position_ui', {
         fen: fen,
         boardID: this.id,
         databaseGameID: this.gameId,

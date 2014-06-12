@@ -39,17 +39,6 @@ var loadingPreviousMovesOrPosition = function() {
         variationBoard.positionBoard({
           position: App.config.engine.pgn()
         });
-
-        if (moveCount > 0) {
-          notesArray = [];
-          data[moveCount - 1]['notes'].forEach(function(item) {
-            notesArray.push(item['content']);
-          });
-          masterBoard.showNotes({notes: notesArray});
-        }
-
-      } else {
-        masterBoard.positionBoard({position: moves});
       }
     }
   });
@@ -62,22 +51,6 @@ var submitManualPlayedGame = function() {
     App.dispatcher.trigger('load_pgn', {
       position: window.masterBoard.game.history(),
       gameId: window.App.config.gameId
-    });
-  });
-};
-
-var submitANote = function() {
-  $('#noteSubmit').on('click', function(e) {
-    e.preventDefault();
-    var noteText = $(this).siblings('input[type=text]').val();
-
-    $(this).siblings('input[type=text]').val("");
-    $('.notes-list').prepend("<li class='note'>" + noteText + "</li>");
-    App.dispatcher.trigger('write_note', {
-      note: noteText,
-      moveNumber: masterBoard.moveCounter,
-      databaseGameID: masterBoard.gameId,
-      channelName: App.config.channelName
     });
   });
 };

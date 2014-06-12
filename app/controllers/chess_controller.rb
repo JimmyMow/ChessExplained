@@ -1,45 +1,14 @@
 class ChessController < WebsocketRails::BaseController
   include ActionView::Helpers::SanitizeHelper
 
-  # Web Socket Methods
-
-  def initialize_session
-
-  end
-
-  def client_connected
-    connection_store[:user] = { user_name: current_user.email }
-    broadcast_user_list
-  end
-
-  def client_disconnected
-    connection_store[:user] = nil
-    broadcast_user_list
-  end
-
-  # Methods to dry up code
-
-  def system_move(event, position=nil, boardID=nil, noStatus=false, notes=nil, direction=false)
-    broadcast_message event, {
-      position: position,
-      noStatus: noStatus,
-      notes: notes,
-      direction: direction
-    }, :namespace => boardID
-  end
-
-
   def broadcast_user_list
     users = connection_store.collect_all(:user).uniq
     broadcast_message :user_list, users
   end
 
-  # Routed methods
-
   def send_move
     Move.create(notation: message[:lastMove], game_id: message[:gameId]) if message[:lastMove]
 
-    # system_move :send_move, message[:position].dup, message[:boardID]
     WebsocketRails[message['channelName'].to_sym].trigger 'send_move', {
       position: message['position'].dup
     }, :namespace => message['boardID']
@@ -47,18 +16,18 @@ class ChessController < WebsocketRails::BaseController
 
   def move_backwards
     Move.where(game_id: message[:gameId], notation: message[:lastMove]).first.destroy if message[:lastMove]
-    system_move :move_backwards, message[:position].dup, message[:boardID]
+    WebsocketRails[message['channelName'].to_sym].trigger 'move_backwards', {
+      position: message[:position].dup
+    }, :namespace => message[:boardID]
   end
 
   def new_variation_board
-    # system_move :new_variation_board, message[:pgn]
     WebsocketRails[message['channelName'].to_sym].trigger 'new_variation_board', {
       position: message[:pgn]
     }
   end
 
   def close_variation
-    # system_move :close_variation, '', message[:boardID]
     WebsocketRails[message['channelName'].to_sym].trigger 'close_variation', {}, :namespace => message['boardID']
   end
 
@@ -74,22 +43,33 @@ class ChessController < WebsocketRails::BaseController
     game = Game.find(message[:databaseGameID])
     move = game.moves[message[:moveNumber].to_i - 1]
 
-    notes = move.notes
-    notes_array = notes.map { |n| n.content }
-
-    # system_move :position_ui, message['fen'], message['boardID'], false, notes_array, message['direction']
-
     WebsocketRails[message['channelName'].to_sym].trigger 'position_ui', {
       position: message['fen'],
       noStatus: false,
-      notes: notes_array,
       direction: message['direction']
     }, :namespace => message['boardID']
   end
 
-  def write_note
-    move = Game.find(message[:databaseGameID]).moves[message[:moveNumber].to_i - 1]
-    Note.create(content: message[:note], move_id: move.id, user_id: current_user.id)
+  def channel_move(event, position=nil, boardID=nil, noStatus=false, direction=false)
+    broadcast_message event, {
+      position: position,
+      noStatus: noStatus,
+      direction: direction
+    }, :namespace => boardID
+  end
+
+  def initialize_session
+
+  end
+
+  def client_connected
+    connection_store[:user] = { user_name: current_user.email }
+    broadcast_user_list
+  end
+
+  def client_disconnected
+    connection_store[:user] = nil
+    broadcast_user_list
   end
 end
 

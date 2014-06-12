@@ -14,14 +14,13 @@ $(document).ready(function() {
     setUpBoard(windowHeight, navHeight);
     loadingPreviousMovesOrPosition();
     submitManualPlayedGame();
-    submitANote();
     newVariationForReviewBoard();
     closeVariation();
   }
 
   if (App.config.isReview) {
-    openTokConfiguration();
-    openTokVideoStream();
+    // openTokConfiguration();
+    // openTokVideoStream();
   }
 
   if(App.config.isHome) {

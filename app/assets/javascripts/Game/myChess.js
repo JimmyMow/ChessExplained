@@ -30,7 +30,6 @@ App.setupBoard = (function() {
     this.jumpToBeg = __bind(this.jumpToBeg, this);
     this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
-    this.showNotes = __bind(this.showNotes, this);
     this.channel = App.dispatcher.subscribe(App.config.channelName);
     this.moveCounter = 0;
 
@@ -191,7 +190,8 @@ App.setupBoard = (function() {
       position: this.game.pgn(),
       boardID: this.id,
       lastMove: lastMove['san'],
-      gameId: this.gameId
+      gameId: this.gameId,
+      channelName: App.config.channelName
     });
   };
 
@@ -322,7 +322,6 @@ App.setupBoard = (function() {
     if (this.moveCounter < this.game.history().length) {
 
       var moves = this.game.history().slice(0, this.moveCounter + 1);
-      console.log(moves);
       moves = moves.join(' ');
 
       App.config.engine.load_pgn(moves);
@@ -410,16 +409,6 @@ App.setupBoard = (function() {
     }
 
     this.chessboard.position(position['position']);
-    this.showNotes({notes: position['notes']});
-  }
-
-  Board.prototype.showNotes = function(data) {
-    $('.notes-list').empty();
-    if(data['notes']) {
-      data['notes'].forEach(function(item) {
-        $('.notes-list').prepend("<li class='note'>" + item + "</li>");
-      });
-    }
   }
 
   return Board;

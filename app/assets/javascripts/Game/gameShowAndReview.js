@@ -40,6 +40,7 @@ var loadingPreviousMovesOrPosition = function() {
           position: App.config.engine.pgn()
         });
       }
+      masterBoard.positionBoard({position: moves});
     }
   });
 }; // loadingPreviousMovesOrPosition

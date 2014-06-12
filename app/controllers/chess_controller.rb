@@ -16,9 +16,9 @@ class ChessController < WebsocketRails::BaseController
 
   def move_backwards
     Move.where(game_id: message[:gameId], notation: message[:lastMove]).first.destroy if message[:lastMove]
-    WebsocketRails[message['channelName'].to_sym].trigger 'move_backwards', {
-      position: message[:position].dup
-    }, :namespace => message[:boardID]
+    WebsocketRails["#{message['channelName']}".to_sym].trigger 'move_backwards', {
+      position: message['position'].dup
+    }, :namespace => message['boardID']
   end
 
   def new_variation_board

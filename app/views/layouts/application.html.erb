@@ -12,8 +12,10 @@
     var App = {};
     if ( window.location.pathname == "/games/<%= params[:id] %>/review"  ) {
       var channelNameVar = "<%= in_words(@game.try(:id) || nil) %>";
-    } else if(window.location.pathname == "/") {
+    } else if(  window.location.pathname == "/"  ) {
       var channelNameVar = "home";
+    } else if(  window.location.pathname == "/games/<%= params[:id] %>"  ) {
+      var channelNameVar = "<%= in_words(@game.try(:id) || nil) %>_setup";
     }
     App.config = {
       websocketUrl: "<%= request.host %>:<%= request.port %>/websocket" || "chess-explained.herokuapp.com/websocket",

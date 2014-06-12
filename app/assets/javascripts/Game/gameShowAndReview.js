@@ -23,6 +23,9 @@ var loadingPreviousMovesOrPosition = function() {
 
       if(App.config.isReview) {
         var moveCount = window.location.hash.split('#').pop();
+        if (  moveCount == ""  ) {
+          var moveCount = 0;
+        }
         var movesBeforeMoveCount = data.slice(0, moveCount);
         var stringNot = "";
 

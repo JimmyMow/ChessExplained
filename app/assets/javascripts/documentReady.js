@@ -20,8 +20,8 @@ $(document).ready(function() {
   }
 
   if (App.config.isReview) {
-    // openTokConfiguration();
-    // openTokVideoStream();
+    openTokConfiguration();
+    openTokVideoStream();
   }
 
   if(App.config.isHome) {

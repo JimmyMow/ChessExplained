@@ -1,10 +1,12 @@
-<%= link_to "Go to new game page", new_game_url %>
-<%= link_to "Log out", destroy_user_session_url, method: 'delete' %>
+<div class="page-container">
+  <%= link_to "Go to new game page", new_game_url %>
+  <%= link_to "Log out", destroy_user_session_url, method: 'delete' %>
 
-<div class="games">
-  <ul class="game-list">
-  <% @games.each do |game| %>
-    <li class="game-item"><%= link_to "Game", review_game_url(game.id) %></li>
-  <% end %>
-  </ul>
+  <div class="games">
+    <ul class="game-list">
+    <% @games.each do |game| %>
+      <li class="game-item"><%= link_to "Game", review_game_url(game.id) %></li>
+    <% end %>
+    </ul>
+  </div>
 </div>

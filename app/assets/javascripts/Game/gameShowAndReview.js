@@ -136,3 +136,16 @@ var openTokVideoStream = function() {
     session.publish(publisher);
   });
 };
+
+var clickableNotation = function() {
+  $('.game-move').on('click', function(e) {
+    e.preventDefault();
+    var move = $(this);
+    App.dispatcher.trigger('position_fen', {
+      fen: move.data('fen'),
+      moveNumber: move.data('move-number'),
+      channelName: App.config.channelName,
+      boardID: "master"
+    });
+  });
+}

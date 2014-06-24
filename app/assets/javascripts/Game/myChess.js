@@ -30,6 +30,7 @@ App.setupBoard = (function() {
     this.jumpToBeg = __bind(this.jumpToBeg, this);
     this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
+    this.position_fen = __bind(this.position_fen, this);
     this.channel = App.dispatcher.subscribe(App.config.channelName);
     this.moveCounter = 0;
 
@@ -72,6 +73,7 @@ App.setupBoard = (function() {
     this.channel.bind('new_variation_board', this.newVariationBoard);
     this.channel.bind('user_list', this.updateUserList);
     this.channel.bind(this.id + '.position_ui', this.positionUI);
+    this.channel.bind(this.id + '.position_fen', this.position_fen);
     this.channel.bind(this.id + '.close_variation', this.closeVariation);
 
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
@@ -320,7 +322,6 @@ App.setupBoard = (function() {
     }
 
     if (this.moveCounter < this.game.history().length) {
-
       var moves = this.game.history().slice(0, this.moveCounter + 1);
       moves = moves.join(' ');
 
@@ -376,6 +377,12 @@ App.setupBoard = (function() {
         direction: "end",
         channelName: App.config.channelName
       });
+  }
+
+  Board.prototype.position_fen = function(object) {
+    this.chessboard.position(object['position']);
+    this.moveCounter = parseInt(object['moveNumber']);
+    window.location.hash = "#" + this.moveCounter;
   }
 
   Board.prototype.positionUI = function(position) {

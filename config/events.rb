@@ -15,6 +15,8 @@ WebsocketRails::EventMap.describe do
 
   subscribe :write_note, to: ChessController, with_method: :write_note
 
+  subscribe :position_fen, to: ChessController, with_method: :position_fen
+
   # You can use this file to map incoming events to controller actions.
   # One event can be mapped to any number of controller actions. The
   # actions will be executed in the order they were subscribed.

@@ -19,8 +19,9 @@ $(document).ready(function() {
   }
 
   if (App.config.isReview) {
-    // openTokConfiguration();
-    // openTokVideoStream();
+    openTokConfiguration();
+    openTokVideoStream();
+    clickableNotation();
   }
 
   if(App.config.isHome) {

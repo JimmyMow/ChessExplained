@@ -50,6 +50,13 @@ class ChessController < WebsocketRails::BaseController
     }, :namespace => message['boardID']
   end
 
+  def position_fen
+    WebsocketRails[message['channelName'].to_sym].trigger 'position_fen', {
+      position: message['fen'],
+      moveNumber: message['moveNumber']
+    }, :namespace => message['boardID']
+  end
+
   def channel_move(event, position=nil, boardID=nil, noStatus=false, direction=false)
     broadcast_message event, {
       position: position,

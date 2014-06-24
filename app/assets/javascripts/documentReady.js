@@ -8,11 +8,24 @@ $(document).ready(function() {
 
   // GAME/NEW
   uploadPgn();
-  $("#lichessSubmit").on('click', function(e) {
-    e.preventDefault();
-    var url = $("#lichessUrl").val();
-    var pgnUrl = url + "/pgn"
-  });
+  // $("#lichessSubmit").on('click', function(e) {
+  //   e.preventDefault();
+  //   var url = $("#lichessUrl").val();
+  //   var pgnUrl = url + "/pgn";
+  //   searchLichess();
+  // });
+
+  // function searchLichess() {
+  //   $.ajax({
+  //     url: "http://en.lichess.org/api/game/B6SQ2uB5?analysis=1",
+  //     dataType: 'jsonp',
+
+  //     success: function(data) {
+  //       console.log(data);
+  //     }
+  //   });
+  // }
+
 
   // Views with a board
   if (App.config.isGame) {

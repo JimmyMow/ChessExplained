@@ -4,6 +4,10 @@ ChessExplained::Application.routes.draw do
     member { get :review }
   end
 
+  # Uploading PGN
+  post "/pgn_upload" => "pgn_upload#regular", as: :regular_upload
+  post "/lichess_upload" => "pgn_upload#lichess", as: :lichess_upload
+
   root to: 'pages#home'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

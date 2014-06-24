@@ -40,13 +40,7 @@ class GamesController < ApplicationController
     @game.user_id = current_user.id
 
     respond_to do |format|
-      if @game.save && params[:upload]
-        @game.create_moves_with_parsed_notation(params[:parsed_notation])
-        format.html { redirect_to review_game_url(@game.id), notice: 'Game was successfully created.' }
-
-        config_opentok
-        Room.create(sessionId: @opentok.create_session.session_id, game_id: @game.id)
-      elsif @game.save
+      if @game.save
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
         format.json { render action: 'show', status: :created, location: @game }
 

@@ -8,6 +8,11 @@ $(document).ready(function() {
 
   // GAME/NEW
   uploadPgn();
+  $("#lichessSubmit").on('click', function(e) {
+    e.preventDefault();
+    var url = $("#lichessUrl").val();
+    var pgnUrl = url + "/pgn"
+  });
 
   // Views with a board
   if (App.config.isGame) {

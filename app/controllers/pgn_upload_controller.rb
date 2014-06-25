@@ -25,7 +25,7 @@ class PgnUploadController < ApplicationController
     respond_to do |format|
       if @game.save
         @game.create_moves_and_variations_with_lichess(params[:_json])
-        format.html { redirect_to review_game_url(@game.id), notice: 'Game was successfully created.' }
+        format.json { @game }
 
         config_opentok
         Room.create(sessionId: @opentok.create_session.session_id, game_id: @game.id)

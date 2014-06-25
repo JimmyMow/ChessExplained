@@ -48,10 +48,14 @@ function searchLichess() {
 
       $.ajax({
         type: 'POST',
-        url: 'http://localhost:3000/lichess_upload',
+        url: '/lichess_upload',
         contentType: 'application/json',
         dataType: 'json',
-        data: JSON.stringify(lichessMoveObjects)
+        data: JSON.stringify(lichessMoveObjects),
+
+        success: function(data) {
+          window.location = "/games/" + data['id'] + "/review";
+        }
       });
     }
   });

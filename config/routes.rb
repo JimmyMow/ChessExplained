@@ -5,7 +5,7 @@ ChessExplained::Application.routes.draw do
   end
 
   # Uploading PGN
-  post "/pgn_upload" => "pgn_upload#regular", as: :regular_upload
+  post "/regular_upload" => "pgn_upload#regular", as: :regular_upload
   post "/lichess_upload" => "pgn_upload#lichess", as: :lichess_upload
 
   root to: 'pages#home'

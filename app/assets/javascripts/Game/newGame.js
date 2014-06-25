@@ -1,7 +1,6 @@
 var uploadPgn = function() {
-  $("#uploadPgn").submit(function(e) {
+  $("#regualarUpload").on('click', function(e) {
     var original_pgn = $('textarea').val();
-    // App.config.engine.load_pgn(original_pgn);
     var chess = new Chess();
     chess.load_pgn(original_pgn);
     var parsed_pgn = chess.history();
@@ -14,7 +13,19 @@ var uploadPgn = function() {
       moveObjects.push( {notation: item, fen: anotherEngine.fen()}  );
     });
 
-    $("#hiddenParsedNotation").val(JSON.stringify(moveObjects));
+    console.log(  JSON.stringify(moveObjects) );
+
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:3000/regular_upload',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(moveObjects),
+
+      success: function(data) {
+        window.location = "/games/" + data['id'] + "/review";
+      }
+    });
   });
 };
 
@@ -27,6 +38,10 @@ var lichessUpload = function() {
     searchLichess();
   });
 };
+
+
+
+
 
 
 // LiChess JSONP function API calls

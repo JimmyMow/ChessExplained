@@ -7,8 +7,10 @@ $(document).ready(function() {
   var navHeight = $('.app-nav').height();
 
   // GAME/NEW
-  uploadPgn();
-  lichessUpload();
+  if (App.config.isNewGame) {
+    uploadPgn();
+    lichessUpload();
+  }
 
 
   // Views with a board

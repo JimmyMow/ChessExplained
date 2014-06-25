@@ -7,8 +7,8 @@ class PgnUploadController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        @game.create_moves_with_parsed_notation(params[:parsed_notation])
-        format.html { redirect_to review_game_url(@game.id), notice: 'Game was successfully created.' }
+        @game.create_moves_with_parsed_notation(params[:_json])
+        format.json { @game }
 
         config_opentok
         Room.create(sessionId: @opentok.create_session.session_id, game_id: @game.id)
@@ -24,7 +24,7 @@ class PgnUploadController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        @game.create_moves_and_variations_with_lichess(params[:_json])
+        @game.create_moves_with_parsed_notation(params[:_json])
         format.json { @game }
 
         config_opentok

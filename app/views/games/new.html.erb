@@ -14,15 +14,15 @@
         If you have any form of PGN digitally, just copy and paste it into the box below, and we'll take care of it from there.
       </p>
 
-      <%= form_tag regular_upload_url, method: 'post', id: "uploadPgn" do %>
+      <%#= form_tag regular_upload_url, method: 'post', id: "uploadPgn" do %>
         <p><label>PGN <span>(Notes inside of the PGN will not work)</span></label><textarea placeholder="Example: 1. e4 e5 2. Bc4 Nc6 3. Qf3 Nd4 4. Qxf7#"></textarea></p>
-        <button class="ladda-button spinner" data-style="expand-right" data-spinner-color="white">
+        <button class="ladda-button spinner" data-style="expand-right" data-spinner-color="white" id="regualarUpload">
           <span class="ladda-label">Submit</span>
         </button>
 
-        <%= hidden_field_tag :parsed_notation, '', id: "hiddenParsedNotation" %>
-        <%= hidden_field_tag :upload, value: true %>
-      <% end %>
+        <%#= hidden_field_tag :parsed_notation, '', id: "hiddenParsedNotation" %>
+        <%#= hidden_field_tag :upload, value: true %>
+      <%# end %>
 
     </section>
   </div>

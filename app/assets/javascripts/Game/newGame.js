@@ -13,11 +13,9 @@ var uploadPgn = function() {
       moveObjects.push( {notation: item, fen: anotherEngine.fen()}  );
     });
 
-    console.log(  JSON.stringify(moveObjects) );
-
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/regular_upload',
+      url: '/regular_upload',
       contentType: 'application/json',
       dataType: 'json',
       data: JSON.stringify(moveObjects),
@@ -33,9 +31,8 @@ var uploadPgn = function() {
 var lichessUpload = function() {
   $("#lichessSubmit").on('click', function(e) {
     e.preventDefault();
-    var url = $("#lichessUrl").val();
-    var pgnUrl = url + "/pgn";
-    searchLichess();
+    var gameId = $("#lichessUrl").val().split("/")[3].split("#")[0];
+    searchLichess(gameId);
   });
 };
 
@@ -45,28 +42,60 @@ var lichessUpload = function() {
 
 
 // LiChess JSONP function API calls
-function searchLichess() {
+function searchLichess(id) {
   $.ajax({
-    url: "http://en.lichess.org/api/game/B6SQ2uB5?with_analysis=1",
+    url: "http://en.lichess.org/api/game/" + id + "?with_analysis=1",
     dataType: 'jsonp',
 
     success: function(data) {
       var lichessGame = data;
       var movesArray = lichessGame['analysis'];
-      var lichessMoveObjects = [];
+      var overallObject = {};
 
+      // url, game_id, turns, status
+      overallObject['lichessId'] = data['id'];
+      overallObject['lichessUrl'] = data['url'];
+      overallObject['lichessUrl'] = data['turns'];
+      overallObject['lichessUrl'] = data['status'];
+
+      // Players lichess username
+      overallObject['blackPlayerName'] = data['players']['black']['userId'];
+      overallObject['whitePlayerName'] = data['players']['white']['userId'];
+
+      // Players rating
+      overallObject['blackPlayerRating'] = data['players']['black']['rating'];
+      overallObject['whitePlayerRating'] = data['players']['white']['rating'];
+
+      // White player analysis
+      overallObject['whitePlayerBlunder'] = data['players']['white']['analysis']['blunder'];
+      overallObject['whitePlayerInaccuracy'] = data['players']['white']['analysis']['inaccuracy'];
+      overallObject['whitePlayerMistake'] = data['players']['white']['analysis']['mistake'];
+
+      // Black player analysis
+      overallObject['blackPlayerBlunder'] = data['players']['black']['analysis']['blunder'];
+      overallObject['blackPlayerInaccuracy'] = data['players']['black']['analysis']['inaccuracy'];
+      overallObject['blackPlayerMistake'] = data['players']['black']['analysis']['mistake'];
+
+      // Time
+      overallObject['totalTime'] = data['clock']['totalTime'];
+      overallObject['increment'] = data['clock']['increment'];
+
+      var lichessMoveObjects = [];
       var chess = new Chess();
       movesArray.forEach(function(item, index) {
         chess.move(item['move'])
         lichessMoveObjects.push( {notation: item['move'], fen: chess.fen()} );
       });
+      overallObject['moves'] = lichessMoveObjects;
+
+      console.log(overallObject);
 
       $.ajax({
         type: 'POST',
         url: '/lichess_upload',
         contentType: 'application/json',
         dataType: 'json',
-        data: JSON.stringify(lichessMoveObjects),
+        data: JSON.stringify(overallObject),
 
         success: function(data) {
           window.location = "/games/" + data['id'] + "/review";

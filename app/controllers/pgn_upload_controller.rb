@@ -7,7 +7,7 @@ class PgnUploadController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        @game.create_moves_with_parsed_notation(params[:_json])
+        @game.create_moves_with_parsed_notation(params[:moves])
         format.json { @game }
 
         config_opentok
@@ -24,7 +24,7 @@ class PgnUploadController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        @game.create_moves_with_parsed_notation(params[:_json])
+        @game.create_moves_with_parsed_notation(params[:moves])
         format.json { @game }
 
         config_opentok

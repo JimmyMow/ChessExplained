@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624225617) do
+ActiveRecord::Schema.define(version: 20140626012400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,22 @@ ActiveRecord::Schema.define(version: 20140624225617) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "lichess_id"
+    t.string   "black_player_name"
+    t.string   "white_player_name"
+    t.string   "white_player_rating"
+    t.string   "black_player_rating"
+    t.string   "white_player_blunder"
+    t.string   "white_player_inaccuracy"
+    t.string   "white_player_mistake"
+    t.string   "black_player_mistake"
+    t.string   "black_player_inaccuracy"
+    t.string   "black_player_blunder"
+    t.string   "status"
+    t.string   "url"
+    t.string   "winner"
+    t.string   "total_time"
+    t.string   "time_increment"
   end
 
   create_table "moves", force: true do |t|

@@ -7,7 +7,7 @@ class PgnUploadController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        @game.create_moves_with_parsed_notation(params[:moves])
+        @game.create_moves_with_parsed_notation(params[:_json])
         format.json { @game }
 
         config_opentok
@@ -21,6 +21,28 @@ class PgnUploadController < ApplicationController
   def lichess
     @game = Game.new
     @game.user_id = current_user.id
+    @game.lichess_id = params[:lichessId]
+    @game.status = params['status']
+    @game.url = params['lichessUrl']
+    @game.winner = params['winner']
+    @game.total_time = params['totalTime']
+    @game.time_increment = params['increment']
+
+    @game.black_player_name = params['blackPlayerName']
+    @game.white_player_name = params['whitePlayerName']
+
+    @game.white_player_rating = params['whitePlayerRating']
+    @game.black_player_rating = params['blackPlayerRating']
+
+    @game.white_player_blunder = params['whitePlayerBlunder']
+    @game.black_player_blunder = params['blackPlayerBlunder']
+
+    @game.white_player_inaccuracy = params['whitePlayerInaccuracy']
+    @game.black_player_inaccuracy = params['blackPlayerInaccuracy']
+
+    @game.white_player_mistake = params['whitePlayerMistake']
+    @game.black_player_mistake = params['blackPlayerMistake']
+
 
     respond_to do |format|
       if @game.save

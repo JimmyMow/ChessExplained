@@ -52,11 +52,13 @@ function searchLichess(id) {
       var movesArray = lichessGame['analysis'];
       var overallObject = {};
 
-      // url, game_id, turns, status
+      // url, game_id, turns, status, winner
       overallObject['lichessId'] = data['id'];
       overallObject['lichessUrl'] = data['url'];
-      overallObject['lichessUrl'] = data['turns'];
-      overallObject['lichessUrl'] = data['status'];
+      overallObject['turns'] = data['turns'];
+      overallObject['status'] = data['status'];
+      overallObject['winner'] = data['winner'];
+
 
       // Players lichess username
       overallObject['blackPlayerName'] = data['players']['black']['userId'];
@@ -87,8 +89,6 @@ function searchLichess(id) {
         lichessMoveObjects.push( {notation: item['move'], fen: chess.fen()} );
       });
       overallObject['moves'] = lichessMoveObjects;
-
-      console.log(overallObject);
 
       $.ajax({
         type: 'POST',

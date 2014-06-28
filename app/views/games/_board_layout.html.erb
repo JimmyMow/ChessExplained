@@ -28,8 +28,10 @@
           <% end %>
         </ul>
       </div> <!-- actual-board-container -->
-      <% @moves.each_with_index do |move, index| %>
-      <%= link_to move.notation, "#", class: 'game-move', data: {fen: move.fen, move_number: index + 1} %>
+      <% unless @not_review %>
+        <% @moves.each_with_index do |move, index| %>
+        <%= link_to move.notation, "#", class: 'game-move', data: {fen: move.fen, move_number: index + 1} %>
+      <% end %>
     <% end %>
     </div> <!-- master -->
 

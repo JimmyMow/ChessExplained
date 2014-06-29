@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  variation_id: 1
+  notation: MyString
+  fen: MyString
+  eval: MyString
+
+two:
+  variation_id: 1
+  notation: MyString
+  fen: MyString
+  eval: MyString

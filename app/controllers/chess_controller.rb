@@ -7,7 +7,7 @@ class ChessController < WebsocketRails::BaseController
   end
 
   def send_move
-    Move.create(notation: message[:lastMove], game_id: message[:gameId]) if message[:lastMove]
+    Move.create(notation: message[:lastMove], game_id: message[:gameId]) if message[:board] == "master"
 
     WebsocketRails[message['channelName'].to_sym].trigger 'send_move', {
       position: message['position'].dup
@@ -31,6 +31,17 @@ class ChessController < WebsocketRails::BaseController
     WebsocketRails[message['channelName'].to_sym].trigger 'close_variation', {}, :namespace => message['boardID']
   end
 
+  def save_variation
+    game = Game.find(message[:gameId])
+    move = game.moves[message[:variationMove]]
+    variation = Variation.create(move_id: move.id)
+    message[:moves].each do |variation_move|
+      VariationMove.create(notation: variation_move['notation'], fen: variation_move['fen'], variation_id: variation.id)
+    end
+
+    WebsocketRails[message['channelName'].to_sym].trigger 'close_variation', {}, :namespace => message['boardID']
+  end
+
   def load_pgn
     Move.where(game_id: message[:gameId]).destroy_all
 
@@ -40,13 +51,24 @@ class ChessController < WebsocketRails::BaseController
   end
 
   def position_ui
-    game = Game.find(message[:databaseGameID])
-    move = game.moves[message[:moveNumber].to_i - 1]
+    if message['direction'] == 'forward'
+      game = Game.find(message[:databaseGameID])
+      move = game.moves[message['moveNumber'].to_i]
+      variations = move.variations
+      variations_object = []
+
+      unless variations.nil?
+        variations.each do |variation|
+          variations_object.push(variation.variation_moves.to_a)
+        end
+      end
+    end
 
     WebsocketRails[message['channelName'].to_sym].trigger 'position_ui', {
       position: message['fen'],
       noStatus: false,
-      direction: message['direction']
+      direction: message['direction'],
+      variations: variations_object
     }, :namespace => message['boardID']
   end
 

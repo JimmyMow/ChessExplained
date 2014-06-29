@@ -31,6 +31,11 @@ App.setupBoard = (function() {
     this.jumpToEnd = __bind(this.jumpToEnd, this);
     this.positionUI = __bind(this.positionUI, this);
     this.position_fen = __bind(this.position_fen, this);
+    this.saveVariation = __bind(this.saveVariation, this);
+    this.showVariations = __bind(this.showVariations, this);
+    this.variationSetupForward = __bind(this.variationSetupForward, this);
+    this.variationSetupBackwards = __bind(this.variationSetupBackwards, this);
+    this.savedVariationMoves = [];
     this.channel = App.dispatcher.subscribe(App.config.channelName);
     this.moveCounter = 0;
 
@@ -79,7 +84,10 @@ App.setupBoard = (function() {
     $('#' + this.id + ' .move-backwards').on('click', this.moveBackwards);
     $('#' + this.id + ' .flip-orientation').on('click', this.flipBoard);
     $("#" + this.id + ' .fast-forward a').on('click', this.fastForward);
+    $("#" + this.id + ' .variation_setup_forward').on('click', this.variationSetupForward);
+    $("#" + this.id + ' .variation_setup_backwards').on('click', this.variationSetupBackwards);
     $("#" + this.id + ' .rewind a').on('click', this.rewind);
+    $("#" + this.id + ' .save-variation a').on('click', this.saveVariation);
     $("#" + this.id + ' .beg a').on('click', this.jumpToBeg);
     $("#" + this.id + ' .end a').on('click', this.jumpToEnd);
   }
@@ -149,18 +157,18 @@ App.setupBoard = (function() {
   Board.prototype.onSnapEnd = function() {
     var moves = this.game.history();
     // Don't save variation moves to the DB
-    if (this.id == 'master') {
-      var lastMove = moves[moves.length - 1];
-    } else {
-      var lastMove = null;
-    }
+    var lastMove = moves[moves.length - 1];
+    var lastMoveFen = this.game.fen();
+
+    variationBoard.variationMoves.push({notation: lastMove, fen: lastMoveFen});
 
     App.dispatcher.trigger('send_move', {
       position: this.game.pgn(),
       boardID: this.id,
       lastMove: lastMove,
       gameId: this.gameId,
-      channelName: App.config.channelName
+      channelName: App.config.channelName,
+      board: this.id
     });
   };
 
@@ -258,6 +266,9 @@ App.setupBoard = (function() {
     $('.white-1e1d7').addClass('variation-square-white');
     $('.black-3c85d').addClass('variation-square-black');
 
+    masterBoard.variationMove = masterBoard.moveCounter - 1;
+    variationBoard.variationMoves = [];
+
     variationBoard.game.load_pgn(position['position']);
     variationBoard.positionUI({
       position: variationBoard.game.fen()
@@ -269,8 +280,22 @@ App.setupBoard = (function() {
     $(".review-container").hide();
     $('.white-1e1d7').removeClass('variation-square-white');
     $('.black-3c85d').removeClass('variation-square-black');
+    variationBoard.variationMoves = [];
+
     variationBoard.game.clear();
     variationBoard.chessboard.clear();
+  }
+
+  Board.prototype.saveVariation = function(e) {
+    e.preventDefault();
+
+    App.dispatcher.trigger('save_variation', {
+      moves: variationBoard.variationMoves,
+      variationMove: masterBoard.variationMove,
+      gameId: this.gameId,
+      boardID: this.id,
+      channelName: App.config.channelName
+    });
   }
 
   Board.prototype.rewind = function(e) {
@@ -293,14 +318,20 @@ App.setupBoard = (function() {
 
 
        if(this.id == 'variation') {
-          App.dispatcher.trigger('position_ui', {
-            fen: fen,
-            boardID: this.id,
-            databaseGameID: this.gameId,
-            moveNumber: this.moveCounter,
-            direction: "variation_rewind",
-            channelName: App.config.channelName
-          });
+          if (variationBoard.variationMoves.length == 0) {
+            alert("You cannot undo without making any moves.")
+          } else {
+            variationBoard.variationMoves.pop();
+
+            App.dispatcher.trigger('position_ui', {
+              fen: fen,
+              boardID: this.id,
+              databaseGameID: this.gameId,
+              moveNumber: this.moveCounter,
+              direction: "variation_rewind",
+              channelName: App.config.channelName
+            });
+          }
         } else {
           App.dispatcher.trigger('position_ui', {
             fen: fen,
@@ -334,7 +365,7 @@ App.setupBoard = (function() {
         databaseGameID: this.gameId,
         moveNumber: this.moveCounter,
         direction: 'forward',
-        channelName: App.config.channelName
+        channelName: App.config.channelName,
       });
     }
   }
@@ -381,11 +412,15 @@ App.setupBoard = (function() {
 
   Board.prototype.position_fen = function(object) {
     this.chessboard.position(object['position']);
-    this.moveCounter = parseInt(object['moveNumber']);
-    window.location.hash = "#" + this.moveCounter;
+
+    if(this.id == 'master') {
+      this.moveCounter = parseInt(object['moveNumber']);
+      window.location.hash = "#" + this.moveCounter;
+    }
   }
 
   Board.prototype.positionUI = function(position) {
+    $('.variation_saved_board').remove();
     switch (position['direction']) {
       case "forward":
       this.moveCounter++;
@@ -416,6 +451,54 @@ App.setupBoard = (function() {
     }
 
     this.chessboard.position(position['position']);
+
+    if (position['variations']) {
+      this.showVariations(position['variations']);
+    }
+  }
+
+  Board.prototype.showVariations = function(variations) {
+    var moveNum = masterBoard.moveCounter;
+    var moves = masterBoard.game.history().slice(0, moveNum);
+    if(variations && variations.length > 0) {
+      variations.forEach(function(item, index) {
+        $('body').prepend("<div id='board" + index + "' style='width: 300px'><div class='game-board'></div></div>");
+        $('#board' + index).append("<a href='#' class='variation_setup_forward'>Next</a>");
+        $('#board' + index).append("<a href='#' class='variation_setup_backwards'>Back</a>");
+        var index = new App.setupBoard("board" + index, App.config.websocketUrl, true, masterBoard.chessboard.fen());
+        index.savedVariationMoves = item;
+
+        item.forEach(function(item, index, array) {
+
+        });
+      });
+    }
+  }
+
+  Board.prototype.variationSetupForward = function(e) {
+    e.preventDefault();
+    var move = this.savedVariationMoves[this.moveCounter];
+    App.dispatcher.trigger('position_fen', {
+      fen: move['fen'],
+      moveNumber: this.moveCounter,
+      channelName: App.config.channelName,
+      boardID: this.id
+    });
+
+    this.moveCounter++;
+  }
+
+  Board.prototype.variationSetupBackwards = function(e) {
+    e.preventDefault();
+    var move = this.savedVariationMoves[this.moveCounter - 1];
+    App.dispatcher.trigger('position_fen', {
+      fen: move['fen'],
+      moveNumber: this.moveCounter,
+      channelName: App.config.channelName,
+      boardID: this.id
+    });
+
+    this.moveCounter--;
   }
 
   return Board;

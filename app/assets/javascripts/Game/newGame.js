@@ -51,7 +51,6 @@ function searchLichess(id) {
       var lichessGame = data;
       var movesArray = lichessGame['analysis'];
       var overallObject = {};
-
       // url, game_id, turns, status, winner
       overallObject['lichessId'] = data['id'];
       overallObject['lichessUrl'] = data['url'];
@@ -85,10 +84,22 @@ function searchLichess(id) {
       var lichessMoveObjects = [];
       var chess = new Chess();
       movesArray.forEach(function(item, index) {
-        chess.move(item['move'])
-        lichessMoveObjects.push( {notation: item['move'], fen: chess.fen()} );
+        var variation = [];
+        if(item['variation']) {
+          var anotherEngine = new Chess(chess.fen());
+          item['variation'].split(' ').forEach(function(item, index) {
+            anotherEngine.move(item);
+            variation.push({notation: item, fen: anotherEngine.fen()});
+          });
+        }
+
+        chess.move(item['move']);
+        var variation;
+        lichessMoveObjects.push( {notation: item['move'], fen: chess.fen(), variation: variation} );
       });
       overallObject['moves'] = lichessMoveObjects;
+
+      console.log(overallObject);
 
       $.ajax({
         type: 'POST',

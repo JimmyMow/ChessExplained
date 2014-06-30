@@ -469,7 +469,7 @@ App.setupBoard = (function() {
   Board.prototype.showVariations = function(variations) {
     var moveNum = masterBoard.moveCounter;
     var moves = masterBoard.game.history().slice(0, moveNum);
-    console.log(this.savedVariationCount);
+
     if(variations && variations.length > 0) {
       variations.forEach(function(item, index) {
         $('.variations-saved-container').prepend("<div id='board" + parseInt(masterBoard.savedVariationCount) + "' style='width: 300px'><div class='game-board'></div></div>");

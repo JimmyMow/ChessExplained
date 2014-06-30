@@ -36,6 +36,7 @@ App.setupBoard = (function() {
     this.variationSetupForward = __bind(this.variationSetupForward, this);
     this.variationSetupBackwards = __bind(this.variationSetupBackwards, this);
     this.savedVariationMoves = [];
+    this.savedVariationCount = 0;
     this.channel = App.dispatcher.subscribe(App.config.channelName);
     this.moveCounter = 0;
 
@@ -413,14 +414,22 @@ App.setupBoard = (function() {
   Board.prototype.position_fen = function(object) {
     this.chessboard.position(object['position']);
 
+    if(object['direction'] == 'clickableNotation') {
+      $('.variations-saved-container').empty();
+    }
+
     if(this.id == 'master') {
       this.moveCounter = parseInt(object['moveNumber']);
       window.location.hash = "#" + this.moveCounter;
     }
+
+    if ((this.moveCounter > 0 && this.moveCounter < this.game.history().length) && object['variations']) {
+      this.showVariations(object['variations']);
+    }
   }
 
   Board.prototype.positionUI = function(position) {
-    $('.variation_saved_board').remove();
+    $('.variations-saved-container').empty();
     switch (position['direction']) {
       case "forward":
       this.moveCounter++;
@@ -452,7 +461,7 @@ App.setupBoard = (function() {
 
     this.chessboard.position(position['position']);
 
-    if (position['variations']) {
+    if ((this.moveCounter > 0 && this.moveCounter < this.game.history().length) && position['variations']) {
       this.showVariations(position['variations']);
     }
   }
@@ -460,45 +469,58 @@ App.setupBoard = (function() {
   Board.prototype.showVariations = function(variations) {
     var moveNum = masterBoard.moveCounter;
     var moves = masterBoard.game.history().slice(0, moveNum);
+    console.log(this.savedVariationCount);
     if(variations && variations.length > 0) {
       variations.forEach(function(item, index) {
-        $('body').prepend("<div id='board" + index + "' style='width: 300px'><div class='game-board'></div></div>");
-        $('#board' + index).append("<a href='#' class='variation_setup_forward'>Next</a>");
-        $('#board' + index).append("<a href='#' class='variation_setup_backwards'>Back</a>");
-        var index = new App.setupBoard("board" + index, App.config.websocketUrl, true, masterBoard.chessboard.fen());
-        index.savedVariationMoves = item;
+        $('.variations-saved-container').prepend("<div id='board" + parseInt(masterBoard.savedVariationCount) + "' style='width: 300px'><div class='game-board'></div></div>");
+        $('#board' + parseInt(masterBoard.savedVariationCount)).append("<a href='#' class='variation_setup_forward'>Next</a>");
+        $('#board' + parseInt(masterBoard.savedVariationCount)).append("<a href='#' class='variation_setup_backwards'>Back</a>");
 
-        item.forEach(function(item, index, array) {
-
-        });
+        var board = new App.setupBoard("board" + parseInt(masterBoard.savedVariationCount), App.config.websocketUrl, true, masterBoard.chessboard.fen());
+        board.savedVariationMoves = item;
+        masterBoard.savedVariationCount++;
       });
     }
   }
 
   Board.prototype.variationSetupForward = function(e) {
     e.preventDefault();
-    var move = this.savedVariationMoves[this.moveCounter];
-    App.dispatcher.trigger('position_fen', {
-      fen: move['fen'],
-      moveNumber: this.moveCounter,
-      channelName: App.config.channelName,
-      boardID: this.id
-    });
 
-    this.moveCounter++;
+    if (this.moveCounter < this.savedVariationMoves.length) {
+      var move = this.savedVariationMoves[this.moveCounter];
+      App.dispatcher.trigger('position_fen', {
+        fen: move['fen'],
+        moveNumber: this.moveCounter,
+        channelName: App.config.channelName,
+        boardID: this.id,
+        direction: 'variation_saved'
+      });
+      this.moveCounter++;
+    }
+
   }
 
   Board.prototype.variationSetupBackwards = function(e) {
     e.preventDefault();
-    var move = this.savedVariationMoves[this.moveCounter - 1];
-    App.dispatcher.trigger('position_fen', {
-      fen: move['fen'],
-      moveNumber: this.moveCounter,
-      channelName: App.config.channelName,
-      boardID: this.id
-    });
+    if (this.moveCounter > 0) {
+      this.moveCounter--;
+      var move = this.savedVariationMoves[this.moveCounter - 1];
 
-    this.moveCounter--;
+      if (move) {
+        var fen = move['fen']
+      } else {
+        var fen = masterBoard.chessboard.fen();
+      }
+
+      App.dispatcher.trigger('position_fen', {
+        fen: fen,
+        moveNumber: this.moveCounter,
+        channelName: App.config.channelName,
+        boardID: this.id,
+        direction: 'variation_saved'
+      });
+    }
+
   }
 
   return Board;

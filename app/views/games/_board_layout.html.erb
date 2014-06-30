@@ -31,7 +31,7 @@
       </div> <!-- actual-board-container -->
       <% unless @not_review %>
         <% @moves.each_with_index do |move, index| %>
-        <%= link_to move.notation, "#", class: 'game-move', data: {fen: move.fen, move_number: index + 1} %>
+        <%= link_to move.notation, "#", class: 'game-move', data: {fen: move.fen, move_number: index + 1, move_id: move.id} %>
       <% end %>
     <% end %>
     </div> <!-- master -->
@@ -49,17 +49,11 @@
     <% unless @not_review %>
       <section class="vid-chat" id="notesSection">
         <div id="youPublisher"></div>
-        <!-- <div id="guestPublisher"></div> -->
       </section>
     <% end %>
-<!--
-<div class='pgn-container'>
-          <ul id="pgn-variation"></ul>
-        </div> <!-- pgn-container -->
 
+    <% unless @not_review %>
+      <section class="variations-saved-container">
 
-      <!--   <div class="note-form">
-          <input type='text'>
-          <%#= link_to "Submit", "#", id: "noteSubmit" %>
-        </div>
-        <ul class="notes-list"></ul> -->
+      </section>
+    <% end %>

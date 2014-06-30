@@ -7,7 +7,7 @@ var setUpBoard = function(windowHeight, navHeight) {
 
   var boardHeight = $('.game-board').height();
   $('.board-features').css({"height": boardHeight});
-  $('.vid-chat').css({"height": boardHeight});
+  // $('.vid-chat').css({"height": boardHeight});
 }; // setUpBoard
 
 var loadingPreviousMovesOrPosition = function() {
@@ -125,7 +125,7 @@ var openTokVideoStream = function() {
   var guestCounter = 0;
   var session = OT.initSession(apiKey, sessionId);
   session.on("streamCreated", function(event) {
-    $('.vid-chat').append("<div id='guestPublisher" + guestCounter + "'></div>");
+    $('.vid-chat').append("<div id='guestPublisher" + guestCounter + "' class='video-stream'></div>");
     session.subscribe(event.stream, "guestPublisher" + guestCounter);
     guestCounter++;
   });
@@ -145,7 +145,9 @@ var clickableNotation = function() {
       fen: move.data('fen'),
       moveNumber: move.data('move-number'),
       channelName: App.config.channelName,
-      boardID: "master"
+      boardID: "master",
+      moveID: move.data('move-id'),
+      direction: "clickableNotation"
     });
   });
 }

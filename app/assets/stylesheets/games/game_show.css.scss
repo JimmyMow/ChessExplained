@@ -47,7 +47,7 @@
     } // actual-board-container
   } // game-container
 
-  .video-chat {
+  .vid-chat {
     width: 35%;
     float: left;
     margin: 2% 2.5%;
@@ -71,3 +71,18 @@
     text-transform: uppercase;
   }
 }
+
+  .variations-saved-container {
+    width: 35%;
+    float: left;
+    overflow-y: auto;
+    @extend %group;
+  }
+
+  .video-stream {
+    display: inline-block;
+  }
+
+  #youPublisher {
+    display: inline-block;
+  }

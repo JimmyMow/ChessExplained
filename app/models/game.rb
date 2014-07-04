@@ -1,5 +1,6 @@
 class Game < ActiveRecord::Base
   has_many :moves
+  has_many :variations, :through => :moves
 
   has_one :room
 

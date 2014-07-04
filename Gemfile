@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
-
+# Number to word
+gem 'numbers_and_words'
 # Opentok
 gem "opentok", "~> 2.2"
 # Devise

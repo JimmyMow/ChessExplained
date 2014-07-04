@@ -19,6 +19,13 @@ class GamesController < ApplicationController
     @room = @game.room
     @moves = @game.moves
 
+    if @game.winner == 'black'
+      @winner = @game.black_player_name
+    elsif @game.winner == "white"
+      @winner = @game.white_player_name
+    end
+
+
     config_opentok
 
     @tok_token = @opentok.generate_token @room.sessionId

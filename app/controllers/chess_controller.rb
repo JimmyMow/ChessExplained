@@ -55,8 +55,10 @@ class ChessController < WebsocketRails::BaseController
       game = Game.find(message[:databaseGameID])
       if message['direction'] == 'rewind'
         move = game.moves[message['moveNumber'].to_i - 2]
+        next_move = game.moves[message['moveNumber'].to_i - 1]
       else
         move = game.moves[message['moveNumber'].to_i]
+        next_move = game.moves[message['moveNumber'].to_i + 1]
       end
       variations = move.variations
       variations_object = []
@@ -68,19 +70,20 @@ class ChessController < WebsocketRails::BaseController
       end
     end
 
-    puts move.notation
-    puts message['moveNumber'].to_i - 2
-    puts message['moveNumber'].to_i
-
     WebsocketRails[message['channelName'].to_sym].trigger 'position_ui', {
       position: message['fen'],
       noStatus: false,
       direction: message['direction'],
-      variations: variations_object
+      variations: variations_object,
+      nextMove: next_move
     }, :namespace => message['boardID']
   end
 
   def position_fen
+    move = Move.find(message['moveID'])
+    game_moves = move.game.moves
+    next_move = game_moves[game_moves.to_a.index(move) + 1]
+
     if message['direction'] == 'clickableNotation'
       move = Move.find(message['moveID'])
       variations = move.variations
@@ -97,7 +100,8 @@ class ChessController < WebsocketRails::BaseController
       position: message['fen'],
       moveNumber: message['moveNumber'],
       direction: message['direction'],
-      variations: variations_object
+      variations: variations_object,
+      nextMove: next_move
     }, :namespace => message['boardID']
   end
 

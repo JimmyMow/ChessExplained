@@ -1,7 +1,10 @@
 module ApplicationHelper
   def in_words(digits)
-    error = "Please give me an integer greater than zero."
+    # Error message if
+    error = "Digit is not greater than zero or NaN."
+    # Checking if what the method got passed (digits variable) is a integer
     return error unless digits.is_a? Integer
+    # Making sure it's bigger than 0, I cannot have a 0 channel
     return error unless digits > 0
 
     chunks = []

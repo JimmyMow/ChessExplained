@@ -73,6 +73,9 @@ GEM
     minitest (4.7.5)
     multi_json (1.9.2)
     multi_xml (0.5.5)
+    numbers_and_words (0.10.0)
+      activesupport
+      i18n
     opentok (2.2.1)
       activesupport (>= 2.0)
       addressable (~> 2.3)
@@ -163,6 +166,7 @@ DEPENDENCIES
   font-awesome-rails
   jbuilder (~> 1.2)
   jquery-rails
+  numbers_and_words
   opentok (~> 2.2)
   pg
   rails (= 4.0.2)

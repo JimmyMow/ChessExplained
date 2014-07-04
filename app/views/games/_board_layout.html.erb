@@ -1,5 +1,41 @@
 <div class="page-container">
 
+ <% unless @not_review %>
+    <section class="game-details">
+      <div class="game-info">
+        <section class="players-wrap">
+          <aside class='white-player game-player'>
+            <h2>&#9812; <%= @game.white_player_name %>(<%= @game.white_player_rating %>)</h2>
+            <ul class="computer-analysis">
+              <li>Inaccuracies: <%= @game.white_player_inaccuracy %></li>
+              <li>Mistakes: <%= @game.white_player_mistake %></li>
+              <li>Blunders: <%= @game.white_player_blunder %></li>
+            </ul>
+          </aside>
+          <aside class='black-player game-player'>
+            <h2>&#9818; <%= @game.black_player_name %>(<%= @game.black_player_rating %>)</h2>
+            <ul class="computer-analysis">
+              <li>Inaccuracies: <%= @game.black_player_inaccuracy %></li>
+              <li>Mistakes: <%= @game.black_player_mistake %></li>
+              <li>Blunders: <%= @game.black_player_blunder %></li>
+            </ul>
+          </aside>
+        </section>
+        <section class="small-details">
+          <% if @winner %>
+            <p class="winner">Winner: <%= @winner %></p>
+          <% end %>
+          <p class="time-control">Time control: <%= distance_of_time_in_words(@game.total_time.to_i) %> + <%= @game.time_increment %></p>
+        </section>
+      </div>
+      <div class="game-pgn">
+        <% @moves.each_with_index do |move, index| %>
+          <%= link_to "#{move.notation}", "#", class: 'game-move', data: {fen: move.fen, move_number: index + 1, move_id: move.id} %>
+        <% end %>
+      </div>
+      </section>
+    <% end %>
+
    <aside class="review-container hide">
       <div id="variation">
         <%= link_to "Done with this variation", "#", class: "finishVariation" %>
@@ -11,14 +47,12 @@
 
     <div id="master" class="game-container">
       <div class="actual-board-container">
-        <ul class="board-feature-links">
-          <li class='flip-orientation'><%= link_to "Flip Board", "#" %></li>
-          <% unless @not_review %>
-            <li class='new-variation'><%= link_to "Test a variation", "#", id: "trigger_id" %></li>
-          <% end %>
-        </ul>
         <div class='game-board'></div>
+        <!-- <ul class="board-feature-links">
+
+        </ul> -->
         <ul class="game-navigation">
+          <li class='flip-orientation'><%= link_to "Flip the board", "#" %></li>
           <% if @not_review %>
             <li class='move-backwards'><%= link_to "Undo move", "#" %></li>
           <% else %>
@@ -26,14 +60,11 @@
             <li class='rewind'><%= link_to "<i class=\"fa fa-angle-left fa-3x\"></i>".html_safe, "#" %></li>
             <li class='fast-forward'><%= link_to "<i class=\"fa fa-angle-right fa-3x\"></i>".html_safe, "#" %></li>
             <li class='end'><%= link_to "<i class=\"fa fa-step-forward fa-3x\"></i>".html_safe, "#" %></li>
+
+            <li class='new-variation'><%= link_to "New variation", "#", id: "trigger_id" %></li>
           <% end %>
         </ul>
       </div> <!-- actual-board-container -->
-      <% unless @not_review %>
-        <% @moves.each_with_index do |move, index| %>
-        <%= link_to move.notation, "#", class: 'game-move', data: {fen: move.fen, move_number: index + 1, move_id: move.id} %>
-      <% end %>
-    <% end %>
     </div> <!-- master -->
 
 
@@ -42,18 +73,13 @@
           <span class="ladda-label">Submit</span>
         <% end %>
       <% end %>
+
+        <% unless @not_review %>
+    <section class="vid-chat" id="notesSection">
+      <div id="youPublisher"></div>
+      <section class="variations-saved-container">
+      </section>
+    </section>
+  <% end %>
 </div> <!-- container -->
 
-
-
-    <% unless @not_review %>
-      <section class="vid-chat" id="notesSection">
-        <div id="youPublisher"></div>
-      </section>
-    <% end %>
-
-    <% unless @not_review %>
-      <section class="variations-saved-container">
-
-      </section>
-    <% end %>

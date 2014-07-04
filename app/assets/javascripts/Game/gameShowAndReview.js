@@ -1,5 +1,5 @@
 var setUpBoard = function(windowHeight, navHeight) {
-  $('.actual-board-container').css({"width": (windowHeight - 120 - navHeight) + "px"});
+  $('.actual-board-container').css({"width": (windowHeight - 220 - navHeight) + "px"});
 
   window.masterBoard = new App.setupBoard("master", App.config.websocketUrl, true);
   $(window).resize(masterBoard.chessboard.resize);
@@ -33,20 +33,41 @@ var loadingPreviousMovesOrPosition = function() {
           stringNot += (item['notation'] + " ");
         });
 
-        App.config.engine.load_pgn(stringNot);
-        masterBoard.positionUI({position: App.config.engine.fen()});
         masterBoard.moveCounter = moveCount;
+
+        App.config.engine.load_pgn(stringNot);
+
+        masterBoard.positionUI({
+          position: App.config.engine.fen(),
+          direction: "onReload",
+          moveNumber: masterBoard.moveCount,
+          boardID: masterBoard.id,
+          databaseGameID: masterBoard.gameId,
+          channelName: App.config.channelName
+        });
 
         window.variationBoard = new App.setupBoard('variation', App.config.websocketUrl, true, '', 'variation');
         variationBoard.game.load_pgn( App.config.engine.pgn()  );
         variationBoard.positionBoard({
           position: App.config.engine.pgn()
         });
+
+        window.lastMove = (movesBeforeMoveCount[movesBeforeMoveCount.length-1]);
+
       }
     }
   });
 }; // loadingPreviousMovesOrPosition
 
+var loadAnySavedVariations = function() {
+  $.getJSON("/games/" + App.config.gameId + "/review.json", function(data) {
+    data.forEach(function(item, index) {
+      if(item['move_id'] == window.lastMove['id']) {
+        masterBoard.showVariations([item['variation_moves']]);
+      }
+    });
+  });
+};
 var submitManualPlayedGame = function() {
   $("#submitPgn").on('submit', function() {
     var pgn = $('input[type=text]').val();
@@ -83,60 +104,6 @@ var closeVariation = function() {
   });
 };
 
-var openTokConfiguration = function() {
-  var videos = 1;
-  var publisherObj;
-
-  var subscriberObj = {};
-
-  var MAX_WIDTH_VIDEO = 264;
-  var MAX_HEIGHT_VIDEO = 198;
-
-  var MIN_WIDTH_VIDEO = 200;
-  var MIN_HEIGHT_VIDEO = 150;
-
-  var MAX_WIDTH_BOX = 800;
-  var MAX_HEIGHT_BOX = 600;
-
-  var CURRENT_WIDTH = MAX_WIDTH_VIDEO;
-  var CURRENT_HEIGHT = MAX_HEIGHT_VIDEO;
-
-  function layoutManager() {
-    var estBoxWidth = MAX_WIDTH_BOX / videos;
-    var width = Math.min(MAX_WIDTH_VIDEO, Math.max(MIN_WIDTH_VIDEO,
-          estBoxWidth));
-    var height = 3*width/4;
-
-    publisherObj.height = height;
-    publisherObj.width = width;
-
-    for(var subscriberDiv in subscriberObj) {
-      subscriberDiv.height = height;
-      subscriberDiv.width = width;
-    }
-
-    CURRENT_HEIGHT = height;
-    CURRENT_WIDTH = width;
-  }
-};
-
-var openTokVideoStream = function() {
-  var apiKey = "44827272";
-  var guestCounter = 0;
-  var session = OT.initSession(apiKey, sessionId);
-  session.on("streamCreated", function(event) {
-    $('.vid-chat').append("<div id='guestPublisher" + guestCounter + "' class='video-stream'></div>");
-    session.subscribe(event.stream, "guestPublisher" + guestCounter);
-    guestCounter++;
-  });
-
-  session.connect(token, function(error) {
-    var publisher = OT.initPublisher("youPublisher", {name: userVideoName});
-    $("#youPublisher").prependTo(".video-chat");
-    session.publish(publisher);
-  });
-};
-
 var clickableNotation = function() {
   $('.game-move').on('click', function(e) {
     e.preventDefault();
@@ -150,4 +117,59 @@ var clickableNotation = function() {
       direction: "clickableNotation"
     });
   });
-}
+};
+
+// var openTokConfiguration = function() {
+//   var videos = 1;
+//   var publisherObj;
+
+//   var subscriberObj = {};
+
+//   var MAX_WIDTH_VIDEO = 264;
+//   var MAX_HEIGHT_VIDEO = 198;
+
+//   var MIN_WIDTH_VIDEO = 200;
+//   var MIN_HEIGHT_VIDEO = 150;
+
+//   var MAX_WIDTH_BOX = 800;
+//   var MAX_HEIGHT_BOX = 600;
+
+//   var CURRENT_WIDTH = MAX_WIDTH_VIDEO;
+//   var CURRENT_HEIGHT = MAX_HEIGHT_VIDEO;
+
+//   function layoutManager() {
+//     var estBoxWidth = MAX_WIDTH_BOX / videos;
+//     var width = Math.min(MAX_WIDTH_VIDEO, Math.max(MIN_WIDTH_VIDEO,
+//           estBoxWidth));
+//     var height = 3*width/4;
+
+//     publisherObj.height = height;
+//     publisherObj.width = width;
+
+//     for(var subscriberDiv in subscriberObj) {
+//       subscriberDiv.height = height;
+//       subscriberDiv.width = width;
+//     }
+
+//     CURRENT_HEIGHT = height;
+//     CURRENT_WIDTH = width;
+//   }
+// };
+
+var openTokVideoStream = function() {
+  var apiKey = "44827272";
+  var guestCounter = 0;
+  var session = OT.initSession(apiKey, sessionId);
+  session.on("streamCreated", function(event) {
+    $('.vid-chat').prepend("<div id='guestPublisher" + guestCounter + "' class='video-stream'></div>");
+    session.subscribe(event.stream, "guestPublisher" + guestCounter, {width: 195, height: 150});
+    guestCounter++;
+  });
+
+  session.connect(token, function(error) {
+    var publisher = OT.initPublisher("youPublisher", {name: userVideoName, width: 195, height: 150});
+    $("#youPublisher").prependTo(".video-chat");
+    session.publish(publisher);
+  });
+};
+

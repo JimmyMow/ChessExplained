@@ -1,8 +1,36 @@
 .page-container {
-  width: 90%;
+  width: 100%;
+  .game-details {
+    width: 25%;
+    float: left;
+    margin: 0 1.5%;
+    .players-wrap {
+      border-bottom: 1px solid #ccc;
+      .game-player {
+        h2 {
+          font-size: 20px;
+          font-weight: bold;
+          text-decoration: underline;
+        }
+      }
+      .computer-analysis {
+        padding: 5px;
+        li {
+          padding: 3px 0;
+          font-style: italic;
+        }
+      }
+    }
+    .small-details {
+      padding: 15px 0;
+      border-bottom: 1px solid #ccc;
+      p {
+        line-height: 2;
+      }
+    }
+  }
   .game-container {
-    width: 55%;
-    margin: 0 2.5%;
+    width: 40%;
     float: left;
     .actual-board-container {
       margin: 0 auto;
@@ -31,7 +59,7 @@
         text-align: center;
         li {
           display: inline-block;
-          padding: 2% 5%;
+          padding: 2% 3%;
 
           a {
             @include hover-transition-all;
@@ -48,9 +76,8 @@
   } // game-container
 
   .vid-chat {
-    width: 35%;
+    width: 30%;
     float: left;
-    margin: 2% 2.5%;
     overflow-y: auto;
     @extend %group;
   } // notes
@@ -61,7 +88,7 @@
 } //container
 
 .review-container {
-  width: 55%;
+  width: 35%;
   margin: 0 2.5%;
   float: left;
   h2 {
@@ -72,17 +99,14 @@
   }
 }
 
-  .variations-saved-container {
-    width: 35%;
-    float: left;
-    overflow-y: auto;
-    @extend %group;
-  }
-
   .video-stream {
     display: inline-block;
   }
 
   #youPublisher {
     display: inline-block;
+  }
+
+  .saved-variation {
+    margin: 0 auto;
   }

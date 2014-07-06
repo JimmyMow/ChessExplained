@@ -422,7 +422,7 @@ App.setupBoard = (function() {
       this.moveCounter = parseInt(object['moveNumber']);
       window.location.hash = "#" + this.moveCounter;
     }
-    alert(object['nextMove']);
+
     if ((this.moveCounter > 0 && this.moveCounter < this.game.history().length) && object['variations']) {
       this.showVariations(object['variations'], object['nextMove']);
     }
@@ -472,7 +472,7 @@ App.setupBoard = (function() {
 
     if(variations && variations.length > 0) {
       variations.forEach(function(item, index) {
-        $('.variations-saved-container').prepend("<div class ='saved-variation' id='board" + parseInt(masterBoard.savedVariationCount) + "' style='width: 300px'><h3>" + nextMove['notation'] + "</h3><div class='game-board'></div></div>");
+        $('.variations-saved-container').prepend("<div class ='saved-variation' id='board" + parseInt(masterBoard.savedVariationCount) + "' style='width: 300px'><h3>Instead of " + nextMove['notation'] + " here the computer suggests the following...</h3><div class='game-board'></div></div>");
         $('#board' + parseInt(masterBoard.savedVariationCount)).append("<a href='#' class='variation_setup_forward'>Next</a>");
         $('#board' + parseInt(masterBoard.savedVariationCount)).append("<a href='#' class='variation_setup_backwards'>Back</a>");
         $('#board' + parseInt(masterBoard.savedVariationCount)).append("<span class='flip-orientation'><a href='#'>Flip Board</a></span>");

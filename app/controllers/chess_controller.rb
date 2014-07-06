@@ -80,12 +80,11 @@ class ChessController < WebsocketRails::BaseController
   end
 
   def position_fen
-    move = Move.find(message['moveID'])
-    game_moves = move.game.moves
-    next_move = game_moves[game_moves.to_a.index(move) + 1]
 
     if message['direction'] == 'clickableNotation'
       move = Move.find(message['moveID'])
+      game_moves = move.game.moves
+      next_move = game_moves[game_moves.to_a.index(move) + 1]
       variations = move.variations
         variations_object = []
 

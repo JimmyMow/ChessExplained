@@ -1,4 +1,41 @@
-.sign-in-checkbox {
-  margin-bottom: 20px;
-  @include fancy-checkbox;
+.container-devise {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 50px;
 }
+
+.devise-title {
+  text-align: center;
+  font-size: 35px;
+  font-weight: 300;
+}
+
+.devise-form {
+  .fields-container {
+    text-align: center;
+    input[type=email], input[type=password] {
+      outline: 1px solid #ccc;
+      padding: 7px;
+      width: 50%;
+    }
+  }
+
+  .submit-container {
+    text-align: center;
+    input[type=submit] {
+      width: 50%;
+      margin-top: 15px;
+      padding: 10px 15px;
+    }
+  }
+}
+
+.sign-up-sign-in-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+  .sign-in-checkbox {
+    margin-bottom: 20px;
+    @include fancy-checkbox;
+  }

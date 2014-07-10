@@ -17,6 +17,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    &.highlight {
+        background-color: red;
+    }
 }
 .white-1e1d7 {
     background-color: #f0d9b5;

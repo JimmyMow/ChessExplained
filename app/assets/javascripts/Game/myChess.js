@@ -35,6 +35,7 @@ App.setupBoard = (function() {
     this.showVariations = __bind(this.showVariations, this);
     this.variationSetupForward = __bind(this.variationSetupForward, this);
     this.variationSetupBackwards = __bind(this.variationSetupBackwards, this);
+    this.highlightSquare = __bind(this.highlightSquare, this);
     this.savedVariationMoves = [];
     this.savedVariationCount = 0;
     this.channel = App.dispatcher.subscribe(App.config.channelName);
@@ -521,6 +522,10 @@ App.setupBoard = (function() {
         direction: 'variation_saved'
       });
     }
+
+  }
+
+  Board.prototype.highlightSquare = function() {
 
   }
 

@@ -10,7 +10,14 @@ var setUpBoard = function(windowHeight, navHeight) {
   // $('.vid-chat').css({"height": boardHeight});
 }; // setUpBoard
 
-var loadingPreviousMovesOrPosition = function() {
+var highlightSquare = function() {
+  $('div').on('click','.square-55d63' ,function(){
+    $(this).toggleClass('highlight');
+
+  });
+};
+
+var loadingPreviousMovesOrPosition = function(windowHeight, navHeight) {
   $.getJSON( "/games/" + App.config.gameId +".json", function( data ) {
     if (  data.length > 0 ) {
       var moves = "";
@@ -54,6 +61,7 @@ var loadingPreviousMovesOrPosition = function() {
 
         window.lastMove = (movesBeforeMoveCount[movesBeforeMoveCount.length-1]);
 
+        $('#variation .game-board').css({"width": (windowHeight - 220 - navHeight) + "px"});
       }
     }
   });

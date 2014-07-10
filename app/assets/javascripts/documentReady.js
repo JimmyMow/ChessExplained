@@ -16,7 +16,7 @@ $(document).ready(function() {
   // Views with a board
   if (App.config.isGame) {
     setUpBoard(windowHeight, navHeight);
-    loadingPreviousMovesOrPosition();
+    loadingPreviousMovesOrPosition(windowHeight, navHeight);
     submitManualPlayedGame();
     newVariationForReviewBoard();
     closeVariation();
@@ -24,9 +24,10 @@ $(document).ready(function() {
 
   if (App.config.isReview) {
     // openTokConfiguration();
-    openTokVideoStream();
+    // openTokVideoStream();
     loadAnySavedVariations();
     clickableNotation();
+    highlightSquare();
   }
 
   if(App.config.isHome) {

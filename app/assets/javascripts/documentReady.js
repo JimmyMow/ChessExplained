@@ -24,7 +24,7 @@ $(document).ready(function() {
 
   if (App.config.isReview) {
     // openTokConfiguration();
-    // openTokVideoStream();
+    openTokVideoStream();
     loadAnySavedVariations();
     clickableNotation();
     highlightSquare();

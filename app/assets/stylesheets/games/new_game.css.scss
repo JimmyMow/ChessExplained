@@ -45,11 +45,16 @@
           font-weight: 200;
 
           span {
-             -moz-border-radius: 15px;
-              border-radius: 15px;
-              padding: 5px;
-              border: 1px solid #2980b9;
-              background-color: white;
+             // -moz-border-radius: 15px;
+             //  border-radius: 15px;
+             //  padding: 5px;
+             //  border: 1px solid #2980b9;
+             //  background-color: white;
+             color: white;
+             font-size: 30px;
+             font-weight: bold;
+             border-bottom: 1px solid #2980b9;
+             margin-right: 5px;
           }
         }
       }

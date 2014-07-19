@@ -1,12 +1,11 @@
-<div class="page-container">
-  <%= link_to "Go to new game page", new_game_url %>
-  <%= link_to "Log out", destroy_user_session_url, method: 'delete' %>
-
+<div class="container">
   <div class="games">
+    <h2>You have <%= @games.count %> uploaded games</h2>
     <ul class="game-list">
     <% @games.each do |game| %>
-      <li class="game-item"><%= link_to "Game", review_game_url(game.id) %></li>
+      <li class="game-item"><%= link_to game.title, review_game_url(game.id) %></li>
     <% end %>
     </ul>
   </div>
+  <%= render 'games/new' %>
 </div>

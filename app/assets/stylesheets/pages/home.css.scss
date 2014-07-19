@@ -1,9 +1,24 @@
 .games {
-  background-color: #0e83cd;
-  .game-list {
-    .game-item {
+  display: inline-block;
+  width: 30%;
+  vertical-align: top;
+  h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 15px;
+    padding: 5px 0;
+    border-bottom: 1px solid darkgray;
+    width: 90%;
+    text-align: center;
+  }
+
+  ul {
+    margin-top: 15px;
+    li {
+      padding: 10px 0;
+
       a {
-        @include chess-link;
+        text-decoration: none;
       }
     }
   }

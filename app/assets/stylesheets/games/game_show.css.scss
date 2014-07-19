@@ -10,7 +10,9 @@
         h2 {
           font-size: 20px;
           font-weight: bold;
-          text-decoration: underline;
+          a {
+            text-decoration: none;
+          }
         }
       }
       .computer-analysis {
@@ -28,7 +30,14 @@
         line-height: 2;
       }
     }
-  }
+    .game-pgn {
+        margin-top: 15px;
+        a {
+          padding: 0 2px;
+          text-decoration: none;
+        }
+      }
+    }
   .game-container {
     width: 40%;
     float: left;
@@ -59,12 +68,13 @@
         text-align: center;
         li {
           display: inline-block;
-          padding: 2% 3%;
+          padding: 3% 2%;
 
           a {
             @include hover-transition-all;
             font-size: 16px;
             color: #ccc;
+            text-decoration: none;
 
             &:hover {
               color: black;

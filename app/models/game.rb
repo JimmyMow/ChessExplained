@@ -18,4 +18,15 @@ class Game < ActiveRecord::Base
       db_move = Move.create(notation: move['notation'], fen: move['fen'], game_id: self.id)
     end
   end
+
+  def title
+    if self.winner == 'black'
+      result = '0-1'
+    elsif
+      result = '1-0'
+    else
+      result = '1/2-1/2'
+    end
+    return "#{self.white_player_name} vs. #{self.black_player_name} (#{result})"
+  end
 end

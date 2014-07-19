@@ -5,7 +5,7 @@
       <div class="game-info">
         <section class="players-wrap">
           <aside class='white-player game-player'>
-            <h2>&#9812; <%= @game.white_player_name %>(<%= @game.white_player_rating %>)</h2>
+            <h2>&#9812; <%= link_to "#{@game.white_player_name}(#{@game.white_player_rating})", "http://lichess.org/@/#{@game.white_player_name}", target: '_blank' %></h2>
             <ul class="computer-analysis">
               <li>Inaccuracies: <%= @game.white_player_inaccuracy %></li>
               <li>Mistakes: <%= @game.white_player_mistake %></li>
@@ -13,7 +13,7 @@
             </ul>
           </aside>
           <aside class='black-player game-player'>
-            <h2>&#9818; <%= @game.black_player_name %>(<%= @game.black_player_rating %>)</h2>
+            <h2>&#9818; <%= link_to "#{@game.black_player_name}(#{@game.black_player_rating})", "http://lichess.org/@/#{@game.black_player_name}", target: '_blank' %></h2>
             <ul class="computer-analysis">
               <li>Inaccuracies: <%= @game.black_player_inaccuracy %></li>
               <li>Mistakes: <%= @game.black_player_mistake %></li>

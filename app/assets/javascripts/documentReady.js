@@ -8,8 +8,8 @@ $(document).ready(function() {
 
   // GAME/NEW
   if (App.config.isNewGame) {
-    uploadPgn();
-    lichessUpload();
+    // uploadPgn();
+    // lichessUpload();
   }
 
 
@@ -31,6 +31,8 @@ $(document).ready(function() {
   }
 
   if(App.config.isHome) {
+    uploadPgn();
+    lichessUpload();
   }
 
   // SPINNING BUTTON (***MOVE SOON***)

@@ -29,6 +29,7 @@ class GamesController < ApplicationController
     config_opentok
 
     @tok_token = @opentok.generate_token @room.sessionId
+    @notice = "You can invite friends to come review with you by just sharing the url with them."
   end
 
   # GET /games/new
